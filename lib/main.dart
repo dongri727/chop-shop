@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'ruler_widget.dart';
 import 'timeline_widget.dart';
 
 import 'bloc_provider.dart';
@@ -12,10 +13,19 @@ import 'bloc_provider.dart';
 /// to access other components throughout the hierarchy without the need
 /// to pass those references around.
 class TimelineApp extends StatelessWidget {
-  const TimelineApp({super.key});
+  const TimelineApp({Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    return const MaterialApp(
+        title: 'History & Future of Everything',
+        //theme: ThemeData(
+        //backgroundColor: background, scaffoldBackgroundColor: background),
+        home: MenuPage(),
+    );
+  }
+/*  Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return BlocProvider(
       platform: Theme.of(context).platform,
@@ -27,7 +37,7 @@ class TimelineApp extends StatelessWidget {
         home: MenuPage(),
       ),
     );
-  }
+  }*/
 }
 
 class MenuPage extends StatelessWidget {
@@ -35,8 +45,13 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: null, body: TimelineWidget(timeline));
+    return const Scaffold(appBar: null,
+        body: RulerWidget());
   }
+/*  Widget build(BuildContext context) {
+    return Scaffold(appBar: null,
+        body: TimelineWidget(BlocProvider.getTimeline()));
+  }*/
 }
 
 void main() => runApp(const TimelineApp());
