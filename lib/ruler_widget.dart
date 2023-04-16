@@ -10,8 +10,8 @@ class RulerWidget extends StatefulWidget {
 class _RulerWidgetState extends State<RulerWidget>{
 
   double currentSliderValue = 50;
-  //final double height;
-  //final double width;
+  final double height = 500;
+  final double width = 30;
   final double lineWidth = 1;
   final Color lineColor = Colors.grey;
 
@@ -66,9 +66,9 @@ class RulerPainter extends CustomPainter {
   final Color lineColor;
 
   RulerPainter({
-    this.currentSliderValue = 0,
+    this.currentSliderValue = 50,
     this.lineWidth = 1,
-    this.lineColor = Colors.grey,
+    this.lineColor = Colors.black,
   });
 
   @override
