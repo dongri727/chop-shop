@@ -17,11 +17,9 @@ samples, guidance on mobile development, and a full API reference.
 
 ## 共同開発
 
-まずはリポジトリをクローン! 
-
-```
-git clone git@github.com:dongri727/chop-shop.git
-```
+まずはリポジトリを フォーク! github でポチるだけです。
+次にリポジトリをクローン! 
+そこから以下の流れ（草案）で共同開発できるかと！
 
 大まかな作業の流れ（の、草案）
 
@@ -60,5 +58,3 @@ git push origin feature/xxx
 # 
 # github で マージ or 破棄
 ```
-
-テスト
