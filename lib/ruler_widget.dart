@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RulerWidget extends StatefulWidget {
-  const RulerWidget({super.key});
+  const RulerWidget({Key? key}) : super(key: key);
 
   @override
   State<RulerWidget> createState() => _RulerWidgetState();
@@ -9,19 +9,7 @@ class RulerWidget extends StatefulWidget {
 
 class _RulerWidgetState extends State<RulerWidget>{
 
-  double currentSliderValue = 50;
-  final double height = 500;
-  final double width = 30;
-  final double lineWidth = 1;
-  final Color lineColor = Colors.grey;
-
-/*  const RulerWidget({super.key,
-    this.count = 100,
-    //this.height = 200,
-    //this.width = 50,
-    this.lineWidth = 1,
-    this.lineColor = Colors.grey,
-  });*/
+  double sliderValue = 500;
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +19,26 @@ class _RulerWidgetState extends State<RulerWidget>{
       body: Column(
         children: [
           Expanded(
-            flex: 5,
-            child: CustomPaint(
-              painter: RulerPainter(
-                currentSliderValue: currentSliderValue,
-                lineWidth: lineWidth,
-                lineColor: lineColor,
+            flex: 9,
+            child: Center(
+              child: CustomPaint(
+                painter: RulerPainter(
+                  sliderValue: sliderValue,
+                ),
               ),
             ),
           ),
           Expanded(
             flex: 1,
               child: Slider(
-                value: currentSliderValue,
-                divisions: 9,
-                min: 10,
-                max: 100,
-                label: currentSliderValue.round().toString(),
+                value: sliderValue,
+                divisions: 90,
+                min: 100,
+                max: 1000,
+                label: sliderValue.round().toString(),
                 onChanged: (double value) {
                   setState(() {
-                    currentSliderValue = value;
+                    sliderValue = value;
                   });
                 },
               ))
@@ -61,32 +49,65 @@ class _RulerWidgetState extends State<RulerWidget>{
 }
 
 class RulerPainter extends CustomPainter {
-  double currentSliderValue;
-  final double lineWidth;
-  final Color lineColor;
+  static const double height = 500;
+  static const double width = 30;
+  static const double lineWidth = 1;
+  static const Color lineColor = Colors.grey;
+  static const double markerHeight = 10;
+  static const double markerWidth = 5;
 
-  RulerPainter({
-    this.currentSliderValue = 50,
-    this.lineWidth = 1,
-    this.lineColor = Colors.black,
-  });
+  final double sliderValue;
+
+
+  RulerPainter({required this.sliderValue});
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint linePaint = Paint()
+    final linePaint = Paint()
       ..color = lineColor
       ..strokeWidth = lineWidth;
 
-    double distanceBetweenLines = size.height / currentSliderValue;
-    double startX = 0.0;
-    double startY = 0.0;
+    final textPainter = TextPainter(
+      textAlign: TextAlign.center,
+      textDirection: TextDirection.ltr,
+    );
 
-    for (int i = 0; i <= currentSliderValue; i++) {
-      Offset start = Offset(startX, startY);
-      Offset end = Offset(startX + size.width, startY);
-      canvas.drawLine(start, end, linePaint);
+    final double distanceBetweenLines = height / sliderValue;
+    double startX = size.height;
+    double startY = size.width - width;
 
-      startY += distanceBetweenLines;
+    for (int i = 0; i <= sliderValue; i++) {
+      if (i % 10 == 0) {
+        canvas.drawLine(
+          Offset(startX, startY),
+          Offset(startX + width, startY),
+          linePaint,
+        );
+
+        textPainter.text = TextSpan(
+          text: i.toString(),
+          style: const TextStyle(fontSize: 10),
+        );
+        textPainter.layout();
+        textPainter.paint(
+          canvas,
+          Offset(startX - markerWidth - 2, startY - markerHeight / 2),
+        );
+      } else if (i % 5 == 0) {
+        canvas.drawLine(
+          Offset(startX + width / 2, startY),
+          Offset(startX + width / 2, startY - markerHeight / 2),
+          linePaint,
+        );
+      } else {
+        canvas.drawLine(
+          Offset(startX + width / 2, startY),
+          Offset(startX + width / 2, startY - markerHeight / 4),
+          linePaint,
+        );
+      }
+
+      startY -= distanceBetweenLines;
     }
   }
 
