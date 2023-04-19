@@ -17,9 +17,12 @@ class TimelineWidget extends StatefulWidget {
 
 class TimelineWidgetState extends State<TimelineWidget> {
   static const String defaultEraName = "Birth of the Universe";
+  static const double TopOverlap = 56.0;
 
   double _scaleStartYearStart = -100.0;
   double _scaleStartYearEnd = 100.0;
+
+  late TimelineEntry _touchedEntry;
 
 
   /// Which era the Timeline is currently focused on.
@@ -46,6 +49,10 @@ class TimelineWidgetState extends State<TimelineWidget> {
         (_scaleStartYearEnd - _scaleStartYearStart) / context.size!.height;
 
     double focus = _scaleStartYearStart + details.focalPoint.dy * scale;
+  }
+
+  onTouchEntry(TimelineEntry entry) {
+    _touchedEntry = entry;
   }
 
   void _scaleEnd(ScaleEndDetails details) {
@@ -154,10 +161,10 @@ class TimelineWidgetState extends State<TimelineWidget> {
             TimelineRenderWidget(
                 timeline: timeline,
                 //favorites: BlocProvider.favorites(context).favorites,
-                //topOverlap: TopOverlap + devicePadding.top,
+                topOverlap: TopOverlap + devicePadding.top,
                 //focusItem: widget.focusItem,
                 //touchBubble: onTouchBubble,
-                //touchEntry: onTouchEntry
+                touchEntry: onTouchEntry
               ),
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -173,6 +180,7 @@ class TimelineWidgetState extends State<TimelineWidget> {
                           : Color.fromRGBO(238, 240, 242, 0.81),
                       height: 56.0,
                       width: double.infinity,
+                      ///画面上、左に戻る矢印、次に時代名、右端に♡のアイコン(写経時に消した)
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -201,16 +209,23 @@ class TimelineWidgetState extends State<TimelineWidget> {
                                       : darkText.withOpacity(
                                       darkText.opacity * 0.75)),*/
                             ),
-/*                            Expanded(
+
+                          ///メイン画面　GestureDetectorで囲んであるのでタッチだけでなくpinchやscrollに対応する
+                          Expanded(
                                 child: GestureDetector(
+                                  ///つまりこのTransform.translateが目盛りを持っているのか？
                                     child: Transform.translate(
                                         offset: const Offset(0.0, 0.0),
+                                        ///吹き出しやanimationのある領域
                                         child: Container(
                                           height: 60.0,
                                           width: 60.0,
                                           padding: EdgeInsets.all(18.0),
                                           color:
                                           Colors.white.withOpacity(0.0),
+                                          ///これはフレールのanimation　要らない部分
+                                          ///でもこれを消すと何も残らない
+                                          /*
                                           child: FlareActor(
                                               "assets/heart_toolbar.flr",
                                               animation: _showFavorites
@@ -225,7 +240,11 @@ class TimelineWidgetState extends State<TimelineWidget> {
                                                       0.75),
                                               alignment:
                                               Alignment.centerRight),
+
+                                           */
                                         )),
+                                    ///吹き出しやanimationをタップするとfavoriteに飛ぶ
+                                    /*
                                     onTap: () {
                                       timeline.showFavorites =
                                       !timeline.showFavorites;
@@ -233,7 +252,10 @@ class TimelineWidgetState extends State<TimelineWidget> {
                                         _showFavorites =
                                             timeline.showFavorites;
                                       });
-                                    })),*/
+                                    }
+
+                                     */
+                                    )),
                           ]))
                 ])
           ])),

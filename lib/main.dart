@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'ruler_widget.dart';
 import 'timeline_widget.dart';
+import 'timeline.dart';
 
 import 'bloc_provider.dart';
 
@@ -15,11 +16,13 @@ import 'bloc_provider.dart';
 class TimelineApp extends StatelessWidget {
   const TimelineApp({Key? key}): super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return const MaterialApp(
-        title: 'History & Future of Everything',
+        title: 'CHOP SHOP',
         //theme: ThemeData(
         //backgroundColor: background, scaffoldBackgroundColor: background),
         home: MenuPage(),
@@ -46,7 +49,9 @@ class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(appBar: null,
-        body: RulerWidget());
+       body: RulerWidget());
+
+
   }
 /*  Widget build(BuildContext context) {
     return Scaffold(appBar: null,
