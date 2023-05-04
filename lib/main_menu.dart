@@ -128,9 +128,9 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     }
   }
 
-  void _tapSearchResult(TimelineEntry entry) {
+/*  void _tapSearchResult(TimelineEntry entry) {
     navigateToTimeline(MenuItemData.fromEntry(entry));
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {

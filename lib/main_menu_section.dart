@@ -126,9 +126,6 @@ class _SectionState extends State<MenuSection>
                               height: 21.0,
                               width: 21.0,
                               margin: const EdgeInsets.all(18.0),
-
-                              /// Another [FlareActor] widget that
-                              /// you can experiment with here: https://www.2dimensions.com/a/pollux/files/flare/expandcollapse/preview
                               child: const Icon(Icons.add)
                           ),
                           Text(
@@ -169,13 +166,13 @@ class _SectionState extends State<MenuSection>
                                                         fontFamily:
                                                         "RobotoMedium"),
                                                   ))),
-                                          Container(
+/*                                          Container(
                                               alignment: Alignment.center,
                                               child: Image.asset(
                                                   "assets/right_arrow.png",
                                                   color: widget.accentColor,
                                                   height: 22.0,
-                                                  width: 22.0))
+                                                  width: 22.0))*/
                                         ]));
                               }).toList())))
                 ]))));

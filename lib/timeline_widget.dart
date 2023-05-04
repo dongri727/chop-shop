@@ -46,9 +46,6 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   Color _headerTextColor;
   Color _headerBackgroundColor;
 
-  /// This state variable toggles the rendering of the left sidebar
-  /// showing the favorite elements already on the timeline.
-  //bool _showFavorites = false;
 
   /// The following three functions define are the callbacks used by the
   /// [GestureDetector] widget when rendering this widget.
@@ -120,27 +117,8 @@ class _TimelineWidgetState extends State<TimelineWidget> {
             bottom: target.padBottom);
         timeline.setViewport(
             start: target.start, end: target.end, animate: true, pad: true);
-      }/* else {
-        widget.timeline.isActive = false;
-
-        Navigator.of(context)
-            .push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    ArticleWidget(article: _touchedBubble.entry)))
-            .then((v) => widget.timeline.isActive = true);
-      }*/
-    } /*else if (_touchedEntry != null) {
-      MenuItemData target = MenuItemData.fromEntry(_touchedEntry);
-
-      timeline.padding = EdgeInsets.only(
-          top: TopOverlap +
-              devicePadding.top +
-              target.padTop +
-              Timeline.Parallax,
-          bottom: target.padBottom);
-      timeline.setViewport(
-          start: target.start, end: target.end, animate: true, pad: true);
-    }*/
+      }
+    }
   }
 
   /// When performing a long-press operation, the viewport will be adjusted so that
@@ -187,7 +165,6 @@ class _TimelineWidgetState extends State<TimelineWidget> {
 
       _headerTextColor = timeline.headerTextColor;
       _headerBackgroundColor = timeline.headerBackgroundColor;
-      //_showFavorites = timeline.showFavorites;
     }
   }
 
@@ -216,7 +193,6 @@ class _TimelineWidgetState extends State<TimelineWidget> {
       setState(() {
         _eraName =
             timeline.currentEra != null ? timeline.currentEra : DefaultEraName;
-        //_showFavorites = timeline.showFavorites;
       });
     }
   }
@@ -256,7 +232,6 @@ class _TimelineWidgetState extends State<TimelineWidget> {
           child: Stack(children: <Widget>[
             TimelineRenderWidget(
                 timeline: timeline,
-                //favorites: BlocProvider.favorites(context).favorites,
                 topOverlap: TopOverlap + devicePadding.top,
                 focusItem: widget.focusItem,
                 touchBubble: onTouchBubble,
@@ -302,33 +277,6 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                                       : darkText.withOpacity(
                                           darkText.opacity * 0.75)),
                             ),
-/*                            Expanded(
-                                child: GestureDetector(
-                                    child: Transform.translate(
-                                        offset: const Offset(0.0, 0.0),
-                                        child: Container(
-                                          height: 60.0,
-                                          width: 60.0,
-                                          padding: EdgeInsets.all(18.0),
-                                          color: Colors.white.withOpacity(0.0),
-                                          child: FlareActor(
-                                              "assets/heart_toolbar.flr",
-                                              animation:
-                                                  _showFavorites ? "On" : "Off",
-                                              shouldClip: false,
-                                              color: _headerTextColor != null
-                                                  ? _headerTextColor
-                                                  : darkText.withOpacity(
-                                                      darkText.opacity * 0.75),
-                                              alignment: Alignment.centerRight),
-                                        )),
-                                    onTap: () {
-                                      timeline.showFavorites =
-                                          !timeline.showFavorites;
-                                      setState(() {
-                                        _showFavorites = timeline.showFavorites;
-                                      });
-                                    })),*/
                           ]))
                 ])
           ])),
