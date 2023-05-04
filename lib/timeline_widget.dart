@@ -6,9 +6,10 @@ import 'timeline_entry.dart';
 import 'timeline_render_widget.dart';
 
 class TimelineWidget extends StatefulWidget {
+  final MenuItemData focusItem;
   final Timeline timeline;
 
-  const TimelineWidget(this.timeline,
+  const TimelineWidget(this.focusItem, this.timeline,
       {Key? key}) : super(key: key);
 
   @override
