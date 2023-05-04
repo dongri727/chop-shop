@@ -2,7 +2,7 @@ import "dart:async";
 
 import 'package:chop_shop/bloc_provider.dart';
 import 'package:chop_shop/color.dart';
-import 'package:chop_shop/menu_section.dart';
+import 'package:chop_shop/main_menu_section.dart';
 import 'package:chop_shop/menu_data.dart';
 import 'package:chop_shop/timeline_entry.dart';
 import 'package:chop_shop/timeline_widget.dart';

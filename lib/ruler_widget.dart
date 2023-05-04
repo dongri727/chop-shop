@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RulerWidget extends StatefulWidget {
-  const RulerWidget({Key? key}) : super(key: key);
+  const RulerWidget({Key key}) : super(key: key);
 
   @override
   State<RulerWidget> createState() => _RulerWidgetState();
@@ -59,7 +59,7 @@ class RulerPainter extends CustomPainter {
   final double sliderValue;
 
 
-  RulerPainter({required this.sliderValue});
+  RulerPainter({this.sliderValue});
 
   @override
   void paint(Canvas canvas, Size size) {

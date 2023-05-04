@@ -1,35 +1,65 @@
+import 'dart:ui' as ui;
 import 'dart:ui';
 
+/*import 'package:flare_dart/math/aabb.dart' as flare;
+import 'package:flare_flutter/flare.dart' as flare;*/
+/*import 'package:nima/nima.dart' as nima;
+import 'package:nima/nima/animation/actor_animation.dart' as nima;
+import 'package:nima/nima/math/aabb.dart' as nima;*/
 
 /// An object representing the renderable assets loaded from `timeline.json`.
 ///
 /// Each [TimelineAsset] encapsulates all the relevant properties for drawing,
 /// as well as maintaining a reference to its original [TimelineEntry].
 class TimelineAsset {
-  late double width;
-  late double height;
+  double width;
+  double height;
   double opacity = 0.0;
   double scale = 0.0;
   double scaleVelocity = 0.0;
   double y = 0.0;
   double velocity = 0.0;
-  //String filename;
-  late TimelineEntry entry;
+  String filename;
+  TimelineEntry entry;
 }
 
-/*/// A renderable image.
+/// A renderable image.
 class TimelineImage extends TimelineAsset {
   ui.Image image;
-}*/
+}
 
-/// This asset also has information regarding its animations.
+/*/// This asset also has information regarding its animations.
 class TimelineAnimatedAsset extends TimelineAsset {
-  late bool loop;
+  bool loop;
   double animationTime = 0.0;
   double offset = 0.0;
   double gap = 0.0;
-}
+}*/
 
+/*/// An `Nima` Asset.
+class TimelineNima extends TimelineAnimatedAsset {
+  nima.FlutterActor actorStatic;
+  nima.FlutterActor actor;
+  nima.ActorAnimation animation;
+  nima.AABB setupAABB;
+}*/
+
+/*/// A `Flare` Asset.
+class TimelineFlare extends TimelineAnimatedAsset {
+  flare.FlutterActorArtboard actorStatic;
+  flare.FlutterActorArtboard actor;
+  flare.ActorAnimation animation;
+
+  /// Some Flare assets will have multiple idle animations (e.g. 'Humans'),
+  /// others will have an intro&idle animation (e.g. 'Sun is Born').
+  /// All this information is in `timeline.json` file, and it's de-serialized in the
+  /// [Timeline.loadFromBundle()] method, called during startup.
+  /// and custom-computed AABB bounds to properly position them in the timeline.
+  flare.ActorAnimation intro;
+  flare.ActorAnimation idle;
+  List<flare.ActorAnimation> idleAnimations;
+  flare.AABB setupAABB;
+}*/
 
 /// A label for [TimelineEntry].
 enum TimelineEntryType { Era, Incident }
@@ -40,30 +70,32 @@ enum TimelineEntryType { Era, Incident }
 ///
 /// They are all initialized at startup time by the [BlocProvider] constructor.
 class TimelineEntry {
-  late TimelineEntryType type;
+  TimelineEntryType type;
 
   /// Used to calculate how many lines to draw for the bubble in the timeline.
   int lineCount = 1;
-  ///
-  late String _label;
-  //late String articleFilename;
-  late String id;
 
-  late Color accent;
+  ///
+  String _label;
+  //String articleFilename;
+  String id;
+
+  Color accent;
 
   /// Each entry constitues an element of a tree:
   /// eras are grouped into spanning eras and events are placed into the eras they belong to.
-  late TimelineEntry parent;
-  late List<TimelineEntry> children;
+  TimelineEntry parent;
+  List<TimelineEntry> children;
+
   /// All the timeline entries are also linked together to easily access the next/previous event.
   /// After a couple of seconds of inactivity on the timeline, a previous/next entry button will appear
   /// to allow the user to navigate faster between adjacent events.
-  late TimelineEntry next;
-  late TimelineEntry previous;
+  TimelineEntry next;
+  TimelineEntry previous;
 
   /// All these parameters are used by the [Timeline] object to properly position the current entry.
-  late double start;
-  late double end;
+  double start;
+  double end;
   double y = 0.0;
   double endY = 0.0;
   double length = 0.0;
@@ -76,16 +108,17 @@ class TimelineEntry {
   double legOpacity = 0.0;
   double labelY = 0.0;
   double labelVelocity = 0.0;
-  double favoriteY = 0.0;
+  //double favoriteY = 0.0;
   bool isFavoriteOccluded = false;
 
-  //TimelineAsset asset;
+  TimelineAsset asset;
 
   bool get isVisible {
     return opacity > 0.0;
   }
 
   String get label => _label;
+
   /// Some labels already have newline characters to adjust their alignment.
   /// Detect the occurrence and add information regarding the line-count.
   set label(String value) {
@@ -124,7 +157,7 @@ class TimelineEntry {
       double v = (valueAbs / 100000000.0).floorToDouble() / 10.0;
 
       label = (valueAbs / 1000000000)
-          .toStringAsFixed(v == v.floorToDouble() ? 0 : 1) +
+              .toStringAsFixed(v == v.floorToDouble() ? 0 : 1) +
           " Billion";
     } else if (valueAbs > 1000000) {
       double v = (valueAbs / 100000.0).floorToDouble() / 10.0;
@@ -132,7 +165,7 @@ class TimelineEntry {
           (valueAbs / 1000000).toStringAsFixed(v == v.floorToDouble() ? 0 : 1) +
               " Million";
     } else if (valueAbs > 10000) // N.B. < 10,000
-        {
+    {
       double v = (valueAbs / 100.0).floorToDouble() / 10.0;
       label =
           (valueAbs / 1000).toStringAsFixed(v == v.floorToDouble() ? 0 : 1) +

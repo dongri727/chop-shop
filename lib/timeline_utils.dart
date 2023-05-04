@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'timeline_entry.dart';
+
 Color interpolateColor(Color from, Color to, double elapsed) {
   double r, g, b, a;
   double speed = min(1.0, elapsed * 5.0);
@@ -35,46 +37,45 @@ Color interpolateColor(Color from, Color to, double elapsed) {
   return Color.fromARGB(a.round(), r.round(), g.round(), b.round());
 }
 
-String? getExtension(String filename) {
+/*String getExtension(String filename) {
   int dot = filename.lastIndexOf(".");
   if (dot == -1) {
     return null;
   }
   return filename.substring(dot + 1);
-}
+}*/
 
-String? removeExtension(String filename) {
+/*String removeExtension(String filename) {
   int dot = filename.lastIndexOf(".");
   if (dot == -1) {
     return null;
   }
   return filename.substring(0, dot);
-}
+}*/
 
 class TimelineBackgroundColor {
-  late Color color;
-  late double start;
+  Color color;
+  double start;
 }
 
 class TickColors {
-  late Color background;
-  late Color long;
-  late Color short;
-  late Color text;
-  late double start;
-  late double screenY;
+  Color background;
+  Color long;
+  Color short;
+  Color text;
+  double start;
+  double screenY;
 }
 
 class HeaderColors {
-  late Color background;
-  late Color text;
-  late double start;
-  late double screenY;
+  Color background;
+  Color text;
+  double start;
+  double screenY;
 }
 
-/*
 class TapTarget {
-  late TimelineEntry entry;
-  late Rect rect;
+  TimelineEntry entry;
+  Rect rect;
   bool zoom = false;
-}*/
+}

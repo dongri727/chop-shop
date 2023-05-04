@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'bloc_provider.dart';
 import 'color.dart';
-import 'main_menu_widget.dart';
+import 'main_menu.dart';
 
 /// The app is wrapped by a [BlocProvider]. This allows the child widgets
 /// to access other components throughout the hierarchy without the need

@@ -2,17 +2,21 @@ import 'dart:math';
 import 'dart:ui';
 import 'dart:ui' as ui;
 
+import 'package:chop_shop/color.dart';
+import 'package:chop_shop/menu_data.dart';
+import 'package:chop_shop/ticks.dart';
+import 'package:chop_shop/timeline.dart';
+import 'package:chop_shop/timeline_entry.dart';
+import 'package:chop_shop/timeline_utils.dart';
+/*import 'package:flare_dart/actor_image.dart' as flare;
+import 'package:flare_dart/math/aabb.dart' as flare;*/
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'timeline_utils.dart';
-import 'ticks.dart';
-import 'timeline.dart';
-import 'timeline_entry.dart';
+//import 'package:nima/nima/math/aabb.dart' as nima;
 
 /// These two callbacks are used to detect if a bubble or an entry have been tapped.
 /// If that's the case, [ArticlePage] will be pushed onto the [Navigator] stack.
-//typedef TouchBubbleCallback(TapTarget bubble);
+typedef TouchBubbleCallback(TapTarget bubble);
 typedef TouchEntryCallback(TimelineEntry entry);
 
 /// This couples with [TimelineRenderObject].
@@ -22,30 +26,29 @@ typedef TouchEntryCallback(TimelineEntry entry);
 class TimelineRenderWidget extends LeafRenderObjectWidget {
   final double topOverlap;
   final Timeline timeline;
-  //final MenuItemData focusItem;
-  //final List<TimelineEntry> favorites;
-  //final TouchBubbleCallback touchBubble;
+  final MenuItemData focusItem;
+  final List<TimelineEntry> favorites;
+  final TouchBubbleCallback touchBubble;
   final TouchEntryCallback touchEntry;
 
   TimelineRenderWidget(
-      {Key? key,
-        //this.focusItem,
-        //this.touchBubble,
-        required this.touchEntry,
-        required this.topOverlap,
-        required this.timeline,
-        //this.favorites
-      })
+      {Key key,
+      this.focusItem,
+      this.touchBubble,
+      this.touchEntry,
+      this.topOverlap,
+      this.timeline,
+      this.favorites})
       : super(key: key);
 
   @override
   RenderObject createRenderObject(BuildContext context) {
     return TimelineRenderObject()
       ..timeline = timeline
-      //..touchBubble = touchBubble
+      ..touchBubble = touchBubble
       ..touchEntry = touchEntry
-      //..focusItem = focusItem
-      //..favorites = favorites
+      ..focusItem = focusItem
+      ..favorites = favorites
       ..topOverlap = topOverlap;
   }
 
@@ -54,10 +57,10 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
       BuildContext context, covariant TimelineRenderObject renderObject) {
     renderObject
       ..timeline = timeline
-      //..focusItem = focusItem
-      //..touchBubble = touchBubble
+      ..focusItem = focusItem
+      ..touchBubble = touchBubble
       ..touchEntry = touchEntry
-      //..favorites = favorites
+      ..favorites = favorites
       ..topOverlap = topOverlap;
   }
 
@@ -83,28 +86,28 @@ class TimelineRenderObject extends RenderBox {
 
   double _topOverlap = 0.0;
   Ticks _ticks = Ticks();
-  late Timeline _timeline;
-  //late MenuItemData _focusItem;
-  //late MenuItemData _processedFocusItem;
-  //late List<TapTarget> _tapTargets = List<TapTarget>();
-  //List<TimelineEntry> _favorites;
-  //TouchBubbleCallback touchBubble;
-  late TouchEntryCallback touchEntry;
+  Timeline _timeline;
+  MenuItemData _focusItem;
+  MenuItemData _processedFocusItem;
+  List<TapTarget> _tapTargets = [];
+  List<TimelineEntry> _favorites;
+  TouchBubbleCallback touchBubble;
+  TouchEntryCallback touchEntry;
 
   @override
   bool get sizedByParent => true;
 
   double get topOverlap => _topOverlap;
   Timeline get timeline => _timeline;
-  //List<TimelineEntry> get favorites => _favorites;
-  //MenuItemData get focusItem => _focusItem;
+  List<TimelineEntry> get favorites => _favorites;
+  MenuItemData get focusItem => _focusItem;
 
   set topOverlap(double value) {
     if (_topOverlap == value) {
       return;
     }
     _topOverlap = value;
-    //updateFocusItem();
+    updateFocusItem();
     markNeedsPaint();
     markNeedsLayout();
   }
@@ -114,32 +117,32 @@ class TimelineRenderObject extends RenderBox {
       return;
     }
     _timeline = value;
-    //updateFocusItem();
+    updateFocusItem();
     _timeline.onNeedPaint = markNeedsPaint;
     markNeedsPaint();
     markNeedsLayout();
   }
 
-/*  set favorites(List<TimelineEntry> value) {
+  set favorites(List<TimelineEntry> value) {
     if (_favorites == value) {
       return;
     }
     _favorites = value;
     markNeedsPaint();
     markNeedsLayout();
-  }*/
+  }
 
-/*  set focusItem(MenuItemData value) {
+  set focusItem(MenuItemData value) {
     if (_focusItem == value) {
       return;
     }
     _focusItem = value;
     _processedFocusItem = null;
     updateFocusItem();
-  }*/
+  }
 
   /// If [_focusItem] has been updated with a new value, update the current view.
-/*  void updateFocusItem() {
+  void updateFocusItem() {
     if (_processedFocusItem == _focusItem) {
       return;
     }
@@ -163,10 +166,10 @@ class TimelineRenderObject extends RenderBox {
           start: _focusItem.start, end: _focusItem.end, animate: true);
     }
     _processedFocusItem = _focusItem;
-  }*/
+  }
 
   /// Check if the current tap on the screen has hit a bubble.
-/*  @override
+  @override
   bool hitTestSelf(Offset screenOffset) {
     touchEntry(null);
     for (TapTarget bubble in _tapTargets.reversed) {
@@ -180,7 +183,7 @@ class TimelineRenderObject extends RenderBox {
     touchBubble(null);
 
     return true;
-  }*/
+  }
 
   @override
   void performResize() {
@@ -215,7 +218,7 @@ class TimelineRenderObject extends RenderBox {
         stops.add((bg.start - rangeStart) / range);
       }
       double s =
-      timeline.computeScale(timeline.renderStart, timeline.renderEnd);
+          timeline.computeScale(timeline.renderStart, timeline.renderEnd);
       double y1 = (backgroundColors.first.start - timeline.renderStart) * s;
       double y2 = (backgroundColors.last.start - timeline.renderStart) * s;
 
@@ -237,7 +240,7 @@ class TimelineRenderObject extends RenderBox {
           Rect.fromLTWH(offset.dx, y1, size.width, y2 - y1), backgroundPaint);
     }
 
-   //_tapTargets.clear();
+    _tapTargets.clear();
     double renderStart = _timeline.renderStart;
     double renderEnd = _timeline.renderEnd;
     double scale = size.height / (renderEnd - renderStart);
@@ -253,7 +256,7 @@ class TimelineRenderObject extends RenderBox {
           double h = asset.height * Timeline.AssetScreenScale;
 
           /// Draw the correct asset.
- /*         if (asset is TimelineImage) {
+          if (asset is TimelineImage) {
             canvas.drawImageRect(
                 asset.image,
                 Rect.fromLTWH(0.0, 0.0, asset.width, asset.height),
@@ -263,7 +266,7 @@ class TimelineRenderObject extends RenderBox {
                   ..isAntiAlias = true
                   ..filterQuality = ui.FilterQuality.low
                   ..color = Colors.white.withOpacity(asset.opacity));
-          } else if (asset is TimelineNima && asset.actor != null) {
+          } /*else if*//* (asset is TimelineNima && asset.actor != null) {
             /// If we have a [TimelineNima] asset, set it up properly and paint it.
             ///
             /// 1. Calculate the bounds for the current object.
@@ -354,7 +357,7 @@ class TimelineRenderObject extends RenderBox {
             _tapTargets.add(TapTarget()
               ..entry = asset.entry
               ..rect = renderOffset & renderSize);
-          } else if (asset is TimelineFlare && asset.actor != null) {
+          } else if*//* (asset is TimelineFlare && asset.actor != null) {
             /// If we have a [TimelineFlare] asset set it up properly and paint it.
             ///
             /// 1. Calculate the bounds for the current object.
@@ -565,10 +568,10 @@ class TimelineRenderObject extends RenderBox {
       y += labelParagraph.height;
 
       /// Add this to the list of *tappable* elements.
-/*      _tapTargets.add(TapTarget()
+      _tapTargets.add(TapTarget()
         ..entry = _timeline.nextEntry
         ..rect = nextEntryRect
-        ..zoom = true);*/
+        ..zoom = true);
     }
 
     /// Repeat the same procedure as above for the arrow pointing to the previous event on the timeline.
@@ -643,17 +646,17 @@ class TimelineRenderObject extends RenderBox {
       canvas.drawParagraph(labelParagraph, Offset(x, y));
       y += labelParagraph.height;
 
-/*      _tapTargets.add(TapTarget()
+      _tapTargets.add(TapTarget()
         ..entry = _timeline.prevEntry
         ..rect = prevEntryRect
-        ..zoom = true);*/
+        ..zoom = true);
     }
 
     /// When the user presses the heart button on the top right corner of the timeline
     /// a gutter on the left side shows up so that favorite elements are quickly accessible.
     ///
     /// Here the gutter gets drawn, and the elements are added as *tappable* targets.
-/*    double favoritesGutter = _timeline.gutterWidth - Timeline.GutterLeft;
+    double favoritesGutter = _timeline.gutterWidth - Timeline.GutterLeft;
     if (_favorites != null && _favorites.length > 0 && favoritesGutter > 0.0) {
       Paint accentPaint = Paint()
         ..color = favoritesGutterAccent
@@ -664,7 +667,7 @@ class TimelineRenderObject extends RenderBox {
         ..style = PaintingStyle.fill;
       Paint whitePaint = Paint()..color = Colors.white;
       double scale =
-      timeline.computeScale(timeline.renderStart, timeline.renderEnd);
+          timeline.computeScale(timeline.renderStart, timeline.renderEnd);
       double fullMargin = 50.0;
       double favoritesRadius = 20.0;
       double fullMarginOffset = fullMargin + favoritesRadius + 11.0;
@@ -678,14 +681,14 @@ class TimelineRenderObject extends RenderBox {
 
       /// Order favorites by distance from mid.
       List<TimelineEntry> nearbyFavorites =
-      List<TimelineEntry>.from(_favorites);
+          List<TimelineEntry>.from(_favorites);
       double mid = timeline.renderStart +
           (timeline.renderEnd - timeline.renderStart) / 2.0;
       nearbyFavorites.sort((TimelineEntry a, TimelineEntry b) {
         return (a.start - mid).abs().compareTo((b.start - mid).abs());
       });
 
-      /// layout favorites.
+/*      /// layout favorites.
       for (int i = 0; i < nearbyFavorites.length; i++) {
         TimelineEntry favorite = nearbyFavorites[i];
         double y = ((favorite.start - timeline.renderStart) * scale).clamp(
@@ -703,9 +706,9 @@ class TimelineRenderObject extends RenderBox {
             break;
           }
         }
-      }
+      }*/
 
-      /// Iterate the list from the bottom.
+/*      /// Iterate the list from the bottom.
       for (TimelineEntry favorite in nearbyFavorites.reversed) {
         if (favorite.isFavoriteOccluded) {
           continue;
@@ -732,7 +735,7 @@ class TimelineRenderObject extends RenderBox {
 
         /// Draw the assets statically within the circle.
         /// Calculations here are the same as seen in [paint()] for the assets.
-        if (asset is TimelineNima && asset.actorStatic != null) {
+*//*        if *//**//*(asset is TimelineNima && asset.actorStatic != null) {
           nima.AABB bounds = asset.setupAABB;
 
           double contentHeight = bounds[3] - bounds[1];
@@ -800,7 +803,7 @@ class TimelineRenderObject extends RenderBox {
             ..entry = asset.entry
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        } else if (asset is TimelineFlare && asset.actorStatic != null) {
+        } else if*//**//* (asset is TimelineFlare && asset.actorStatic != null) {
           flare.AABB bounds = asset.setupAABB;
           double contentWidth = bounds[2] - bounds[0];
           double contentHeight = bounds[3] - bounds[1];
@@ -867,20 +870,20 @@ class TimelineRenderObject extends RenderBox {
             ..entry = asset.entry
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        } else {
+        } else {*//*
           _tapTargets.add(TapTarget()
             ..entry = favorite
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        }
-      }
+        //}
+      }*/
 
       /// If there are two or more favorites in the gutter, show a line connecting
       /// the two circles, with the time between those two favorites as a label within a bubble.
       ///
       /// Uses same [ui.ParagraphBuilder] logic as seen above.
       TimelineEntry previous;
-      for (TimelineEntry favorite in _favorites) {
+/*      for (TimelineEntry favorite in _favorites) {
         if (favorite.isFavoriteOccluded) {
           continue;
         }
@@ -928,11 +931,10 @@ class TimelineRenderObject extends RenderBox {
           }
         }
         previous = favorite;
-      }
-    }*/
+      }*/
+    }
   }
-  /// タイムスパンを示すline
-  ///
+
   /// Given a list of [entries], draw the label with its bubble beneath.
   /// Draw also the dots&lines on the left side of the timeline. These represent
   /// the starting/ending points for a given event and are meant to give the idea of
@@ -959,14 +961,14 @@ class TimelineRenderObject extends RenderBox {
           Timeline.EdgeRadius,
           Paint()
             ..color = (item.accent != null
-                ? item.accent
-                : LineColors[depth % LineColors.length])
+                    ? item.accent
+                    : LineColors[depth % LineColors.length])
                 .withOpacity(item.opacity));
       if (legOpacity > 0.0) {
         Paint legPaint = Paint()
           ..color = (item.accent != null
-              ? item.accent
-              : LineColors[depth % LineColors.length])
+                  ? item.accent
+                  : LineColors[depth % LineColors.length])
               .withOpacity(legOpacity);
 
         /// Draw the line connecting the start&point of this item on the timeline.
@@ -1006,21 +1008,21 @@ class TimelineRenderObject extends RenderBox {
 
       /// Get the bubble's path based on its width&height, draw it, and then add the label on top.
       Path bubble =
-      makeBubblePath(textWidth + BubblePadding * 2.0, bubbleHeight);
+          makeBubblePath(textWidth + BubblePadding * 2.0, bubbleHeight);
 
       canvas.drawPath(
           bubble,
           Paint()
             ..color = (item.accent != null
-                ? item.accent
-                : LineColors[depth % LineColors.length])
+                    ? item.accent
+                    : LineColors[depth % LineColors.length])
                 .withOpacity(item.opacity * item.labelOpacity));
       canvas
           .clipRect(Rect.fromLTWH(BubblePadding, 0.0, textWidth, bubbleHeight));
-/*      _tapTargets.add(TapTarget()
+      _tapTargets.add(TapTarget()
         ..entry = item
         ..rect = Rect.fromLTWH(
-            bubbleX, bubbleY, textWidth + BubblePadding * 2.0, bubbleHeight));*/
+            bubbleX, bubbleY, textWidth + BubblePadding * 2.0, bubbleHeight));
 
       canvas.drawParagraph(
           labelParagraph,

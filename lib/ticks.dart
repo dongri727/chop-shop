@@ -1,10 +1,10 @@
 import 'dart:ui' as ui;
+
+import 'package:chop_shop/timeline.dart';
+import 'package:chop_shop/timeline_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'timeline.dart';
-import 'timeline_utils.dart';
-
 
 /// This class is used by the [TimelineRenderWidget] to render the ticks on the left side of the screen.
 ///
@@ -84,7 +84,7 @@ class Ticks {
         stops.add((bg.start - rangeStart) / range);
       }
       double s =
-      timeline.computeScale(timeline.renderStart, timeline.renderEnd);
+          timeline.computeScale(timeline.renderStart, timeline.renderEnd);
 
       /// y-coordinate for the starting and ending element.
       double y1 = (tickColors.first.start - timeline.renderStart) * s;
@@ -149,9 +149,9 @@ class Ticks {
         } else {
           NumberFormat formatter = NumberFormat.compact();
           label = formatter.format(value);
-          int? digits = formatter.maximumSignificantDigits;
-          while (usedValues.contains(label) && digits! < 10) {
-            formatter.maximumSignificantDigits = ++digits;
+          int digits = formatter.significantDigits;
+          while (usedValues.contains(label) && digits < 10) {
+            formatter.significantDigits = ++digits;
             label = formatter.format(value);
           }
         }

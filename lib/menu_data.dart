@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:chop_shop_test/timeline/timeline.dart';
-import 'package:chop_shop_test/timeline/timeline_entry.dart';
+import 'package:chop_shop/timeline.dart';
+import 'package:chop_shop/timeline_entry.dart';
 import "package:flutter/services.dart" show rootBundle;
 
 /// Data container for the Section loaded in [MenuData.loadFromBundle()].
