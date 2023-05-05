@@ -235,7 +235,8 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                 topOverlap: TopOverlap + devicePadding.top,
                 focusItem: widget.focusItem,
                 touchBubble: onTouchBubble,
-                touchEntry: onTouchEntry),
+                touchEntry: onTouchEntry
+            ),
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

@@ -40,17 +40,17 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
   final MenuData _menu = MenuData();
 
   /// This is passed to the SearchWidget so we can handle text edits and display the search results on the main menu.
-  final TextEditingController _searchTextController = TextEditingController();
+/*  final TextEditingController _searchTextController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
-  Timer _searchTimer;
+  Timer _searchTimer;*/
 
-  cancelSearch() {
+ /* cancelSearch() {
     if (_searchTimer != null && _searchTimer.isActive) {
       /// Remove old timer.
       _searchTimer.cancel();
       _searchTimer = null;
     }
-  }
+  }*/
 
   /// Helper function which sets the [MenuItemData] for the [TimelineWidget].
   /// This will trigger a transition from the current menu to the Timeline,

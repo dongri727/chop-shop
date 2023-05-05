@@ -1,18 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui' as ui;
 
 import 'package:chop_shop/timeline_utils.dart';
-/*import 'package:flare_dart/math/aabb.dart' as flareDart;
-import 'package:flare_flutter/base/math/aabb.dart' as flare;
-import 'package:flare_flutter/flare.dart' as flare;*/
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart' show rootBundle;
-/*import 'package:nima/nima.dart' as nima;
-import 'package:nima/nima/math/aabb.dart' as nima;*/
 
 import 'timeline_entry.dart';
 
@@ -30,7 +23,7 @@ class Timeline {
   static const double MoveSpeedInteracting = 40.0;
   static const double Deceleration = 3.0;
   static const double GutterLeft = 45.0;
-  static const double GutterLeftExpanded = 75.0;
+  //static const double GutterLeftExpanded = 75.0;
 
   static const double EdgeRadius = 4.0;
   static const double MinChildLength = 50.0;
@@ -128,10 +121,6 @@ class Timeline {
   List<TimelineAsset> _renderAssets;
 
   Map<String, TimelineEntry> _entriesById = Map<String, TimelineEntry>();
-/*  Map<String, nima.FlutterActor> _nimaResources =
-      Map<String, nima.FlutterActor>();*/
-/*  Map<String, flare.FlutterActor> _flareResources =
-      Map<String, flare.FlutterActor>();*/
 
   /// Callback set by [TimelineRenderWidget] when adding a reference to this object.
   /// It'll trigger [RenderBox.markNeedsPaint()].
@@ -894,14 +883,14 @@ class Timeline {
 
     /// Check if the left-hand side gutter has been toggled.
     /// If visible, make room for it .
-    double targetGutterWidth = _showFavorites ? GutterLeftExpanded : GutterLeft;
+/*    double targetGutterWidth = _showFavorites ? GutterLeftExpanded : GutterLeft;
     double dgw = targetGutterWidth - _gutterWidth;
     if (!animate || dgw.abs() < 1) {
       _gutterWidth = targetGutterWidth;
     } else {
       doneRendering = false;
       _gutterWidth += dgw * min(1.0, elapsed * 10.0);
-    }
+    }*/
 
     /// Animate movement.
     double speed =

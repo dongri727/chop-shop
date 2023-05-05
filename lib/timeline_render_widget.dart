@@ -27,7 +27,7 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
   final double topOverlap;
   final Timeline timeline;
   final MenuItemData focusItem;
-  final List<TimelineEntry> favorites;
+  //final List<TimelineEntry> favorites;
   final TouchBubbleCallback touchBubble;
   final TouchEntryCallback touchEntry;
 
@@ -38,7 +38,8 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
         this.touchEntry,
         this.topOverlap,
         this.timeline,
-        this.favorites})
+        //this.favorites,
+      })
       : super(key: key);
 
   @override
@@ -48,7 +49,7 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
       ..touchBubble = touchBubble
       ..touchEntry = touchEntry
       ..focusItem = focusItem
-      ..favorites = favorites
+      //..favorites = favorites
       ..topOverlap = topOverlap;
   }
 
@@ -60,7 +61,7 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
       ..focusItem = focusItem
       ..touchBubble = touchBubble
       ..touchEntry = touchEntry
-      ..favorites = favorites
+      //..favorites = favorites
       ..topOverlap = topOverlap;
   }
 
@@ -656,7 +657,7 @@ class TimelineRenderObject extends RenderBox {
     /// a gutter on the left side shows up so that favorite elements are quickly accessible.
     ///
     /// Here the gutter gets drawn, and the elements are added as *tappable* targets.
-    double favoritesGutter = _timeline.gutterWidth - Timeline.GutterLeft;
+/*    double favoritesGutter = _timeline.gutterWidth - Timeline.GutterLeft;
     if (_favorites != null && _favorites.length > 0 && favoritesGutter > 0.0) {
       Paint accentPaint = Paint()
         ..color = favoritesGutterAccent
@@ -688,7 +689,7 @@ class TimelineRenderObject extends RenderBox {
         return (a.start - mid).abs().compareTo((b.start - mid).abs());
       });
 
-/*      /// layout favorites.
+*//*      /// layout favorites.
       for (int i = 0; i < nearbyFavorites.length; i++) {
         TimelineEntry favorite = nearbyFavorites[i];
         double y = ((favorite.start - timeline.renderStart) * scale).clamp(
@@ -706,9 +707,9 @@ class TimelineRenderObject extends RenderBox {
             break;
           }
         }
-      }*/
+      }*//*
 
-/*      /// Iterate the list from the bottom.
+*//*      /// Iterate the list from the bottom.
       for (TimelineEntry favorite in nearbyFavorites.reversed) {
         if (favorite.isFavoriteOccluded) {
           continue;
@@ -735,7 +736,7 @@ class TimelineRenderObject extends RenderBox {
 
         /// Draw the assets statically within the circle.
         /// Calculations here are the same as seen in [paint()] for the assets.
-*//*        if *//**//*(asset is TimelineNima && asset.actorStatic != null) {
+*//**//*        if *//**//**//**//*(asset is TimelineNima && asset.actorStatic != null) {
           nima.AABB bounds = asset.setupAABB;
 
           double contentHeight = bounds[3] - bounds[1];
@@ -803,7 +804,7 @@ class TimelineRenderObject extends RenderBox {
             ..entry = asset.entry
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        } else if*//**//* (asset is TimelineFlare && asset.actorStatic != null) {
+        } else if*//**//**//**//* (asset is TimelineFlare && asset.actorStatic != null) {
           flare.AABB bounds = asset.setupAABB;
           double contentWidth = bounds[2] - bounds[0];
           double contentHeight = bounds[3] - bounds[1];
@@ -870,20 +871,20 @@ class TimelineRenderObject extends RenderBox {
             ..entry = asset.entry
             ..rect = renderOffset & renderSize
             ..zoom = true);
-        } else {*//*
+        } else {*//**//*
           _tapTargets.add(TapTarget()
             ..entry = favorite
             ..rect = renderOffset & renderSize
             ..zoom = true);
         //}
-      }*/
+      }*//*
 
       /// If there are two or more favorites in the gutter, show a line connecting
       /// the two circles, with the time between those two favorites as a label within a bubble.
       ///
       /// Uses same [ui.ParagraphBuilder] logic as seen above.
       TimelineEntry previous;
-/*      for (TimelineEntry favorite in _favorites) {
+*//*      for (TimelineEntry favorite in _favorites) {
         if (favorite.isFavoriteOccluded) {
           continue;
         }
@@ -931,8 +932,8 @@ class TimelineRenderObject extends RenderBox {
           }
         }
         previous = favorite;
-      }*/
-    }
+      }*//*
+    }*/
   }
 
   /// Given a list of [entries], draw the label with its bubble beneath.
