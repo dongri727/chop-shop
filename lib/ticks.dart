@@ -149,7 +149,7 @@ class Ticks {
         } else {
           NumberFormat formatter = NumberFormat.compact();
           label = formatter.format(value);
-          int digits = formatter.maximumSignificantDigits;
+          int digits = formatter.significantDigits;
           while (usedValues.contains(label) && digits < 10) {
             formatter.significantDigits = ++digits;
             label = formatter.format(value);

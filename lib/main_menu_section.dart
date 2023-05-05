@@ -5,9 +5,8 @@ typedef NavigateTo(MenuItemData item);
 
 /// This widget displays the single menu section of the [MainMenuWidget].
 ///
-/// There are three main sections, as loaded from the menu.json file in the
-/// assets folder.
-/// Each section has a backgroundColor, an accentColor, a background Flare asset,
+/// There are main sections, as loaded from the menu.json file in the　assets folder.
+/// Each section has a backgroundColor, an accentColor,
 /// and a list of elements it needs to display when expanded.
 ///
 /// Since this widget expands and contracts when tapped, it needs to maintain a [State].
@@ -16,13 +15,16 @@ class MenuSection extends StatefulWidget {
   final Color backgroundColor;
   final Color accentColor;
   final List<MenuItemData> menuOptions;
-  final String assetId;
+  //final String assetId;
   final NavigateTo navigateTo;
-  final bool isActive;
+  //final bool isActive;
 
   MenuSection(this.title, this.backgroundColor, this.accentColor,
-      this.menuOptions, this.navigateTo, this.isActive,
-      {this.assetId, Key key})
+      this.menuOptions, this.navigateTo,
+      //this.isActive,
+      {
+        //this.assetId,
+        Key key})
       : super(key: key);
 
   @override

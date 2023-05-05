@@ -3,8 +3,7 @@ import 'package:chop_shop/timeline_entry.dart';
 import "package:flutter/widgets.dart";
 
 /// This [InheritedWidget] wraps the whole app, and provides access
-/// to the user's favorites through the [FavoritesBloc]
-/// and the [Timeline] object.
+/// to the [Timeline] object.
 class BlocProvider extends InheritedWidget {
   final Timeline timeline;
 

@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       platform: Theme.of(context).platform,
       child: MaterialApp(
-        title: 'History & Future of Everything',
+        title: 'CHOP SHOP',
         theme: ThemeData(
             backgroundColor: background, scaffoldBackgroundColor: background),
         home: const MenuPage(),

@@ -9,11 +9,7 @@ import 'package:chop_shop/timeline_widget.dart';
 import "package:flutter/material.dart";
 
 /// The Main Page of the Timeline App.
-///
-/// This Widget lays out the search bar at the top of the page,
-/// the three card-sections for accessing the main events on the Timeline,
-/// and it'll provide on the bottom three links for quick access to your Favorites,
-/// a Share Menu and the About Page.
+/// the card-sections for accessing the main events on the Timeline,
 class MainMenuWidget extends StatefulWidget {
 
   MainMenuWidget({Key key}) : super(key: key);
@@ -28,13 +24,13 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
   /// 1. Search Functionality:
   /// When the search bar is tapped, the Widget view is filled with all the
   /// search info -- i.e. the [ListView] containing all the results.
-  bool _isSearching = false;
+  //bool _isSearching = false;
 
   /// 2. Section Animations:
   /// Each card section contains a Flare animation that's playing in the background.
   /// These animations are paused when they're not visible anymore (e.g. when search is visible instead),
   /// and are played again once they're back in view.
-  bool _isSectionActive = true;
+  //bool _isSectionActive = true;
 
   /// The [List] of search results that is displayed when searching.
   List<TimelineEntry> _searchResults = [];
@@ -62,21 +58,21 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
   /// a parameter to the [TimelineWidget] constructor, this widget will know
   /// where to scroll to.
   navigateToTimeline(MenuItemData item) {
-    _pauseSection();
+    //_pauseSection();
     Navigator.of(context)
         .push(MaterialPageRoute(
       builder: (BuildContext context) =>
           TimelineWidget(item, BlocProvider.getTimeline(context)),
-    ))
-        .then(_restoreSection);
+    ));
+       // .then(_restoreSection);
   }
 
-  _restoreSection(v) => setState(() => _isSectionActive = true);
-  _pauseSection() => setState(() => _isSectionActive = false);
+/*  _restoreSection(v) => setState(() => _isSectionActive = true);
+  _pauseSection() => setState(() => _isSectionActive = false);*/
 
   /// Used by the [_searchTextController] to properly update the state of this widget,
   /// and consequently the layout of the current view.
-  updateSearch() {
+/*  updateSearch() {
     cancelSearch();
     if (!_isSearching) {
       setState(() {
@@ -85,8 +81,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
       return;
     }
     String txt = _searchTextController.text.trim();
-
-  }
+  }*/
 
   @override
   initState() {
@@ -100,21 +95,21 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
       if (success) setState(() {}); // Load the menu.
     });
 
-    _searchTextController.addListener(() {
+/*    _searchTextController.addListener(() {
       updateSearch();
-    });
+    });*/
 
-    _searchFocusNode.addListener(() {
+/*    _searchFocusNode.addListener(() {
       setState(() {
         _isSearching = _searchFocusNode.hasFocus;
         updateSearch();
       });
-    });
+    });*/
   }
 
   /// A [WillPopScope] widget wraps the menu, so that before dismissing the whole app,
   /// search will be popped first. Otherwise the app will proceed as usual.
-  Future<bool> _popSearch() {
+/*  Future<bool> _popSearch() {
     if (_isSearching) {
       setState(() {
         _searchFocusNode.unfocus();
@@ -126,7 +121,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
       Navigator.of(context).pop(true);
       return Future(() => true);
     }
-  }
+  }*/
 
 /*  void _tapSearchResult(TimelineEntry entry) {
     navigateToTimeline(MenuItemData.fromEntry(entry));
@@ -148,7 +143,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
             section.textColor,
             section.items,
             navigateToTimeline,
-            _isSectionActive,
+            //_isSectionActive,
             //assetId: section.assetId,
           )))
           .toList(growable: false))
@@ -163,9 +158,9 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     /// A [SingleChildScrollView] is used to create a scrollable view for the main menu.
     /// This will contain a [Column] with a [Collapsible] header on top, and a [tail]
     /// that's built according with the state of this widget.
-    return WillPopScope(
+    return /*WillPopScope(
       onWillPop: _popSearch,
-      child: Container(
+      child:*/ Container(
           color: background,
           child: Padding(
             padding: EdgeInsets.only(top: devicePadding.top),
@@ -177,7 +172,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                     children: <Widget>[
                     ] +
                         tail)),
-          )),
+          )
+    //),
     );
   }
 }
