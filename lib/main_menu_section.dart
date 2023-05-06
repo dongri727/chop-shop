@@ -100,8 +100,7 @@ class _SectionState extends State<MenuSection>
 
   /// This method wraps the whole widget in a [GestureDetector] to handle taps appropriately.
   ///
-  /// A custom [BoxDecoration] is used to render the rounded rectangle on the screen, and a
-  /// [MenuVignette] is used as a background decoration for the whole widget.
+  /// A custom [BoxDecoration] is used to render the rounded rectangle on the screen,
   ///
   /// The [SizeTransition] opens up the section and displays the list underneath the section title.
   ///
@@ -168,13 +167,6 @@ class _SectionState extends State<MenuSection>
                                                         fontFamily:
                                                         "RobotoMedium"),
                                                   ))),
-/*                                          Container(
-                                              alignment: Alignment.center,
-                                              child: Image.asset(
-                                                  "assets/right_arrow.png",
-                                                  color: widget.accentColor,
-                                                  height: 22.0,
-                                                  width: 22.0))*/
                                         ]));
                               }).toList())))
                 ]))));

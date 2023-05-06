@@ -1,7 +1,7 @@
 [
   {
     "date": -13800000000,
-    "label": "Small Bang",
+    "label": "Big Bang",
     "background": [0, 38, 75],
     "accent": [246, 76, 130, 255],
     "ticks":
@@ -37,7 +37,7 @@
     "accent": [255, 63, 0, 255]
   },
   {
-    "start": -4000000000,
+    "date": -4000000000,
     "label": "Life on Earth",
     "article": "life_on_earth.txt",
     "background": [31, 89, 143],
@@ -59,7 +59,7 @@
     "label": "Single Celled Organisms"
   },
   {
-    "start": -600000000,
+    "date": -600000000,
     "label": "Animals",
     "background": [132, 175, 214],
     "accent": [55, 134, 222, 255],
@@ -121,20 +121,20 @@
     "accent": [235, 155, 75, 255]
   },
   {
-    "start": -6000000,
+    "date": -6000000,
     "label": "Humans",
     "background": [255, 255, 255],
     "accent": [202, 79, 63, 255],
     "ticks":
     {
-      "background": [113, 152, 188, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
+      "background": [245, 245, 245, 240],
+      "long": [0, 0, 0, 60],
+      "short": [0, 0, 0, 35],
+      "text": [0, 0, 0, 110]
     },
     "header":
     {
-      "background": [113, 152, 188, 240],
+      "background": [245, 245, 245, 240],
       "text": [0, 0, 0, 110]
     }
   },
@@ -151,7 +151,7 @@
     "label": "Control Fire"
   },
   {
-    "start": -300000,
+    "date": -300000,
     "label": "Homo Sapiens Sapiens"
   },
   {
@@ -262,19 +262,19 @@
   {
     "date": 2001,
     "label": "A Space Odyssey",
-    "background": [0, 38, 75],
+    "background": [255, 255, 255],
     "accent": [246, 76, 130, 255],
     "ticks":
     {
-      "background": [20, 57, 92, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
+      "background": [245, 245, 245, 240],
+      "long": [0, 0, 0, 60],
+      "short": [0, 0, 0, 35],
+      "text": [0, 0, 0, 110]
     },
     "header":
     {
-      "background": [113, 152, 188, 240],
-      "text": [255, 255, 255, 157]
+      "background": [245, 245, 245, 240],
+      "text": [0, 0, 0, 110]
     }
   },
   {

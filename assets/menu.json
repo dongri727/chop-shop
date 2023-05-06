@@ -102,12 +102,12 @@
     [
       {
         "start": 2001,
-        "end": 2015,
+        "end": 2020,
         "label": "iPhone"
       },
       {
-        "start": 2015,
-        "end": 2030,
+        "start": 2021,
+        "end": 2050,
         "label": "AI"
       }
     ]
