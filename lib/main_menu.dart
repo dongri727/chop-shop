@@ -33,7 +33,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
   //bool _isSectionActive = true;
 
   /// The [List] of search results that is displayed when searching.
-  List<TimelineEntry> _searchResults = [];
+  //List<TimelineEntry> _searchResults = [];
 
   /// [MenuData] is a wrapper object for the data of each Card section.
   /// This data is loaded from the asset bundle during [initState()]
