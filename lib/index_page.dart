@@ -18,11 +18,14 @@ class IndexPage extends StatefulWidget {
 
 class _IndexPageState extends State<IndexPage> {
 
-  navigateToTimeline(start, end) {
+  int eraStart = 0;
+  int eraEnd = 0;
+
+  navigateToTimeline(eraStart, eraEnd) async {
     Navigator.of(context)
         .push(MaterialPageRoute(
       builder: (BuildContext context) =>
-          TimelineWidget(start, BlocProvider.getTimeline(context)),
+          TimelineWidget(eraStart, eraEnd),
     ));
   }
 
