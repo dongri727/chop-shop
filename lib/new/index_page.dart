@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'bloc_provider.dart';
-import 'timeline_widget.dart';
+import '../bloc_provider.dart';
+import '../timeline_widget.dart';
 
 class IndexPage extends StatefulWidget {
 

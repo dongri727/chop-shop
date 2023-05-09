@@ -15,7 +15,11 @@ class BlocProvider extends InheritedWidget {
       : timeline = t ?? Timeline(platform),
         super(key: key, child: child) {
     timeline
-        .loadFromBundle("assets/timeline.json")
+        .loadFromBundle(
+      "assets/height_depth.json"
+       // "assets/timeline.json",
+
+    )
         .then((List<TimelineEntry> entries) {
       timeline.setViewport(
           start: entries.first.start * 2.0,
