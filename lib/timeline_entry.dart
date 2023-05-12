@@ -13,7 +13,7 @@ class TimelineAsset {
   double scaleVelocity = 0.0;
   double y = 0.0;
   double velocity = 0.0;
-  String filename;
+  //String filename;
   TimelineEntry entry;
 }
 
@@ -100,7 +100,8 @@ class TimelineEntry {
     if (start > 0) {
       return start.round().toString();
     }
-    return TimelineEntry.formatYears(start) + " Ago";
+    //return TimelineEntry.formatYears(start) + " Ago";
+    return TimelineEntry.formatYears(start);
   }
 
   /// Debug information.
@@ -133,6 +134,7 @@ class TimelineEntry {
     } else {
       label = valueAbs.toStringAsFixed(0);
     }
-    return label + " Years";
+    //return label + " Years";
+    return label + " Decimetres";
   }
 }
