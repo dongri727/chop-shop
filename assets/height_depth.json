@@ -1,137 +1,171 @@
 [
-  {
-    "date": -1500000000,
-    "label": "James Webb Space Telescope",
-    "background": [0, 38, 75],
-    "ticks":
-    {
-      "background": [20, 57, 92, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
-    },
-    "header":
-    {
-      "background": [11, 47, 81, 94],
-      "text": [255, 255, 255, 157]
-    }
-  },
-  {
-    "date": -384400000,
-    "label": "Moon"
-  },
-  {
-    "date": -600000,
-    "label": "Hubble Space Telescope"
-  },
-  {
-    "date": -418000,
-    "label": "International Space Station",
-    "accent": [255, 166, 20, 255]
-  },
-  {
-    "date": -53000,
-    "label": "High-altitude balloon",
-    "background": [31, 89, 143],
-    "ticks":
-    {
-      "background": [27, 79, 128, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
-    },
-    "header":
-    {
-      "background": [27, 79, 128, 240],
-      "text": [255, 255, 255, 157]
-    }
-  },
-  {
-    "date": -15000,
-    "label": "F-15"
-  },
-  {
-    "date": -10000,
-    "label": "Jumbo Jet"
-  },
-  {
-    "date": -8849,
-    "label": "Everest",
-    "background": [132, 175, 214],
-    "accent": [55, 134, 222, 255],
-    "ticks":
-    {
-      "background": [113, 152, 188, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
-    },
-    "header":
-    {
-      "background": [113, 152, 188, 240],
-      "text": [255, 255, 255, 157]
-    }
-  },
-  {
-    "date": -3776,
-    "label": "Fuji",
-    "accent": [55, 134, 222, 255]
-  },
-  {
-    "date": -828,
-    "label": "Burj Khalifa",
-    "accent": [55, 134, 222, 255]
-  },
-  {
-    "date": -634,
-    "label": "Tokyo Sky Tree",
-    "accent": [55, 134, 222, 255]
-  },
-  {
-    "date": 0,
-    "label": "Sea Level",
-    "background": [31, 89, 143],
-    "ticks":
-    {
-      "background": [27, 79, 128, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
-    },
-    "header":
-    {
-      "background": [27, 79, 128, 240],
-      "text": [255, 255, 255, 157]
-    }
-  },
-  {
-    "date": 200,
-    "label": "Twilight Zone"
-  },
-  {
-    "date": 1000,
-    "label": "aphotic zone",
-    "background": [0, 38, 75],
-    "accent": [246, 76, 130, 255],
-    "ticks":
-    {
-      "background": [20, 57, 92, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
-    },
-    "header":
-    {
-      "background": [11, 47, 81, 94],
-      "text": [255, 255, 255, 157]
-    }
-  },
-  {
-    "date": 2445,
-    "label": "Suruga Trench"
-  },
-  {
-    "date": 10983,
-    "label": "Mariana Trench"
-  }
+  	{
+   		 "date": -15000000000,
+   		 "label": "James Webb Space Telescope",
+   		 "background": [0, 38, 75],
+    		 "ticks":
+    		 {
+      			"background": [20, 57, 92, 240],
+      			"long": [255, 255, 255, 75],
+      			"short": [255, 255, 255, 51],
+      			"text": [255, 255, 255, 157]
+    		},
+    		"header":
+    		{
+      			"background": [11, 47, 81, 94],
+      			"text": [255, 255, 255, 157]
+    		}
+  	},
+  	{
+    		"date": -3844000000,
+    		"label": "Moon",
+			"background": [31, 89, 143],
+			"ticks":
+			{
+				"background": [27, 79, 128, 240],
+				"long": [255, 255, 255, 75],
+				"short": [255, 255, 255, 51],
+				"text": [255, 255, 255, 157]
+			},
+			"header":
+			{
+				"background": [27, 79, 128, 240],
+				"text": [255, 255, 255, 157]
+			}
+  	},
+  	{
+    		"date": -6000000,
+    		"label": "Hubble Space Telescope"
+
+  	},
+  	{
+    		"date": -4180000,
+    		"label": "International Space Station"
+  	},
+  	{
+    		"date": -530000,
+    		"label": "High-altitude balloon"
+  	},
+  	{
+    		"date": -150000,
+    		"label": "F-15"
+  	},
+  	{
+    		"date": -100000,
+    		"label": "Jumbo Jet"
+  	},
+  	{
+    		"date": -88490,
+    		"label": "Everest"
+  	},
+  	{
+    		"date": -37760,
+    		"label": "Fuji"
+   	},
+  	{
+    		"date": -8280,
+    		"label": "Burj Khalifa"
+  	},
+  	{
+    		"date": -6340,
+    		"label": "Tokyo Sky Tree"
+  	},
+  	{
+    		"date": 0,
+    		"label": "Sea Level",
+			"background": [255, 255,255],
+			"ticks":
+			{
+				"background": [113, 152, 188, 240],
+				"long": [255, 255, 255, 75],
+				"short": [255, 255, 255, 51],
+				"text": [255, 255, 255, 157]
+			},
+			"header":
+			{
+				"background": [113, 152, 188, 240],
+				"text": [255, 255, 255, 157]
+			}
+  	},
+  	{
+    		"date": 2000,
+    		"label": "Twilight Zone"
+  	},
+  	{
+    		"date": 10000,
+    		"label": "aphotic zone"
+  	},
+  	{
+    		"date": 24450,
+    		"label": "Suruga Trench"
+  	},
+  	{
+    		"date": 109830,
+    		"label": "Mariana Trench"
+  	},
+	{
+			"start": 20000,
+			"end": 500000,
+			"label": "Crust",
+			"accent": [255, 128, 28, 15]
+	},
+	{
+		"date": 500000,
+		"label": "Mohorovicic Discontinuity"
+	},
+	{
+			"start": 500000,
+			"end": 29000000,
+			"label": "Mantle",
+			"accent": [255, 202, 79, 63]
+	},
+	{
+		"date": 29000000,
+		"label": "Gutenberg Discontinuity"
+	},
+	{
+			"start": 29000000,
+			"end": 99000000,
+			"label": "Core",
+			"accent": [255, 238, 155, 75]
+	},
+	{
+		"date": 51000000,
+		"label": "Lehmann Discontinuity"
+	},
+	{
+		"date": 64000000,
+		"label": "Center",
+		"background": [31, 89, 143],
+		"ticks":
+		{
+			"background": [20, 57, 92, 240],
+			"long": [255, 255, 255, 75],
+			"short": [255, 255, 255, 51],
+			"text": [255, 255, 255, 157]
+		},
+		"header":
+		{
+			"background": [11, 47, 81, 94],
+			"text": [255, 255, 255, 157]
+		}
+	},
+	{
+		"date": 128000000,
+		"label": "Earth",
+		"background": [31, 89, 143],
+		"ticks":
+		{
+			"background": [20, 57, 92, 240],
+			"long": [255, 255, 255, 75],
+			"short": [255, 255, 255, 51],
+			"text": [255, 255, 255, 157]
+		},
+		"header":
+		{
+			"background": [11, 47, 81, 94],
+			"text": [255, 255, 255, 157]
+		}
+
+	}
 ]

@@ -1,18 +1,12 @@
-import 'dart:math';
-import 'dart:ui';
 import 'dart:ui' as ui;
 
-import 'package:chop_shop/color.dart';
 import 'package:chop_shop/menu_data.dart';
 import 'package:chop_shop/ticks.dart';
 import 'package:chop_shop/timeline.dart';
 import 'package:chop_shop/timeline_entry.dart';
 import 'package:chop_shop/timeline_utils.dart';
-/*import 'package:flare_dart/actor_image.dart' as flare;
-import 'package:flare_dart/math/aabb.dart' as flare;*/
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-//import 'package:nima/nima/math/aabb.dart' as nima;
 
 /// These two callbacks are used to detect if a bubble or an entry have been tapped.
 /// If that's the case, [ArticlePage] will be pushed onto the [Navigator] stack.
@@ -27,7 +21,6 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
   final double topOverlap;
   final Timeline timeline;
   final MenuItemData focusItem;
-  //final List<TimelineEntry> favorites;
   final TouchBubbleCallback touchBubble;
   final TouchEntryCallback touchEntry;
 
@@ -38,7 +31,6 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
         this.touchEntry,
         this.topOverlap,
         this.timeline,
-        //this.favorites,
       })
       : super(key: key);
 
@@ -49,7 +41,6 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
       ..touchBubble = touchBubble
       ..touchEntry = touchEntry
       ..focusItem = focusItem
-      //..favorites = favorites
       ..topOverlap = topOverlap;
   }
 
@@ -61,7 +52,6 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
       ..focusItem = focusItem
       ..touchBubble = touchBubble
       ..touchEntry = touchEntry
-      //..favorites = favorites
       ..topOverlap = topOverlap;
   }
 
@@ -91,7 +81,7 @@ class TimelineRenderObject extends RenderBox {
   MenuItemData _focusItem;
   MenuItemData _processedFocusItem;
   List<TapTarget> _tapTargets = [];
-  List<TimelineEntry> _favorites;
+  //List<TimelineEntry> _favorites;
   TouchBubbleCallback touchBubble;
   TouchEntryCallback touchEntry;
 
@@ -100,7 +90,7 @@ class TimelineRenderObject extends RenderBox {
 
   double get topOverlap => _topOverlap;
   Timeline get timeline => _timeline;
-  List<TimelineEntry> get favorites => _favorites;
+  //List<TimelineEntry> get favorites => _favorites;
   MenuItemData get focusItem => _focusItem;
 
   set topOverlap(double value) {
@@ -124,14 +114,14 @@ class TimelineRenderObject extends RenderBox {
     markNeedsLayout();
   }
 
-  set favorites(List<TimelineEntry> value) {
+/*  set favorites(List<TimelineEntry> value) {
     if (_favorites == value) {
       return;
     }
     _favorites = value;
     markNeedsPaint();
     markNeedsLayout();
-  }
+  }*/
 
   set focusItem(MenuItemData value) {
     if (_focusItem == value) {
@@ -246,7 +236,7 @@ class TimelineRenderObject extends RenderBox {
     double renderEnd = _timeline.renderEnd;
     double scale = size.height / (renderEnd - renderStart);
 
-    if (timeline.renderAssets != null) {
+/*    if (timeline.renderAssets != null) {
       canvas.save();
       canvas.clipRect(offset & size);
       for (TimelineAsset asset in timeline.renderAssets) {
@@ -267,193 +257,11 @@ class TimelineRenderObject extends RenderBox {
                   ..isAntiAlias = true
                   ..filterQuality = ui.FilterQuality.low
                   ..color = Colors.white.withOpacity(asset.opacity));
-          } /*else if*//* (asset is TimelineNima && asset.actor != null) {
-            /// If we have a [TimelineNima] asset, set it up properly and paint it.
-            ///
-            /// 1. Calculate the bounds for the current object.
-            /// An Axis-Aligned Bounding Box (AABB) is already set up when the asset is first loaded.
-            /// We rely on this AABB to perform screen-space calculations.
-            Alignment alignment = Alignment.center;
-            BoxFit fit = BoxFit.cover;
-
-            nima.AABB bounds = asset.setupAABB;
-
-            double contentHeight = bounds[3] - bounds[1];
-            double contentWidth = bounds[2] - bounds[0];
-            double x = -bounds[0] -
-                contentWidth / 2.0 -
-                (alignment.x * contentWidth / 2.0) +
-                asset.offset;
-            double y = -bounds[1] -
-                contentHeight / 2.0 +
-                (alignment.y * contentHeight / 2.0);
-
-            Offset renderOffset = Offset(offset.dx + size.width - w, asset.y);
-            Size renderSize = Size(w * rs, h * rs);
-
-            double scaleX = 1.0, scaleY = 1.0;
-
-            canvas.save();
-
-            /// This widget is always set up to use [BoxFit.cover].
-            /// But this behavior can be customized according to anyone's needs.
-            /// The following switch/case contains all the various alternatives native to Flutter.
-            switch (fit) {
-              case BoxFit.fill:
-                scaleX = renderSize.width / contentWidth;
-                scaleY = renderSize.height / contentHeight;
-                break;
-              case BoxFit.contain:
-                double minScale = min(renderSize.width / contentWidth,
-                    renderSize.height / contentHeight);
-                scaleX = scaleY = minScale;
-                break;
-              case BoxFit.cover:
-                double maxScale = max(renderSize.width / contentWidth,
-                    renderSize.height / contentHeight);
-                scaleX = scaleY = maxScale;
-                break;
-              case BoxFit.fitHeight:
-                double minScale = renderSize.height / contentHeight;
-                scaleX = scaleY = minScale;
-                break;
-              case BoxFit.fitWidth:
-                double minScale = renderSize.width / contentWidth;
-                scaleX = scaleY = minScale;
-                break;
-              case BoxFit.none:
-                scaleX = scaleY = 1.0;
-                break;
-              case BoxFit.scaleDown:
-                double minScale = min(renderSize.width / contentWidth,
-                    renderSize.height / contentHeight);
-                scaleX = scaleY = minScale < 1.0 ? minScale : 1.0;
-                break;
-            }
-
-            /// 2. Move the [canvas] to the right position so that the widget's position
-            /// is center-aligned based on its offset, size and alignment position.
-            canvas.translate(
-                renderOffset.dx +
-                    renderSize.width / 2.0 +
-                    (alignment.x * renderSize.width / 2.0),
-                renderOffset.dy +
-                    renderSize.height / 2.0 +
-                    (alignment.y * renderSize.height / 2.0));
-
-            /// 3. Scale depending on the [fit].
-            canvas.scale(scaleX, -scaleY);
-
-            /// 4. Move the canvas to the correct [_nimaActor] position calculated above.
-            canvas.translate(x, y);
-
-            /// 5. perform the drawing operations.
-            asset.actor.draw(canvas, asset.opacity);
-
-            /// 6. Restore the canvas' original transform state.
-            canvas.restore();
-
-            /// 7. This asset is also a *tappable* element, add it to the list
-            /// so it can be processed.
-            _tapTargets.add(TapTarget()
-              ..entry = asset.entry
-              ..rect = renderOffset & renderSize);
-          } else if*//* (asset is TimelineFlare && asset.actor != null) {
-            /// If we have a [TimelineFlare] asset set it up properly and paint it.
-            ///
-            /// 1. Calculate the bounds for the current object.
-            /// An Axis-Aligned Bounding Box (AABB) is already set up when the asset is first loaded.
-            /// We rely on this AABB to perform screen-space calculations.
-            Alignment alignment = Alignment.center;
-            BoxFit fit = BoxFit.cover;
-
-            flare.AABB bounds = asset.setupAABB;
-            double contentWidth = bounds[2] - bounds[0];
-            double contentHeight = bounds[3] - bounds[1];
-            double x = -bounds[0] -
-                contentWidth / 2.0 -
-                (alignment.x * contentWidth / 2.0) +
-                asset.offset;
-            double y = -bounds[1] -
-                contentHeight / 2.0 +
-                (alignment.y * contentHeight / 2.0);
-
-            Offset renderOffset = Offset(offset.dx + size.width - w, asset.y);
-            Size renderSize = Size(w * rs, h * rs);
-
-            double scaleX = 1.0, scaleY = 1.0;
-
-            canvas.save();
-
-            /// This widget is always set up to use [BoxFit.cover].
-            /// But this behavior can be customized according to anyone's needs.
-            /// The following switch/case contains all the various alternatives native to Flutter.
-            switch (fit) {
-              case BoxFit.fill:
-                scaleX = renderSize.width / contentWidth;
-                scaleY = renderSize.height / contentHeight;
-                break;
-              case BoxFit.contain:
-                double minScale = min(renderSize.width / contentWidth,
-                    renderSize.height / contentHeight);
-                scaleX = scaleY = minScale;
-                break;
-              case BoxFit.cover:
-                double maxScale = max(renderSize.width / contentWidth,
-                    renderSize.height / contentHeight);
-                scaleX = scaleY = maxScale;
-                break;
-              case BoxFit.fitHeight:
-                double minScale = renderSize.height / contentHeight;
-                scaleX = scaleY = minScale;
-                break;
-              case BoxFit.fitWidth:
-                double minScale = renderSize.width / contentWidth;
-                scaleX = scaleY = minScale;
-                break;
-              case BoxFit.none:
-                scaleX = scaleY = 1.0;
-                break;
-              case BoxFit.scaleDown:
-                double minScale = min(renderSize.width / contentWidth,
-                    renderSize.height / contentHeight);
-                scaleX = scaleY = minScale < 1.0 ? minScale : 1.0;
-                break;
-            }
-
-            /// 2. Move the [canvas] to the right position so that the widget's position
-            /// is center-aligned based on its offset, size and alignment position.
-            canvas.translate(
-                renderOffset.dx +
-                    renderSize.width / 2.0 +
-                    (alignment.x * renderSize.width / 2.0),
-                renderOffset.dy +
-                    renderSize.height / 2.0 +
-                    (alignment.y * renderSize.height / 2.0));
-
-            /// 3. Scale depending on the [fit].
-            canvas.scale(scaleX, scaleY);
-
-            /// 4. Move the canvas to the correct [_flareActor] position calculated above.
-            canvas.translate(x, y);
-
-            /// 5. perform the drawing operations.
-            asset.actor.modulateOpacity = asset.opacity;
-            asset.actor.draw(canvas);
-
-            /// 6. Restore the canvas' original transform state.
-            canvas.restore();
-
-            /// 7. This asset is also a *tappable* element, add it to the list
-            /// so it can be processed.
-            _tapTargets.add(TapTarget()
-              ..entry = asset.entry
-              ..rect = renderOffset & renderSize);
-          }*/
+          }
         }
       }
       canvas.restore();
-    }
+    }*/
 
     /// Paint the [Ticks] on the left side of the screen.
     canvas.save();
@@ -483,6 +291,7 @@ class TimelineRenderObject extends RenderBox {
     /// After a few moments of inaction on the timeline, if there's enough space,
     /// an arrow pointing to the next event on the timeline will appear on the bottom of the screen.
     /// Draw it, and add it as another [TapTarget].
+    /// 次の事象Button
     if (_timeline.nextEntry != null && _timeline.nextEntryOpacity > 0.0) {
       double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
       double opacity = _timeline.nextEntryOpacity;
