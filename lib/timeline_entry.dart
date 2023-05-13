@@ -134,7 +134,6 @@ class TimelineEntry {
     } else {
       label = valueAbs.toStringAsFixed(0);
     }
-    //return label + " Years";
-    return label + " Decimetres";
+    return label + " Years";
   }
 }

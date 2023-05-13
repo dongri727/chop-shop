@@ -81,7 +81,6 @@ class TimelineRenderObject extends RenderBox {
   MenuItemData _focusItem;
   MenuItemData _processedFocusItem;
   List<TapTarget> _tapTargets = [];
-  //List<TimelineEntry> _favorites;
   TouchBubbleCallback touchBubble;
   TouchEntryCallback touchEntry;
 
@@ -90,7 +89,6 @@ class TimelineRenderObject extends RenderBox {
 
   double get topOverlap => _topOverlap;
   Timeline get timeline => _timeline;
-  //List<TimelineEntry> get favorites => _favorites;
   MenuItemData get focusItem => _focusItem;
 
   set topOverlap(double value) {
@@ -114,15 +112,6 @@ class TimelineRenderObject extends RenderBox {
     markNeedsLayout();
   }
 
-/*  set favorites(List<TimelineEntry> value) {
-    if (_favorites == value) {
-      return;
-    }
-    _favorites = value;
-    markNeedsPaint();
-    markNeedsLayout();
-  }*/
-
   set focusItem(MenuItemData value) {
     if (_focusItem == value) {
       return;
@@ -141,7 +130,7 @@ class TimelineRenderObject extends RenderBox {
       return;
     }
 
-    /// Adjust the current timeline padding and consequentely the viewport.
+    /// Adjust the current timeline padding and consequently the viewport.
     if (_focusItem.pad) {
       timeline.padding = EdgeInsets.only(
           top: topOverlap + _focusItem.padTop + Timeline.Parallax,
@@ -235,33 +224,6 @@ class TimelineRenderObject extends RenderBox {
     double renderStart = _timeline.renderStart;
     double renderEnd = _timeline.renderEnd;
     double scale = size.height / (renderEnd - renderStart);
-
-/*    if (timeline.renderAssets != null) {
-      canvas.save();
-      canvas.clipRect(offset & size);
-      for (TimelineAsset asset in timeline.renderAssets) {
-        if (asset.opacity > 0) {
-          double rs = 0.2 + asset.scale * 0.8;
-
-          double w = asset.width * Timeline.AssetScreenScale;
-          double h = asset.height * Timeline.AssetScreenScale;
-
-          /// Draw the correct asset.
-          if (asset is TimelineImage) {
-            canvas.drawImageRect(
-                asset.image,
-                Rect.fromLTWH(0.0, 0.0, asset.width, asset.height),
-                Rect.fromLTWH(
-                    offset.dx + size.width - w, asset.y, w * rs, h * rs),
-                Paint()
-                  ..isAntiAlias = true
-                  ..filterQuality = ui.FilterQuality.low
-                  ..color = Colors.white.withOpacity(asset.opacity));
-          }
-        }
-      }
-      canvas.restore();
-    }*/
 
     /// Paint the [Ticks] on the left side of the screen.
     canvas.save();
@@ -449,8 +411,7 @@ class TimelineRenderObject extends RenderBox {
       NumberFormat formatter = NumberFormat.compact();
       String pagesFormatted = formatter.format(pages.abs());
       String until = TimelineEntry.formatYears(timeUntil).toLowerCase() +
-          //" ago\n($pagesFormatted page scrolls)";
-          "\n($pagesFormatted page scrolls)";
+          " ago\n($pagesFormatted page scrolls)";
       builder.addText(until);
       labelParagraph = builder.build();
       labelParagraph.layout(ui.ParagraphConstraints(width: size.width));
@@ -467,7 +428,7 @@ class TimelineRenderObject extends RenderBox {
   /// Given a list of [entries], draw the label with its bubble beneath.
   /// Draw also the dots&lines on the left side of the timeline. These represent
   /// the starting/ending points for a given event and are meant to give the idea of
-  /// the timespan encompassing that event, as well as putting the vent into context
+  /// the time-span encompassing that event, as well as putting the vent into context
   /// relative to the other events.
   void drawItems(PaintingContext context, Offset offset,
       List<TimelineEntry> entries, double x, double scale, int depth) {
@@ -511,14 +472,15 @@ class TimelineRenderObject extends RenderBox {
       }
 
       const double MaxLabelWidth = 1200.0;
-      const double BubblePadding = 20.0;
+      //const double BubblePadding = 20.0;
+      const double BubblePadding = 8.0;
 
       /// Let the timeline calculate the height for the current item's bubble.
       double bubbleHeight = timeline.bubbleHeight(item);
 
       /// Use [ui.ParagraphBuilder] to construct the label for canvas.
       ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.start, fontFamily: "Roboto", fontSize: 20.0))
+          textAlign: TextAlign.start, fontFamily: "Roboto", fontSize: 12.0))
         ..pushStyle(
             ui.TextStyle(color: const Color.fromRGBO(255, 255, 255, 1.0)));
 
