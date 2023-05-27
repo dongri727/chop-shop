@@ -12,17 +12,17 @@ https://distance-57567.web.app/
 
 We have three steps in mind for this project:
 
-Carefully study the code in which this smooth movement is established without using any particular package.
-Rewrite the code as it was written in Flutter1 to support Flutter3 for further understanding.
-Aim to package this wonderful feature so that many people can take advantage of it.
+1. Carefully study the code in which this smooth movement is established without using any particular package.
+2. Rewrite the code as it was written in Flutter1 to support Flutter3 for further understanding.
+3. Aim to package this wonderful feature so that many people can take advantage of it.
 
 ## Package Functions
 
 We are considering the following three functions for the package:
 
-An extendable and retractable time axis
-Display of scale characters linked to the time axis
-Display of items linked to the time axis
+1. An extendable and retractable time axis
+2. Display of scale characters linked to the time axis
+3. Display of items linked to the time axis
 
 ## issues
 
