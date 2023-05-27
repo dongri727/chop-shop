@@ -1,3 +1,5 @@
+[英語版 README はこちら](/README.md)
+
 # App
 
 https://distance-57567.web.app/
