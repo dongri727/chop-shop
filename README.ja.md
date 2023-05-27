@@ -29,17 +29,17 @@ https://distance-57567.web.app/
 
 # chop_shop
 
-FU TeamDev 12
+Flutter 大学 共同開発 12
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
+このプロジェクトは、Flutter アプリケーションの開始点です。
+初めての Flutter プロジェクトの場合は、開始するためのいくつかのリソースを参照してください。
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Flutter 開発を開始するためのヘルプについては、
+
+[online ドキュメント](https://docs.flutter.dev/), モバイル開発に関するチュートリアル、
+サンプル、ガイダンス、および完全な API リファレンスを提供します。
