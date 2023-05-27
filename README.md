@@ -1,14 +1,12 @@
 [日本語版 README はこちら](/README.ja.md)
 
-# App
-
-https://distance-57567.web.app/
-
 # Introduction
 
 This project was initiated by the planners who were deeply impressed by "The History of Everything," Flutter's earliest application, and started this project to read and study its code. Anyone who shares the same interest is welcome to join, whether it's adding a single line of code or writing a few words of opinion. Full-fledged participation is also welcome.
 
 Although "The History of Everything" is a beautiful application of animation, the target of this project is the creation of a chronological timeline that represents the passage of time in a very smooth motion. From the beginning of the universe (BIG BANG) to "now," from a general overview that allows you to get the time distance right to zooming in and seeing the details, it is intriguing to see what features of Flutter this consists of. Words cannot do it justice, so please take a look at the actual application.
+
+https://distance-57567.web.app/
 
 ## Project Goals
 

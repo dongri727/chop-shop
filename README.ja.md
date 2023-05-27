@@ -1,14 +1,12 @@
 [英語版 README はこちら](/README.md)
 
-# App
-
-https://distance-57567.web.app/
-
 # Introduction
 
 これはThe History of EverythingというFlutter最初期のアプリに感動した企画者が、そのコードを読み込み勉強するために始めたプロジェクトです。興味を同じくする方がいらっしゃれば、どなたでも参加して、１行だけでもcodeを付け加えるとか、意見を一言書き込むとか、もちろん本格参入も大歓迎です。
 
 The History of Everythingは、animationの美しいアプリですが、今回のターゲットはanimationではなく、非常になめらかな動きで時の流れを表現する年表の時間軸の作成です。宇宙の始まりbig bangから「今」まで、時間的距離を正しく把握できる総覧から、ズームインして細部を見ることまで、これがFlutterのどのような機能で構成されているのか、興味は尽きません。言葉では表現しきれないので、ぜひ実物のアプリをご覧ください。
+
+https://distance-57567.web.app/
 
 ## Project Goals
 
