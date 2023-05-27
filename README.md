@@ -6,8 +6,6 @@ This project was initiated by the planners who were deeply impressed by "The His
 
 Although "The History of Everything" is a beautiful application of animation, the target of this project is the creation of a chronological timeline that represents the passage of time in a very smooth motion. From the beginning of the universe (BIG BANG) to "now," from a general overview that allows you to get the time distance right to zooming in and seeing the details, it is intriguing to see what features of Flutter this consists of. Words cannot do it justice, so please take a look at the actual application.
 
-https://distance-57567.web.app/
-
 ## Project Goals
 
 We have three steps in mind for this project:
@@ -23,6 +21,11 @@ We are considering the following three functions for the package:
 1. An extendable and retractable time axis
 2. Display of scale characters linked to the time axis
 3. Display of items linked to the time axis
+
+We created a Sample app for our Package.
+
+- address　https://distance-57567.web.app/
+- code　https://github.com/dongri727/distance
 
 ## issues
 

@@ -6,8 +6,6 @@
 
 The History of Everythingは、animationの美しいアプリですが、今回のターゲットはanimationではなく、非常になめらかな動きで時の流れを表現する年表の時間軸の作成です。宇宙の始まりbig bangから「今」まで、時間的距離を正しく把握できる総覧から、ズームインして細部を見ることまで、これがFlutterのどのような機能で構成されているのか、興味は尽きません。言葉では表現しきれないので、ぜひ実物のアプリをご覧ください。
 
-https://distance-57567.web.app/
-
 ## Project Goals
 
 次の３つのステップを考えています。
@@ -21,6 +19,11 @@ https://distance-57567.web.app/
 1. 伸縮自在の時間軸
 2. 時間軸に連動する目盛り文字の表示
 3. 時間軸に連動する項目の表示
+
+Package化を目指して、まずSampleアプリを作成しました。
+
+- アドレス　https://distance-57567.web.app/
+- コード　https://github.com/dongri727/distance
 
 ## issues
 
