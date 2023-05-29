@@ -13,7 +13,6 @@ class TimelineAsset {
   double scaleVelocity = 0.0;
   double y = 0.0;
   double velocity = 0.0;
-  //String filename;
   TimelineEntry entry;
 }
 
@@ -36,10 +35,7 @@ class TimelineEntry {
   /// Used to calculate how many lines to draw for the bubble in the timeline.
   int lineCount = 1;
 
-  ///
   String _label;
-  String id;
-
   Color accent;
 
   /// Each entry constitues an element of a tree:
@@ -63,15 +59,9 @@ class TimelineEntry {
   double labelOpacity = 0.0;
   double targetLabelOpacity = 0.0;
   double delayLabel = 0.0;
-  double targetAssetOpacity = 0.0;
-  double delayAsset = 0.0;
   double legOpacity = 0.0;
   double labelY = 0.0;
   double labelVelocity = 0.0;
-  //double favoriteY = 0.0;
-  //bool isFavoriteOccluded = false;
-
-  TimelineAsset asset;
 
   bool get isVisible {
     return opacity > 0.0;
@@ -96,12 +86,12 @@ class TimelineEntry {
   }
 
   /// Pretty-printing for the entry date.
+  /// 前のobjectまでの距離を表示
   String formatYearsAgo() {
     if (start > 0) {
       return start.round().toString();
     }
-    //return TimelineEntry.formatYears(start) + " Ago";
-    return TimelineEntry.formatYears(start);
+    return TimelineEntry.formatYears(start) + " Ago";
   }
 
   /// Debug information.
@@ -111,6 +101,7 @@ class TimelineEntry {
   }
 
   /// Helper method.
+  /// object間の距離を算出
   static String formatYears(double start) {
     String label;
     int valueAbs = start.round().abs();
