@@ -116,7 +116,7 @@ class TimelineRenderObject extends RenderBox {
       return;
     }
     _focusItem = value;
-    _processedFocusItem = null;
+    _processedFocusItem;
     updateFocusItem();
   }
 
@@ -125,7 +125,7 @@ class TimelineRenderObject extends RenderBox {
     if (_processedFocusItem == _focusItem) {
       return;
     }
-    if (_focusItem == null || timeline == null || topOverlap == 0.0) {
+    if (topOverlap == 0.0) {
       return;
     }
 
@@ -135,14 +135,14 @@ class TimelineRenderObject extends RenderBox {
           top: topOverlap + _focusItem.padTop + Timeline.Parallax,
           bottom: _focusItem.padBottom);
       timeline.setViewport(
-          start: _focusItem.start,
-          end: _focusItem.end,
+          //start: _focusItem.start,
+          //end: _focusItem.end,
           animate: true,
           pad: true);
     } else {
       timeline.padding = EdgeInsets.zero;
       timeline.setViewport(
-          start: _focusItem.start, end: _focusItem.end, animate: true);
+          /*start: _focusItem.start, end: _focusItem.end, */animate: true);
     }
     _processedFocusItem = _focusItem;
   }
@@ -150,17 +150,14 @@ class TimelineRenderObject extends RenderBox {
   /// Check if the current tap on the screen has hit a bubble.
   @override
   bool hitTestSelf(Offset screenOffset) {
-    touchEntry(null);
+    //touchEntry(null);
     for (TapTarget bubble in _tapTargets.reversed) {
       if (bubble.rect.contains(screenOffset)) {
-        if (touchBubble != null) {
-          touchBubble(bubble);
-        }
+        touchBubble(bubble);
         return true;
       }
     }
-    touchBubble(null);
-
+    //touchBubble(null);
     return true;
   }
 
@@ -172,9 +169,7 @@ class TimelineRenderObject extends RenderBox {
   /// Adjust the viewport when needed.
   @override
   void performLayout() {
-    if (_timeline != null) {
-      _timeline.setViewport(height: size.height, animate: true);
-    }
+    _timeline.setViewport(height: size.height, animate: true);
   }
 
   @override
@@ -198,27 +193,25 @@ class TimelineRenderObject extends RenderBox {
     canvas.restore();
 
     /// And then draw the rest of the timeline.
-    if (_timeline.entries != null) {
-      canvas.save();
-      canvas.clipRect(Rect.fromLTWH(offset.dx + _timeline.gutterWidth,
-          offset.dy, size.width - _timeline.gutterWidth, size.height));
-      drawItems(
-          context,
-          offset,
-          _timeline.entries,
-          _timeline.gutterWidth +
-              Timeline.LineSpacing -
-              Timeline.DepthOffset * _timeline.renderOffsetDepth,
-          scale,
-          0);
-      canvas.restore();
-    }
+    canvas.save();
+    canvas.clipRect(Rect.fromLTWH(offset.dx + _timeline.gutterWidth,
+        offset.dy, size.width - _timeline.gutterWidth, size.height));
+    drawItems(
+        context,
+        offset,
+        _timeline.entries,
+        _timeline.gutterWidth +
+            Timeline.LineSpacing -
+            Timeline.DepthOffset * _timeline.renderOffsetDepth,
+        scale,
+        0);
+    canvas.restore();
 
     /// After a few moments of inaction on the timeline, if there's enough space,
     /// an arrow pointing to the next event on the timeline will appear on the bottom of the screen.
     /// Draw it, and add it as another [TapTarget].
     /// 次の事象Button
-    if (_timeline.nextEntry != null && _timeline.nextEntryOpacity > 0.0) {
+    if (_timeline.nextEntryOpacity > 0.0) {
       double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
       double opacity = _timeline.nextEntryOpacity;
       Color color = Color.fromRGBO(69, 211, 197, opacity);
@@ -305,7 +298,7 @@ class TimelineRenderObject extends RenderBox {
 
     /// Repeat the same procedure as above for the arrow pointing to the previous event on the timeline.
     /// ↑ボタン
-    if (_timeline.prevEntry != null && _timeline.prevEntryOpacity > 0.0) {
+    if (_timeline.prevEntryOpacity > 0.0) {
       double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
       double opacity = _timeline.prevEntryOpacity;
       Color color = Color.fromRGBO(69, 211, 197, opacity);
@@ -465,11 +458,8 @@ class TimelineRenderObject extends RenderBox {
           Offset(
               BubblePadding, bubbleHeight / 2.0 - labelParagraph.height / 2.0));
       canvas.restore();
-      if (item.children != null) {
-        /// Draw the other elements in the hierarchy.
-        drawItems(context, offset, item.children, x + Timeline.DepthOffset,
-            scale, depth + 1);
-      }
+      drawItems(context, offset, item.children, x + Timeline.DepthOffset,
+          scale, depth + 1);
     }
   }
 

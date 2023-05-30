@@ -72,14 +72,14 @@ class Ticks {
     /// depending on the current era. The [TickColors] object, in `timeline_utils.dart`,
     /// wraps this information.
     List<TickColors> tickColors = timeline.tickColors;
-    if (tickColors != null && tickColors.length > 0) {
+    if (tickColors.length > 0) {
       /// Build up the color stops for the linear gradient.
       double rangeStart = tickColors.first.start;
       double range = tickColors.last.start - tickColors.first.start;
       List<ui.Color> colors = <ui.Color>[];
       List<double> stops = <double>[];
       for (TickColors bg in tickColors) {
-        colors.add(bg.background);
+       //colors.add(bg.background);
         stops.add((bg.start - rangeStart) / range);
       }
       double s =
@@ -100,13 +100,13 @@ class Ticks {
         canvas.drawRect(
             Rect.fromLTWH(
                 offset.dx, offset.dy, gutterWidth, y1 - offset.dy + 1.0),
-            ui.Paint()..color = tickColors.first.background);
+            ui.Paint()/*..color = tickColors.first.background*/);
       }
       if (y2 < offset.dy + height) {
         canvas.drawRect(
             Rect.fromLTWH(
                 offset.dx, y2 - 1, gutterWidth, (offset.dy + height) - y2),
-            ui.Paint()..color = tickColors.last.background);
+            ui.Paint()/*..color = tickColors.last.background*/);
       }
 
       /// Draw the gutter.

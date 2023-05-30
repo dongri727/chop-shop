@@ -107,7 +107,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
               Timeline.Parallax,
           bottom: target.padBottom);
       timeline.setViewport(
-          start: target.start, end: target.end, animate: true, pad: true);
+          /*start: target.start, end: target.end,*/ animate: true, pad: true);
     }
   }
 
@@ -126,7 +126,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
             Timeline.Parallax,
         bottom: target.padBottom);
     timeline.setViewport(
-        start: target.start, end: target.end, animate: true, pad: true);
+        /*start: target.start, end: target.end,*/ animate: true, pad: true);
   }
 
   @override

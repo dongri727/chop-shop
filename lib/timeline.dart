@@ -66,8 +66,8 @@ class Timeline {
   bool _isSteady = false;
 
   //HeaderColors _currentHeaderColors;
-  Color _headerTextColor;
-  Color _headerBackgroundColor;
+  //Color _headerTextColor;
+  //Color _headerBackgroundColor;
 
   /// Depending on the current [Platform], different values are initialized
   /// so that they behave properly on iOS&Android.
@@ -106,7 +106,7 @@ class Timeline {
   //List<HeaderColors> _headerColors;
 
   /// All the [TimelineEntry]s that are loaded from disk at boot (in [loadFromBundle()]).
-  List<TimelineEntry> _entries;
+  List<TimelineEntry> _entries = [];
 
   /// Callback set by [TimelineRenderWidget] when adding a reference to this object.
   /// It'll trigger [RenderBox.markNeedsPaint()].
