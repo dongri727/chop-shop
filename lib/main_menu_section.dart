@@ -19,7 +19,7 @@ class MenuSection extends StatefulWidget {
 
   MenuSection(this.title, this.backgroundColor, this.accentColor,
       this.menuOptions, this.navigateTo,
-      {Key key}) : super(key: key);
+      {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SectionState();
@@ -32,7 +32,7 @@ class _SectionState extends State<MenuSection>
     with SingleTickerProviderStateMixin {
   /// The [AnimationController] is a Flutter Animation object that generates a new value
   /// whenever the hardware is ready to draw a new frame.
-  AnimationController _controller;
+  late AnimationController _controller;
 
   /// Since the above object interpolates only between 0 and 1, but we'd rather apply a curve to the current
   /// animation, we're providing a custom [Tween] that allows to build more advanced animations, as seen in [initState()].
@@ -42,7 +42,7 @@ class _SectionState extends State<MenuSection>
   );
 
   /// The [Animation] object itself, which is required by the [SizeTransition] widget in the [build()] method.
-  Animation<double> _sizeAnimation;
+  late Animation<double> _sizeAnimation;
 
   /// Detects which state the widget is currently in, and triggers the animation upon change.
   bool _isExpanded = false;

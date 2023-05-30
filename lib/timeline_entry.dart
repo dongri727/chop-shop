@@ -30,28 +30,28 @@ enum TimelineEntryType { Era, Incident }
 ///
 /// They are all initialized at startup time by the [BlocProvider] constructor.
 class TimelineEntry {
-  TimelineEntryType type;
+  late TimelineEntryType type;
 
   /// Used to calculate how many lines to draw for the bubble in the timeline.
   int lineCount = 1;
 
-  String _label;
-  Color accent;
+  late String _label;
+  late Color accent;
 
   /// Each entry constitues an element of a tree:
   /// eras are grouped into spanning eras and events are placed into the eras they belong to.
-  TimelineEntry parent;
-  List<TimelineEntry> children;
+  late TimelineEntry parent;
+  late List<TimelineEntry> children;
 
   /// All the timeline entries are also linked together to easily access the next/previous event.
   /// After a couple of seconds of inactivity on the timeline, a previous/next entry button will appear
   /// to allow the user to navigate faster between adjacent events.
-  TimelineEntry next;
-  TimelineEntry previous;
+  late TimelineEntry next;
+  late TimelineEntry previous;
 
   /// All these parameters are used by the [Timeline] object to properly position the current entry.
-  double start;
-  double end;
+  late double start;
+  late double end;
   double y = 0.0;
   double endY = 0.0;
   double length = 0.0;

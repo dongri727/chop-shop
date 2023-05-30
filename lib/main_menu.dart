@@ -7,7 +7,7 @@ import "package:flutter/material.dart";
 /// The Main Page of the Timeline App.
 /// the card-sections for accessing the main events on the Timeline,
 class MainMenuWidget extends StatefulWidget {
-  //MainMenuWidget({Key key}) : super(key: key);
+  MainMenuWidget({Key? key}) : super(key: key);
 
   @override
   _MainMenuWidgetState createState() => _MainMenuWidgetState();

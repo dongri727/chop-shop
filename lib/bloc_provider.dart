@@ -8,11 +8,11 @@ class BlocProvider extends InheritedWidget {
   final Timeline timeline;
 
   BlocProvider(
-      {Key key,
-        Timeline t,
-        @required Widget child,
+      {Key? key,
+        required Timeline t,
+        required Widget child,
         TargetPlatform platform = TargetPlatform.iOS})
-      : timeline = t ?? Timeline(platform),
+      : timeline = t,
         super(key: key, child: child) {
     timeline
         .loadFromBundle("assets/timeline.json")
@@ -33,9 +33,9 @@ class BlocProvider extends InheritedWidget {
   /// static accessor for the [Timeline].
   /// e.g. [_MainMenuWidgetState.navigateToTimeline] uses this static getter to access build the [TimelineWidget].
   static Timeline getTimeline(BuildContext context) {
-    BlocProvider bp =
+    BlocProvider? bp =
     context.dependOnInheritedWidgetOfExactType<BlocProvider>();
-    Timeline bloc = bp?.timeline;
+    Timeline bloc = bp!.timeline;
     return bloc;
   }
 }

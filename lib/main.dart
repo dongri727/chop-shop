@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return BlocProvider(
       platform: Theme.of(context).platform,
+      t: null,
       child: MaterialApp(
         title: 'CHOP SHOP',
         theme: ThemeData(

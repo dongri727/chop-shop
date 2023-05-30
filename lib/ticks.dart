@@ -148,8 +148,8 @@ class Ticks {
         } else {
           NumberFormat formatter = NumberFormat.compact();
           label = formatter.format(value);
-          int digits = formatter.minimumSignificantDigits;
-          while (usedValues.contains(label) && digits < 10) {
+          int? digits = formatter.minimumSignificantDigits;
+          while (usedValues.contains(label) && digits! < 10) {
             formatter.minimumSignificantDigits = ++digits;
             label = formatter.format(value);
           }

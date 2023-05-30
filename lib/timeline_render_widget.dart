@@ -25,12 +25,12 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
   final TouchEntryCallback touchEntry;
 
   TimelineRenderWidget(
-      {Key key,
-        this.focusItem,
-        this.touchBubble,
-        this.touchEntry,
-        this.topOverlap,
-        this.timeline,
+      {Key? key,
+        required this.focusItem,
+        required this.touchBubble,
+        required this.touchEntry,
+        required this.topOverlap,
+        required this.timeline,
       })
       : super(key: key);
 
@@ -76,12 +76,12 @@ class TimelineRenderObject extends RenderBox {
 
   double _topOverlap = 0.0;
   Ticks _ticks = Ticks();
-  Timeline _timeline;
-  MenuItemData _focusItem;
-  MenuItemData _processedFocusItem;
+  late Timeline _timeline;
+  late MenuItemData _focusItem;
+  late MenuItemData _processedFocusItem;
   List<TapTarget> _tapTargets = [];
-  TouchBubbleCallback touchBubble;
-  TouchEntryCallback touchEntry;
+  late TouchBubbleCallback touchBubble;
+  late TouchEntryCallback touchEntry;
 
   @override
   bool get sizedByParent => true;
@@ -183,41 +183,6 @@ class TimelineRenderObject extends RenderBox {
     if (_timeline == null) {
       return;
     }
-
-    /// Fetch the background colors from the [Timeline] and compute the fill.
-    //List<TimelineBackgroundColor> backgroundColors = timeline.backgroundColors;
-    ui.Paint backgroundPaint;
-/*    if (backgroundColors != null && backgroundColors.length > 0) {
-      double rangeStart = backgroundColors.first.start;
-      double range = backgroundColors.last.start - backgroundColors.first.start;
-      List<ui.Color> colors = <ui.Color>[];
-      List<double> stops = <double>[];
-      for (TimelineBackgroundColor bg in backgroundColors) {
-        colors.add(bg.color);
-        stops.add((bg.start - rangeStart) / range);
-      }
-      double s =
-      timeline.computeScale(timeline.renderStart, timeline.renderEnd);
-      double y1 = (backgroundColors.first.start - timeline.renderStart) * s;
-      double y2 = (backgroundColors.last.start - timeline.renderStart) * s;
-
-      /// Fill Background.
-      backgroundPaint = ui.Paint()
-        ..shader = ui.Gradient.linear(
-            ui.Offset(0.0, y1), ui.Offset(0.0, y2), colors, stops)
-        ..style = ui.PaintingStyle.fill;
-
-      if (y1 > offset.dy) {
-        canvas.drawRect(
-            Rect.fromLTWH(
-                offset.dx, offset.dy, size.width, y1 - offset.dy + 1.0),
-            ui.Paint()..color = backgroundColors.first.color);
-      }
-
-      /// Draw the background on the canvas.
-      canvas.drawRect(
-          Rect.fromLTWH(offset.dx, y1, size.width, y2 - y1), backgroundPaint);
-    }*/
 
     _tapTargets.clear();
     double renderStart = _timeline.renderStart;
