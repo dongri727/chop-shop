@@ -10,11 +10,11 @@ import 'package:intl/intl.dart';
 
 /// These two callbacks are used to detect if a bubble or an entry have been tapped.
 /// If that's the case, [ArticlePage] will be pushed onto the [Navigator] stack.
+/// どちらのページにも遷移する必要はないが、無効化すると前後ボタンが効かなくなる。
 typedef TouchBubbleCallback(TapTarget bubble);
 typedef TouchEntryCallback(TimelineEntry entry);
 
 /// This couples with [TimelineRenderObject].
-///
 /// This widget's fields are accessible from the [RenderBox] so that it can
 /// be aligned with the current state.
 class TimelineRenderWidget extends LeafRenderObjectWidget {
@@ -63,7 +63,6 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
 
 /// A custom renderer is used for the the timeline object.
 /// The [Timeline] serves as an abstraction layer for the positioning and advancing logic.
-///
 /// The core method of this object is [paint()]: this is where all the elements
 /// are actually drawn to screen.
 class TimelineRenderObject extends RenderBox {
@@ -186,9 +185,9 @@ class TimelineRenderObject extends RenderBox {
     }
 
     /// Fetch the background colors from the [Timeline] and compute the fill.
-    List<TimelineBackgroundColor> backgroundColors = timeline.backgroundColors;
+    //List<TimelineBackgroundColor> backgroundColors = timeline.backgroundColors;
     ui.Paint backgroundPaint;
-    if (backgroundColors != null && backgroundColors.length > 0) {
+/*    if (backgroundColors != null && backgroundColors.length > 0) {
       double rangeStart = backgroundColors.first.start;
       double range = backgroundColors.last.start - backgroundColors.first.start;
       List<ui.Color> colors = <ui.Color>[];
@@ -218,7 +217,7 @@ class TimelineRenderObject extends RenderBox {
       /// Draw the background on the canvas.
       canvas.drawRect(
           Rect.fromLTWH(offset.dx, y1, size.width, y2 - y1), backgroundPaint);
-    }
+    }*/
 
     _tapTargets.clear();
     double renderStart = _timeline.renderStart;
@@ -258,7 +257,6 @@ class TimelineRenderObject extends RenderBox {
       double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
       double opacity = _timeline.nextEntryOpacity;
       Color color = Color.fromRGBO(69, 211, 197, opacity);
-      double pageSize = (_timeline.renderEnd - _timeline.renderStart);
       double pageReference = _timeline.renderEnd;
 
       /// Use a Paragraph to draw the arrow's label and page scrolls on canvas:
@@ -269,7 +267,7 @@ class TimelineRenderObject extends RenderBox {
       /// 5. Draw the Paragraph at the right offset.
       const double MaxLabelWidth = 1200.0;
       ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.start, fontFamily: "Roboto", fontSize: 20.0))
+          textAlign: TextAlign.start, fontSize: 15.0))
         ..pushStyle(ui.TextStyle(color: color));
 
       builder.addText(_timeline.nextEntry.label);
@@ -319,18 +317,12 @@ class TimelineRenderObject extends RenderBox {
 
       builder = ui.ParagraphBuilder(ui.ParagraphStyle(
           textAlign: TextAlign.center,
-          fontFamily: "Roboto",
           fontSize: 14.0,
           height: 1.3))
         ..pushStyle(ui.TextStyle(color: color));
 
       double timeUntil = _timeline.nextEntry.start - pageReference;
-      double pages = timeUntil / pageSize;
-      NumberFormat formatter = NumberFormat.compact();
-      String pagesFormatted = formatter.format(pages);
-      String until = "in " +
-          TimelineEntry.formatYears(timeUntil).toLowerCase() +
-          "\n($pagesFormatted page scrolls)";
+      String until = "in " + TimelineEntry.formatYears(timeUntil).toLowerCase();
       builder.addText(until);
       labelParagraph = builder.build();
       labelParagraph.layout(ui.ParagraphConstraints(width: size.width));
@@ -347,16 +339,16 @@ class TimelineRenderObject extends RenderBox {
     }
 
     /// Repeat the same procedure as above for the arrow pointing to the previous event on the timeline.
+    /// ↑ボタン
     if (_timeline.prevEntry != null && _timeline.prevEntryOpacity > 0.0) {
       double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
       double opacity = _timeline.prevEntryOpacity;
       Color color = Color.fromRGBO(69, 211, 197, opacity);
-      double pageSize = (_timeline.renderEnd - _timeline.renderStart);
       double pageReference = _timeline.renderEnd;
 
       const double MaxLabelWidth = 1200.0;
       ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.start, fontFamily: "Roboto", fontSize: 20.0))
+          textAlign: TextAlign.start, fontSize: 15.0))
         ..pushStyle(ui.TextStyle(color: color));
 
       builder.addText(_timeline.prevEntry.label);
@@ -401,17 +393,12 @@ class TimelineRenderObject extends RenderBox {
 
       builder = ui.ParagraphBuilder(ui.ParagraphStyle(
           textAlign: TextAlign.center,
-          fontFamily: "Roboto",
           fontSize: 14.0,
           height: 1.3))
         ..pushStyle(ui.TextStyle(color: color));
 
       double timeUntil = _timeline.prevEntry.start - pageReference;
-      double pages = timeUntil / pageSize;
-      NumberFormat formatter = NumberFormat.compact();
-      String pagesFormatted = formatter.format(pages.abs());
-      String until = TimelineEntry.formatYears(timeUntil).toLowerCase() +
-          " ago\n($pagesFormatted page scrolls)";
+      String until = TimelineEntry.formatYears(timeUntil).toLowerCase();
       builder.addText(until);
       labelParagraph = builder.build();
       labelParagraph.layout(ui.ParagraphConstraints(width: size.width));
@@ -450,15 +437,11 @@ class TimelineRenderObject extends RenderBox {
           entryOffset,
           Timeline.EdgeRadius,
           Paint()
-            ..color = (item.accent != null
-                ? item.accent
-                : LineColors[depth % LineColors.length])
+            ..color = (item.accent ?? LineColors[depth % LineColors.length])
                 .withOpacity(item.opacity));
       if (legOpacity > 0.0) {
         Paint legPaint = Paint()
-          ..color = (item.accent != null
-              ? item.accent
-              : LineColors[depth % LineColors.length])
+          ..color = (item.accent ?? LineColors[depth % LineColors.length])
               .withOpacity(legOpacity);
 
         /// Draw the line connecting the start&point of this item on the timeline.
@@ -472,15 +455,14 @@ class TimelineRenderObject extends RenderBox {
       }
 
       const double MaxLabelWidth = 1200.0;
-      //const double BubblePadding = 20.0;
-      const double BubblePadding = 8.0;
+      const double BubblePadding = 20.0;
 
       /// Let the timeline calculate the height for the current item's bubble.
       double bubbleHeight = timeline.bubbleHeight(item);
 
       /// Use [ui.ParagraphBuilder] to construct the label for canvas.
       ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.start, fontFamily: "Roboto", fontSize: 12.0))
+          textAlign: TextAlign.start, fontSize: 12.0))
         ..pushStyle(
             ui.TextStyle(color: const Color.fromRGBO(255, 255, 255, 1.0)));
 
@@ -504,9 +486,7 @@ class TimelineRenderObject extends RenderBox {
       canvas.drawPath(
           bubble,
           Paint()
-            ..color = (item.accent != null
-                ? item.accent
-                : LineColors[depth % LineColors.length])
+            ..color = (item.accent ?? LineColors[depth % LineColors.length])
                 .withOpacity(item.opacity * item.labelOpacity));
       canvas
           .clipRect(Rect.fromLTWH(BubblePadding, 0.0, textWidth, bubbleHeight));
@@ -555,9 +535,9 @@ class TimelineRenderObject extends RenderBox {
     path.cubicTo(CornerRadius * icircularConstant, height, 0.0,
         height - CornerRadius * icircularConstant, 0.0, height - CornerRadius);
 
-    path.lineTo(0.0, height / 2.0 + ArrowSize / 2.0);
+/*    path.lineTo(0.0, height / 2.0 + ArrowSize / 2.0);
     path.lineTo(-ArrowSize / 2.0, height / 2.0);
-    path.lineTo(0.0, height / 2.0 - ArrowSize / 2.0);
+    path.lineTo(0.0, height / 2.0 - ArrowSize / 2.0);*/
 
     path.lineTo(0.0, CornerRadius);
 

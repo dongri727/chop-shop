@@ -15,22 +15,17 @@ class MenuSection extends StatefulWidget {
   final Color backgroundColor;
   final Color accentColor;
   final List<MenuItemData> menuOptions;
-  //final String assetId;
   final NavigateTo navigateTo;
-  //final bool isActive;
 
   MenuSection(this.title, this.backgroundColor, this.accentColor,
       this.menuOptions, this.navigateTo,
-      //this.isActive,
-      {
-        //this.assetId,
-        Key key})
-      : super(key: key);
+      {Key key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _SectionState();
 }
 
+///削ってはいけない
 /// This [State] uses the [SingleTickerProviderStateMixin] to add [vsync] to it.
 /// This allows the animation to run smoothly and avoids consuming unnecessary resources.
 class _SectionState extends State<MenuSection>
@@ -51,6 +46,12 @@ class _SectionState extends State<MenuSection>
 
   /// Detects which state the widget is currently in, and triggers the animation upon change.
   bool _isExpanded = false;
+
+  ///ChatGPTの追加したコード
+  /// セクションのアイコンを切り替えるためのメソッド
+  IconData _getSectionIcon() {
+    return _isExpanded ? Icons.arrow_drop_down : Icons.arrow_right;
+  }
 
   /// Here we initialize the fields described above, and set up the widget to its initial state.
   @override
@@ -127,17 +128,17 @@ class _SectionState extends State<MenuSection>
                               height: 21.0,
                               width: 21.0,
                               margin: const EdgeInsets.all(18.0),
-                              child: const Icon(Icons.add)
+                              child: Icon(_getSectionIcon()),
                           ),
                           Text(
                             widget.title,
                             style: TextStyle(
                                 fontSize: 20.0,
-                                fontFamily: "RobotoMedium",
                                 color: widget.accentColor),
                           )
                         ],
                       )),
+                  ///カードが開いたり閉じたりする
                   SizeTransition(
                       axisAlignment: 0.0,
                       axis: Axis.vertical,
@@ -164,8 +165,7 @@ class _SectionState extends State<MenuSection>
                                                         color: widget
                                                             .accentColor,
                                                         fontSize: 20.0,
-                                                        fontFamily:
-                                                        "RobotoMedium"),
+                                                        ),
                                                   ))),
                                         ]));
                               }).toList())))

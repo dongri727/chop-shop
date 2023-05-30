@@ -65,7 +65,7 @@ class Timeline {
   bool _isActive = false;
   bool _isSteady = false;
 
-  HeaderColors _currentHeaderColors;
+  //HeaderColors _currentHeaderColors;
   Color _headerTextColor;
   Color _headerBackgroundColor;
 
@@ -84,8 +84,8 @@ class Timeline {
 
   /// Through these two references, the Timeline can access the era and update
   /// the top label accordingly.
-  TimelineEntry _currentEra;
-  TimelineEntry _lastEra;
+  //TimelineEntry _currentEra;
+  //TimelineEntry _lastEra;
 
   ///前の事象次の事象Button
   /// These references allow to maintain a reference to the next and previous elements
@@ -99,11 +99,11 @@ class Timeline {
 
   /// A gradient is shown on the background, depending on the [_currentEra] we're in.
   /// グラデーション
-  List<TimelineBackgroundColor> _backgroundColors;
+  //List<TimelineBackgroundColor> _backgroundColors;
 
   /// [Ticks] also have custom colors so that they are always visible with the changing background.
   List<TickColors> _tickColors;
-  List<HeaderColors> _headerColors;
+  //List<HeaderColors> _headerColors;
 
   /// All the [TimelineEntry]s that are loaded from disk at boot (in [loadFromBundle()]).
   List<TimelineEntry> _entries;
@@ -135,12 +135,12 @@ class Timeline {
   bool get isActive => _isActive;
   Color get headerTextColor => _headerTextColor;
   Color get headerBackgroundColor => _headerBackgroundColor;
-  HeaderColors get currentHeaderColors => _currentHeaderColors;
-  TimelineEntry get currentEra => _currentEra;
+  //HeaderColors get currentHeaderColors => _currentHeaderColors;
+  //TimelineEntry get currentEra => _currentEra;
   TimelineEntry get nextEntry => _renderNextEntry;
   TimelineEntry get prevEntry => _renderPrevEntry;
   List<TimelineEntry> get entries => _entries;
-  List<TimelineBackgroundColor> get backgroundColors => _backgroundColors;
+  //List<TimelineBackgroundColor> get backgroundColors => _backgroundColors;
   List<TickColors> get tickColors => _tickColors;
 
   /// When a scale operation is detected, this setter is called:
@@ -222,9 +222,9 @@ class Timeline {
     List jsonEntries = json.decode(data) as List;
 
     List<TimelineEntry> allEntries = [];
-    _backgroundColors = [];
+    //_backgroundColors = [];
     _tickColors = [];
-    _headerColors = [];
+    //_headerColors = [];
 
     /// The JSON decode doesn't provide strong typing, so we'll iterate
     /// on the dynamic entries in the [jsonEntries] list.
@@ -250,7 +250,7 @@ class Timeline {
           continue;
         }
 
-        /// If a custom background color for this [TimelineEntry] is specified,
+/*        /// If a custom background color for this [TimelineEntry] is specified,
         /// extract its RGB values and save them for reference, along with the starting
         /// date of the current entry.
         ///  背景色設定
@@ -262,7 +262,7 @@ class Timeline {
               Color.fromARGB(255, bg[0] as int, bg[1] as int, bg[2] as int)
               ..start = timelineEntry.start);
           }
-        }
+        }*/
 
         /// An accent color is also specified at times.
         dynamic accent = map["accent"];
@@ -318,7 +318,7 @@ class Timeline {
           }
         }
 
-        /// If a `header` element is present, de-serialize the colors for it too.
+/*        /// If a `header` element is present, de-serialize the colors for it too.
         if (map.containsKey("header")) {
           dynamic header = map["header"];
           if (header is Map) {
@@ -342,7 +342,7 @@ class Timeline {
               ..start = timelineEntry.start
               ..screenY = 0.0);
           }
-        }
+        }*/
 
         /// Some elements will have an `end` time specified.
         /// If not `end` key is present in this entry, create the value based
@@ -371,10 +371,10 @@ class Timeline {
       return a.start.compareTo(b.start);
     });
 
-    _backgroundColors
+/*    _backgroundColors
         .sort((TimelineBackgroundColor a, TimelineBackgroundColor b) {
       return a.start.compareTo(b.start);
-    });
+    });*/
 
     _timeMin = double.maxFinite;
     _timeMax = -double.maxFinite;
@@ -585,7 +585,7 @@ class Timeline {
         : _tickColors.last;
   }
 
-  HeaderColors _findHeaderColors(double screen) {
+/*  HeaderColors _findHeaderColors(double screen) {
     if (_headerColors == null) {
       return null;
     }
@@ -598,7 +598,7 @@ class Timeline {
     return screen < _headerColors.first.screenY
         ? _headerColors.first
         : _headerColors.last;
-  }
+  }*/
 
   bool advance(double elapsed, bool animate) {
     if (_height <= 0) {
@@ -664,7 +664,7 @@ class Timeline {
         lastStart = color.start;
       }
     }
-    if (_headerColors != null && _headerColors.length > 0) {
+/*    if (_headerColors != null && _headerColors.length > 0) {
       double lastStart = _headerColors.first.start;
       for (HeaderColors color in _headerColors) {
         color.screenY =
@@ -672,11 +672,11 @@ class Timeline {
                 scale;
         lastStart = color.start;
       }
-    }
+    }*/
 
-    _currentHeaderColors = _findHeaderColors(0.0);
+    //_currentHeaderColors = _findHeaderColors(0.0);
 
-    if (_currentHeaderColors != null) {
+/*    if (_currentHeaderColors != null) {
       if (_headerTextColor == null) {
         _headerTextColor = _currentHeaderColors.text;
         _headerBackgroundColor = _currentHeaderColors.background;
@@ -703,7 +703,7 @@ class Timeline {
           }
         }
       }
-    }
+    }*/
 
     /// Check all the visible entries and use the helper function [advanceItems()]
     /// to align their state with the elapsed time.
@@ -713,7 +713,7 @@ class Timeline {
     _firstOnScreenEntryY = double.maxFinite;
     _labelX = 0.0;
     _offsetDepth = 0.0;
-    _currentEra = null;
+    //_currentEra = null;
     _nextEntry = null;
     _prevEntry = null;
     if (_entries != null) {
@@ -774,13 +774,13 @@ class Timeline {
       _renderLabelX += dl * min(1.0, elapsed * 6.0);
     }
 
-    /// If a new era is currently in view, callback.
+/*    /// If a new era is currently in view, callback.
     if (_currentEra != _lastEra) {
       _lastEra = _currentEra;
       if (onEraChanged != null) {
         onEraChanged(_currentEra);
       }
-    }
+    }*/
 
     if (_isSteady) {
       double dd = _offsetDepth - renderOffsetDepth;
@@ -930,10 +930,10 @@ class Timeline {
         _offsetDepth = depth.toDouble();
       }
 
-      /// A new era is currently in view.
+/*      /// A new era is currently in view.
       if (item.type == TimelineEntryType.Era && y < 0 && endY > _height / 2.0) {
         _currentEra = item;
-      }
+      }*/
 
       /// Check if the bubble is out of view and set the y position to the
       /// target one directly.

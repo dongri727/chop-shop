@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'bloc_provider.dart';
-import 'color.dart';
 import 'main_menu.dart';
 
 /// The app is wrapped by a [BlocProvider]. This allows the child widgets
 /// to access other components throughout the hierarchy without the need
 /// to pass those references around.
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'CHOP SHOP',
         theme: ThemeData(
-            backgroundColor: background, scaffoldBackgroundColor: background),
+           useMaterial3: true),
         home: const MenuPage(),
       ),
     );
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MenuPage extends StatelessWidget {
-  const MenuPage({Key key}) : super(key: key);
+  const MenuPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

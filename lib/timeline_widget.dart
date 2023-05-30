@@ -1,4 +1,4 @@
-import 'package:chop_shop/color.dart';
+//import 'package:chop_shop/color.dart';
 import 'package:chop_shop/menu_data.dart';
 import 'package:chop_shop/timeline.dart';
 import 'package:chop_shop/timeline_entry.dart';
@@ -22,7 +22,7 @@ class TimelineWidget extends StatefulWidget {
 }
 
 class _TimelineWidgetState extends State<TimelineWidget> {
-  static const String DefaultEraName = "Billion Years";
+  //static const String DefaultEraName = "TIMELINE";
   static const double TopOverlap = 56.0;
 
   /// These variables are used to calculate the correct viewport for the timeline
@@ -34,17 +34,17 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   /// When touching a bubble on the [Timeline] keep track of which
   /// element has been touched in order to move to the [article_widget].
   TapTarget _touchedBubble;
-  TimelineEntry _touchedEntry;
+  TimelineEntry _touchedEntry; //これを無効化するとScrollもzoomもできない。
 
-  /// Which era the Timeline is currently focused on.
+/*  /// Which era the Timeline is currently focused on.
   /// Defaults to [DefaultEraName].
-  String _eraName;
+  String _eraName;*/
 
   /// Syntactic-sugar-getter.
   Timeline get timeline => widget.timeline;
 
-  Color _headerTextColor;
-  Color _headerBackgroundColor;
+  //Color _headerTextColor;
+  //Color _headerBackgroundColor;
 
 
   /// The following three functions define are the callbacks used by the
@@ -146,25 +146,27 @@ class _TimelineWidgetState extends State<TimelineWidget> {
     super.initState();
     if (timeline != null) {
       widget.timeline.isActive = true;
-      _eraName = timeline.currentEra != null
+/*      _eraName = *//*timeline.currentEra != null
           ? timeline.currentEra.label
-          : DefaultEraName;
-      timeline.onHeaderColorsChanged = (Color background, Color text) {
+          :*//* DefaultEraName;*/
+/*      timeline.onHeaderColorsChanged = (Color background, Color text) {
         setState(() {
           _headerTextColor = text;
           _headerBackgroundColor = background;
         });
-      };
+      };*/
 
+/*
       /// Update the label for the [Timeline] object.
       timeline.onEraChanged = (TimelineEntry entry) {
         setState(() {
           _eraName = entry != null ? entry.label : DefaultEraName;
         });
       };
+*/
 
-      _headerTextColor = timeline.headerTextColor;
-      _headerBackgroundColor = timeline.headerBackgroundColor;
+/*      _headerTextColor = timeline.headerTextColor;
+      _headerBackgroundColor = timeline.headerBackgroundColor;*/
     }
   }
 
@@ -173,7 +175,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   void didUpdateWidget(covariant TimelineWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (timeline != oldWidget.timeline && timeline != null) {
+/*    if (timeline != oldWidget.timeline && timeline != null) {
       setState(() {
         _headerTextColor = timeline.headerTextColor;
         _headerBackgroundColor = timeline.headerBackgroundColor;
@@ -185,16 +187,16 @@ class _TimelineWidgetState extends State<TimelineWidget> {
           _headerBackgroundColor = background;
         });
       };
-      timeline.onEraChanged = (TimelineEntry entry) {
+*//*      timeline.onEraChanged = (TimelineEntry entry) {
         setState(() {
           _eraName = entry != null ? entry.label : DefaultEraName;
         });
       };
       setState(() {
         _eraName =
-            timeline.currentEra != null ? timeline.currentEra : DefaultEraName;
-      });
-    }
+           *//**//* timeline.currentEra != null ? timeline.currentEra :*//**//* DefaultEraName;
+      });*//*
+    }*/
   }
 
   /// This is a [StatefulWidget] life-cycle method. It's being overridden here
@@ -242,13 +244,10 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                 children: <Widget>[
                   Container(
                       height: devicePadding.top,
-                      color: _headerBackgroundColor != null
-                          ? _headerBackgroundColor
-                          : Color.fromRGBO(238, 240, 242, 0.81)),
+                      //color: _headerBackgroundColor ?? const Color.fromRGBO(238, 240, 242, 0.81)
+                  ),
                   Container(
-                      color: _headerBackgroundColor != null
-                          ? _headerBackgroundColor
-                          : Color.fromRGBO(238, 240, 242, 0.81),
+                      //color: _headerBackgroundColor ?? const Color.fromRGBO(238, 240, 242, 0.81),
                       height: 56.0,
                       width: double.infinity,
                       child: Row(
@@ -256,9 +255,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                           children: <Widget>[
                             IconButton(
                               padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                              color: _headerTextColor != null
-                                  ? _headerTextColor
-                                  : Colors.black.withOpacity(0.5),
+                              //color: _headerTextColor ?? Colors.black.withOpacity(0.5),
                               alignment: Alignment.centerLeft,
                               icon: Icon(Icons.arrow_back),
                               onPressed: () {
@@ -268,15 +265,14 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                               },
                             ),
                             Text(
-                              _eraName,
+                              //_eraName,
+                              "TIMELINE",
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                  fontFamily: "RobotoMedium",
                                   fontSize: 20.0,
-                                  color: _headerTextColor != null
-                                      ? _headerTextColor
-                                      : darkText.withOpacity(
-                                          darkText.opacity * 0.75)),
+/*                                  color: _headerTextColor ?? darkText.withOpacity(
+                                          darkText.opacity * 0.75)*/
+                              ),
                             ),
                           ]))
                 ])

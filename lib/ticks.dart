@@ -1,5 +1,4 @@
 import 'dart:ui' as ui;
-
 import 'package:chop_shop/timeline.dart';
 import 'package:chop_shop/timeline_utils.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 
 /// This class is used by the [TimelineRenderWidget] to render the ticks on the left side of the screen.
-///
 /// It has a single [paint()] method that's called within [TimelineRenderObject.paint()].
 class Ticks {
   /// The following `const` variables are used to properly align, pad and layout the ticks
@@ -34,6 +32,7 @@ class Ticks {
 
     /// The width of the left panel can expand and contract if the favorites-view is activated,
     /// by pressing the button on the top-right corner of the timeline.
+    /// ただしこのアプリにfavorites機能はない
     double gutterWidth = timeline.gutterWidth;
 
     /// Calculate spacing based on current scale
@@ -149,9 +148,9 @@ class Ticks {
         } else {
           NumberFormat formatter = NumberFormat.compact();
           label = formatter.format(value);
-          int digits = formatter.significantDigits;
+          int digits = formatter.minimumSignificantDigits;
           while (usedValues.contains(label) && digits < 10) {
-            formatter.significantDigits = ++digits;
+            formatter.minimumSignificantDigits = ++digits;
             label = formatter.format(value);
           }
         }

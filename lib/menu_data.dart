@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
-
-import 'package:chop_shop/timeline.dart';
 import 'package:chop_shop/timeline_entry.dart';
 import "package:flutter/services.dart" show rootBundle;
 
@@ -35,10 +33,6 @@ class MenuItemData {
 
     /// Pad the edges of the screen.
     pad = true;
-    //TimelineAsset asset = entry.asset;
-
-    /// Extra padding for the top base don the asset size.
-    //padTop = asset == null ? 0.0 : asset.height * Timeline.AssetScreenScale;
 
     if (entry.type == TimelineEntryType.Era) {
       start = entry.start;
@@ -78,7 +72,6 @@ class MenuItemData {
 /// * label - the title for the section
 /// * background - the color on the section background
 /// * color - the accent color for the menu section
-/// * asset - the background Flare/Nima asset id that will play the section background
 /// * items - an array of elements providing each the start and end times for that link
 /// as well as the label to display in the [MenuSection].
 class MenuData {
@@ -100,7 +93,7 @@ class MenuData {
           menuSection.backgroundColor = Color(int.parse(
               (map["background"] as String).substring(1, 7),
               radix: 16) +
-              0xFF000000);
+              0x80000000);
         }
         if (map.containsKey("color")) {
           menuSection.textColor = Color(

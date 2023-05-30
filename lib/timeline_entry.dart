@@ -5,7 +5,7 @@ import 'dart:ui';
 ///
 /// Each [TimelineAsset] encapsulates all the relevant properties for drawing,
 /// as well as maintaining a reference to its original [TimelineEntry].
-class TimelineAsset {
+/*class TimelineAsset {
   double width;
   double height;
   double opacity = 0.0;
@@ -14,12 +14,12 @@ class TimelineAsset {
   double y = 0.0;
   double velocity = 0.0;
   TimelineEntry entry;
-}
+}*/
 
-/// A renderable image.
+/*/// A renderable image.
 class TimelineImage extends TimelineAsset {
   ui.Image image;
-}
+}*/
 
 /// A label for [TimelineEntry].
 enum TimelineEntryType { Era, Incident }

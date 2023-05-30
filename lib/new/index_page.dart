@@ -9,7 +9,7 @@ class IndexPage extends StatefulWidget {
 
   IndexPage(
       //this.navigateTo,
-      {Key key}) : super(key: key);
+      {Key? key}) : super(key: key);
 
 
   @override

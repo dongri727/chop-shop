@@ -1,9 +1,8 @@
 import 'dart:math';
 import 'dart:ui';
-
 import 'timeline_entry.dart';
 
-Color interpolateColor(Color from, Color to, double elapsed) {
+/*Color interpolateColor(Color from, Color to, double elapsed) {
   double r, g, b, a;
   double speed = min(1.0, elapsed * 5.0);
   double c = to.alpha.toDouble() - from.alpha.toDouble();
@@ -35,12 +34,12 @@ Color interpolateColor(Color from, Color to, double elapsed) {
   }
 
   return Color.fromARGB(a.round(), r.round(), g.round(), b.round());
-}
+}*/
 
-class TimelineBackgroundColor {
+/*class TimelineBackgroundColor {
   Color color;
   double start;
-}
+}*/
 
 class TickColors {
   Color background;
@@ -51,12 +50,12 @@ class TickColors {
   double screenY;
 }
 
-class HeaderColors {
+/*class HeaderColors {
   Color background;
   Color text;
   double start;
   double screenY;
-}
+}*/
 
 class TapTarget {
   TimelineEntry entry;
