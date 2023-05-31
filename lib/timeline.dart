@@ -110,7 +110,7 @@ class Timeline {
 
   /// Callback set by [TimelineRenderWidget] when adding a reference to this object.
   /// It'll trigger [RenderBox.markNeedsPaint()].
-  late PaintCallback onNeedPaint;
+  PaintCallback? onNeedPaint;
 
   /// These next two callbacks are bound to set the state of the [TimelineWidget]
   /// so it can change the appeareance of the top AppBar.
@@ -474,7 +474,7 @@ class Timeline {
       _renderStart = start;
       _renderEnd = end;
       advance(0.0, false);
-      onNeedPaint();
+      onNeedPaint!();
     } else if (!_isFrameScheduled) {
       _isFrameScheduled = true;
       _lastFrameTime = 0.0;
@@ -503,7 +503,7 @@ class Timeline {
       SchedulerBinding.instance.scheduleFrameCallback(beginFrame);
     }
 
-    onNeedPaint();
+    onNeedPaint!();
   }
 
   TickColors? findTickColors(double screen) {
