@@ -1,3 +1,4 @@
+import 'package:chop_shop/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'bloc_provider.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return BlocProvider(
       platform: Theme.of(context).platform,
-      t: null,
+      t: Timeline(),
       child: MaterialApp(
         title: 'CHOP SHOP',
         theme: ThemeData(

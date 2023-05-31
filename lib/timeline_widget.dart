@@ -146,8 +146,8 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   @override
   deactivate() {
     super.deactivate();
-    timeline.onHeaderColorsChanged;
-    timeline.onEraChanged;
+    //timeline.onHeaderColorsChanged;
+    //timeline.onEraChanged;
   }
 
   /// This widget is wrapped in a [Scaffold] to have the classic Material Design visual layout structure.

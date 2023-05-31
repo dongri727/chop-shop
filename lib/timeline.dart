@@ -8,8 +8,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'timeline_entry.dart';
 
 typedef PaintCallback();
-typedef ChangeEraCallback(TimelineEntry era);
-typedef ChangeHeaderColorCallback(Color background, Color text);
+//typedef ChangeEraCallback(TimelineEntry era);
+//typedef ChangeHeaderColorCallback(Color background, Color text);
 
 class Timeline {
   /// Some aptly named constants for properly aligning the Timeline view.
@@ -39,8 +39,8 @@ class Timeline {
 
   double _start = 0.0;
   double _end = 0.0;
-  double _renderStart;
-  double _renderEnd;
+  late double _renderStart;
+  late double _renderEnd;
   double _lastFrameTime = 0.0;
   double _height = 0.0;
   double _firstOnScreenEntryY = 0.0;
@@ -71,16 +71,16 @@ class Timeline {
 
   /// Depending on the current [Platform], different values are initialized
   /// so that they behave properly on iOS&Android.
-  ScrollPhysics _scrollPhysics;
+  late ScrollPhysics _scrollPhysics;
 
   /// [_scrollPhysics] needs a [ScrollMetrics] value to function.
-  ScrollMetrics _scrollMetrics;
-  Simulation _scrollSimulation;
+  late ScrollMetrics _scrollMetrics;
+  late Simulation _scrollSimulation;
 
   EdgeInsets padding = EdgeInsets.zero;
   EdgeInsets devicePadding = EdgeInsets.zero;
 
-  Timer _steadyTimer;
+  late Timer _steadyTimer;
 
   /// Through these two references, the Timeline can access the era and update
   /// the top label accordingly.
@@ -92,17 +92,17 @@ class Timeline {
   /// of the Timeline, depending on which elements are currently in focus.
   /// When there's enough space on the top/bottom, the Timeline will render a round button
   /// with an arrow to link to the next/previous element.
-  TimelineEntry _nextEntry;
-  TimelineEntry _renderNextEntry;
-  TimelineEntry _prevEntry;
-  TimelineEntry _renderPrevEntry;
+  late TimelineEntry _nextEntry;
+  late TimelineEntry _renderNextEntry;
+  late TimelineEntry _prevEntry;
+  late TimelineEntry _renderPrevEntry;
 
   /// A gradient is shown on the background, depending on the [_currentEra] we're in.
   /// グラデーション
   //List<TimelineBackgroundColor> _backgroundColors;
 
   /// [Ticks] also have custom colors so that they are always visible with the changing background.
-  List<TickColors> _tickColors;
+  late List<TickColors> _tickColors;
   //List<HeaderColors> _headerColors;
 
   /// All the [TimelineEntry]s that are loaded from disk at boot (in [loadFromBundle()]).
@@ -110,13 +110,13 @@ class Timeline {
 
   /// Callback set by [TimelineRenderWidget] when adding a reference to this object.
   /// It'll trigger [RenderBox.markNeedsPaint()].
-  PaintCallback onNeedPaint;
+  late PaintCallback onNeedPaint;
 
   /// These next two callbacks are bound to set the state of the [TimelineWidget]
   /// so it can change the appeareance of the top AppBar.
   /// appBarの領域表示
-  ChangeEraCallback onEraChanged;
-  ChangeHeaderColorCallback onHeaderColorsChanged;
+  //ChangeEraCallback onEraChanged;
+  //ChangeHeaderColorCallback onHeaderColorsChanged;
 
   Timeline(this._platform) {
     setViewport(start: 1536.0, end: 3072.0);
@@ -133,8 +133,8 @@ class Timeline {
   double get prevEntryOpacity => _prevEntryOpacity;
   bool get isInteracting => _isInteracting;
   bool get isActive => _isActive;
-  Color get headerTextColor => _headerTextColor;
-  Color get headerBackgroundColor => _headerBackgroundColor;
+  //Color get headerTextColor => _headerTextColor;
+  //Color get headerBackgroundColor => _headerBackgroundColor;
   TimelineEntry get nextEntry => _renderNextEntry;
   TimelineEntry get prevEntry => _renderPrevEntry;
   List<TimelineEntry> get entries => _entries;
@@ -174,12 +174,12 @@ class Timeline {
 
     /// If a timer is currently active, dispose it.
     _steadyTimer.cancel();
-    _steadyTimer = null;
+    _steadyTimer;
 
     if (isIt) {
       /// If another timer is still needed, recreate it.
       _steadyTimer = Timer(Duration(milliseconds: SteadyMilliseconds), () {
-        _steadyTimer = null;
+        _steadyTimer;
         _isSteady = true;
         _startRendering();
       });
@@ -230,16 +230,16 @@ class Timeline {
         timelineEntry.type = TimelineEntryType.Incident;
         dynamic date = map["date"];
         timelineEntry.start = date is int ? date.toDouble() : date;
-      } else if (map.containsKey("start")) {
+/*      } else if (map.containsKey("start")) {
         timelineEntry.type = TimelineEntryType.Era;
         dynamic start = map["start"];
 
-        timelineEntry.start = start is int ? start.toDouble() : start;
+        timelineEntry.start = start is int ? start.toDouble() : start;*/
       } else {
         continue;
       }
 
-      /// An accent color is also specified at times.
+/*      /// An accent color is also specified at times.
       dynamic accent = map["accent"];
       if (accent is List && accent.length >= 3) {
         timelineEntry.accent = Color.fromARGB(
@@ -247,23 +247,23 @@ class Timeline {
             accent[0] as int,
             accent[1] as int,
             accent[2] as int);
-      }
+      }*/
 
       /// [Ticks] can also have custom colors, so that everything's is visible
       /// even with custom colored backgrounds.
       if (map.containsKey("ticks")) {
         dynamic ticks = map["ticks"];
         if (ticks is Map) {
-          Color bgColor = Colors.black;
+          //Color bgColor = Colors.black;
           Color longColor = Colors.black;
           Color shortColor = Colors.black;
           Color textColor = Colors.black;
 
-          dynamic bg = ticks["background"];
+/*          dynamic bg = ticks["background"];
           if (bg is List && bg.length >= 3) {
             bgColor = Color.fromARGB(bg.length > 3 ? bg[3] as int : 255,
                 bg[0] as int, bg[1] as int, bg[2] as int);
-          }
+          }*/
           dynamic long = ticks["long"];
           if (long is List && long.length >= 3) {
             longColor = Color.fromARGB(long.length > 3 ? long[3] as int : 255,
@@ -284,7 +284,7 @@ class Timeline {
           }
 
           _tickColors.add(TickColors()
-            ..background = bgColor
+            //..background = bgColor
             ..long = longColor
             ..short = shortColor
             ..text = textColor
@@ -293,7 +293,7 @@ class Timeline {
         }
       }
 
-      /// Some elements will have an `end` time specified.
+/*      /// Some elements will have an `end` time specified.
       /// If not `end` key is present in this entry, create the value based
       /// on the type of the event:
       if (map.containsKey("end")) {
@@ -301,7 +301,7 @@ class Timeline {
         timelineEntry.end = end is int ? end.toDouble() : end;
       } else {
         timelineEntry.end = timelineEntry.start;
-      }
+      }*/
 
       /// The label is a brief description for the current entry.
       if (map.containsKey("label")) {
@@ -324,7 +324,7 @@ class Timeline {
     _entries = [];
 
     /// Build up hierarchy (Eras are grouped into "Spanning Eras" and Events are placed into the Eras they belong to).
-    TimelineEntry previous;
+/*    TimelineEntry previous;
     for (TimelineEntry entry in allEntries) {
       if (entry.start < _timeMin) {
         _timeMin = entry.start;
@@ -356,15 +356,15 @@ class Timeline {
         /// no parent, so this is a root entry.
         _entries.add(entry);
       }
-    }
+    }*/
     return allEntries;
   }
 
   /// Make sure that while scrolling we're within the correct timeline bounds.
   clampScroll() {
-    _scrollMetrics = null;
-    _scrollPhysics = null;
-    _scrollSimulation = null;
+    _scrollMetrics;
+    _scrollPhysics;
+    _scrollSimulation;
 
     /// Get measurements values for the current viewport.
     double scale = computeScale(_start, _end);
@@ -464,7 +464,8 @@ class Timeline {
           maxScrollExtent: double.infinity,
           pixels: 0.0,
           viewportDimension: _height,
-          axisDirection: AxisDirection.down);
+          axisDirection: AxisDirection.down,
+          devicePixelRatio: 0.0);
 
       _scrollSimulation =
           _scrollPhysics.createBallisticSimulation(_scrollMetrics, velocity)!;
@@ -505,10 +506,8 @@ class Timeline {
     onNeedPaint();
   }
 
-  TickColors findTickColors(double screen) {
-    if (_tickColors == null) {
-      return null;
-    }
+  TickColors? findTickColors(double screen) {
+
     for (TickColors color in _tickColors.reversed) {
       if (screen >= color.screenY) {
         return color;
@@ -536,7 +535,7 @@ class Timeline {
     /// based on the elapsed time.
     doneRendering = false;
     _simulationTime += elapsed;
-    double scale = _height / (_end - _start);
+    //double scale = _height / (_end - _start);
     double velocity = _scrollSimulation.dx(_simulationTime);
 
     double displace = velocity * elapsed / scale;
@@ -546,9 +545,9 @@ class Timeline {
 
     /// If scrolling has terminated, clean up the resources.
     if (_scrollSimulation.isDone(_simulationTime)) {
-      _scrollMetrics = null;
-      _scrollPhysics = null;
-      _scrollSimulation = null;
+      _scrollMetrics;
+      _scrollPhysics;
+      _scrollSimulation;
     }
 
     /// Animate movement.
@@ -592,8 +591,8 @@ class Timeline {
     _labelX = 0.0;
     _offsetDepth = 0.0;
     //_currentEra = null;
-    _nextEntry = null;
-    _prevEntry = null;
+    _nextEntry;
+    _prevEntry;
     if (_advanceItems(
         _entries, _gutterWidth + LineSpacing, scale, elapsed, animate, 0)) {
       doneRendering = false;

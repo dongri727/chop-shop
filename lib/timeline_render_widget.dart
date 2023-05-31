@@ -175,9 +175,9 @@ class TimelineRenderObject extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     final Canvas canvas = context.canvas;
-    if (_timeline == null) {
+/*    if (_timeline == null) {
       return;
-    }
+    }*/
 
     _tapTargets.clear();
     double renderStart = _timeline.renderStart;
@@ -211,7 +211,7 @@ class TimelineRenderObject extends RenderBox {
     /// an arrow pointing to the next event on the timeline will appear on the bottom of the screen.
     /// Draw it, and add it as another [TapTarget].
     /// 次の事象Button
-    if (_timeline.nextEntryOpacity > 0.0) {
+   /* if (_timeline.nextEntryOpacity > 0.0) {
       double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
       double opacity = _timeline.nextEntryOpacity;
       Color color = Color.fromRGBO(69, 211, 197, opacity);
@@ -294,11 +294,11 @@ class TimelineRenderObject extends RenderBox {
         ..entry = _timeline.nextEntry
         ..rect = nextEntryRect
         ..zoom = true);
-    }
+    }*/
 
     /// Repeat the same procedure as above for the arrow pointing to the previous event on the timeline.
     /// ↑ボタン
-    if (_timeline.prevEntryOpacity > 0.0) {
+/*    if (_timeline.prevEntryOpacity > 0.0) {
       double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
       double opacity = _timeline.prevEntryOpacity;
       Color color = Color.fromRGBO(69, 211, 197, opacity);
@@ -367,7 +367,7 @@ class TimelineRenderObject extends RenderBox {
         ..entry = _timeline.prevEntry
         ..rect = prevEntryRect
         ..zoom = true);
-    }
+    }*/
   }
 
   /// Given a list of [entries], draw the label with its bubble beneath.
@@ -395,11 +395,11 @@ class TimelineRenderObject extends RenderBox {
           entryOffset,
           Timeline.EdgeRadius,
           Paint()
-            ..color = (item.accent ?? LineColors[depth % LineColors.length])
+            ..color = (item.accent)
                 .withOpacity(item.opacity));
       if (legOpacity > 0.0) {
         Paint legPaint = Paint()
-          ..color = (item.accent ?? LineColors[depth % LineColors.length])
+          ..color = (item.accent)
               .withOpacity(legOpacity);
 
         /// Draw the line connecting the start&point of this item on the timeline.
@@ -444,7 +444,7 @@ class TimelineRenderObject extends RenderBox {
       canvas.drawPath(
           bubble,
           Paint()
-            ..color = (item.accent ?? LineColors[depth % LineColors.length])
+            ..color = (item.accent)
                 .withOpacity(item.opacity * item.labelOpacity));
       canvas
           .clipRect(Rect.fromLTWH(BubblePadding, 0.0, textWidth, bubbleHeight));
@@ -466,7 +466,7 @@ class TimelineRenderObject extends RenderBox {
   /// Given a width and a height, design a path for the bubble that lies behind events' labels
   /// on the timeline, and return it.
   Path makeBubblePath(double width, double height) {
-    const double ArrowSize = 19.0;
+    //const double ArrowSize = 19.0;
     const double CornerRadius = 10.0;
 
     const double circularConstant = 0.55;

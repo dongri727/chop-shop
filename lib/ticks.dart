@@ -126,13 +126,13 @@ class Ticks {
       int tt = startingTickMarkValue.round();
       tt = -tt;
       int o = tickOffset.floor();
-      TickColors colors = timeline.findTickColors(offset.dy + height - o);
+      TickColors? colors = timeline.findTickColors(offset.dy + height - o);
       if (tt % textTickDistance == 0) {
         /// Every `textTickDistance`, draw a wider tick with the a label laid on top.
         canvas.drawRect(
             Rect.fromLTWH(offset.dx + gutterWidth - TickSize,
                 offset.dy + height - o, TickSize, 1.0),
-            Paint()..color = colors.long);
+            Paint()..color = colors!.long);
 
         /// Drawing text to [canvas] is done by using the [ParagraphBuilder] directly.
         ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
@@ -168,7 +168,7 @@ class Ticks {
         canvas.drawRect(
             Rect.fromLTWH(offset.dx + gutterWidth - SmallTickSize,
                 offset.dy + height - o, SmallTickSize, 1.0),
-            Paint()..color = colors.short);
+            Paint()..color = colors!.short);
       }
       startingTickMarkValue += tickDistance;
     }
