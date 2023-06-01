@@ -71,23 +71,24 @@ class Ticks {
     /// Ticks can change color because the timeline background will also change color
     /// depending on the current era. The [TickColors] object, in `timeline_utils.dart`,
     /// wraps this information.
-    List<TickColors> tickColors = timeline.tickColors;
-    if (tickColors.length > 0) {
+    // todo 配色をdefaultで固定
+    //List<TickColors> tickColors = timeline.tickColors;
+/*    if (tickColors.length > 0) {
       /// Build up the color stops for the linear gradient.
-      double rangeStart = tickColors.first.start;
-      double range = tickColors.last.start - tickColors.first.start;
+      //double rangeStart = tickColors.first.start;
+      //double range = tickColors.last.start - tickColors.first.start;
       List<ui.Color> colors = <ui.Color>[];
       List<double> stops = <double>[];
-      for (TickColors bg in tickColors) {
+*//*      for (TickColors bg in tickColors) {
        //colors.add(bg.background);
         stops.add((bg.start - rangeStart) / range);
-      }
-      double s =
-          timeline.computeScale(timeline.renderStart, timeline.renderEnd);
+      }*//*
+*//*      double s =
+          timeline.computeScale(timeline.renderStart, timeline.renderEnd);*//*
 
-      /// y-coordinate for the starting and ending element.
+*//*      /// y-coordinate for the starting and ending element.
       double y1 = (tickColors.first.start - timeline.renderStart) * s;
-      double y2 = (tickColors.last.start - timeline.renderStart) * s;
+      double y2 = (tickColors.last.start - timeline.renderStart) * s;*//*
 
       /// Fill Background.
       ui.Paint paint = ui.Paint()
@@ -100,22 +101,22 @@ class Ticks {
         canvas.drawRect(
             Rect.fromLTWH(
                 offset.dx, offset.dy, gutterWidth, y1 - offset.dy + 1.0),
-            ui.Paint()/*..color = tickColors.first.background*/);
+            ui.Paint()*//*..color = tickColors.first.background*//*);
       }
       if (y2 < offset.dy + height) {
         canvas.drawRect(
             Rect.fromLTWH(
                 offset.dx, y2 - 1, gutterWidth, (offset.dy + height) - y2),
-            ui.Paint()/*..color = tickColors.last.background*/);
+            ui.Paint()*//*..color = tickColors.last.background*//*);
       }
 
       /// Draw the gutter.
       canvas.drawRect(
           Rect.fromLTWH(offset.dx, y1, gutterWidth, y2 - y1), paint);
-    } else {
+    } else {*/
       canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, gutterWidth, height),
           Paint()..color = Color.fromRGBO(246, 246, 246, 0.95));
-    }
+    //}
 
     Set<String> usedValues = Set<String>();
 
@@ -126,18 +127,18 @@ class Ticks {
       int tt = startingTickMarkValue.round();
       tt = -tt;
       int o = tickOffset.floor();
-      TickColors? colors = timeline.findTickColors(offset.dy + height - o);
+      //TickColors? colors = timeline.findTickColors(offset.dy + height - o);
       if (tt % textTickDistance == 0) {
         /// Every `textTickDistance`, draw a wider tick with the a label laid on top.
         canvas.drawRect(
             Rect.fromLTWH(offset.dx + gutterWidth - TickSize,
                 offset.dy + height - o, TickSize, 1.0),
-            Paint()..color = colors!.long);
+            Paint()/*..color = colors!.long*/);
 
         /// Drawing text to [canvas] is done by using the [ParagraphBuilder] directly.
         ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-            textAlign: TextAlign.end, fontFamily: "Roboto", fontSize: 10.0))
-          ..pushStyle(ui.TextStyle(color: colors.text));
+            textAlign: TextAlign.end, /*fontFamily: "Roboto",*/ fontSize: 10.0))
+          /*..pushStyle(ui.TextStyle(color: colors.text))*/;
 
         int value = tt.round().abs();
 
@@ -168,7 +169,7 @@ class Ticks {
         canvas.drawRect(
             Rect.fromLTWH(offset.dx + gutterWidth - SmallTickSize,
                 offset.dy + height - o, SmallTickSize, 1.0),
-            Paint()..color = colors!.short);
+            Paint()/*..color = colors!.short*/);
       }
       startingTickMarkValue += tickDistance;
     }

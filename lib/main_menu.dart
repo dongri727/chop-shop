@@ -38,7 +38,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
 
     /// The [_menu] loads a JSON file that's stored in the assets folder.
     /// This asset provides all the necessary information for the cards,
-    /// such as labels, background colors, the background Flare animation asset,
+    /// such as labels, background colors,
     /// and for each element in the expanded card, the relative position on the [Timeline].
     _menu.loadFromBundle("assets/menu.json").then((bool success) {
       if (success) setState(() {}); // Load the menu.
@@ -57,8 +57,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
             margin: const EdgeInsets.only(top: 20.0),
             child: MenuSection(
             section.label,
-            section.backgroundColor,
-            section.textColor,
+            //section.backgroundColor,
+            //section.textColor,
             section.items,
             navigateToTimeline,
           )))

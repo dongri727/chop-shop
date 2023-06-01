@@ -76,9 +76,9 @@ class TimelineRenderObject extends RenderBox {
 
   double _topOverlap = 0.0;
   Ticks _ticks = Ticks();
-  late Timeline _timeline;
-  late MenuItemData _focusItem;
-  late MenuItemData _processedFocusItem;
+  Timeline? _timeline;
+  MenuItemData? _focusItem;
+  MenuItemData? _processedFocusItem;
   List<TapTarget> _tapTargets = [];
   late TouchBubbleCallback touchBubble;
   late TouchEntryCallback touchEntry;
@@ -87,8 +87,8 @@ class TimelineRenderObject extends RenderBox {
   bool get sizedByParent => true;
 
   double get topOverlap => _topOverlap;
-  Timeline get timeline => _timeline;
-  MenuItemData get focusItem => _focusItem;
+  Timeline get timeline => _timeline!;
+  MenuItemData get focusItem => _focusItem!;
 
   set topOverlap(double value) {
     if (_topOverlap == value) {
@@ -106,7 +106,7 @@ class TimelineRenderObject extends RenderBox {
     }
     _timeline = value;
     updateFocusItem();
-    _timeline.onNeedPaint = markNeedsPaint;
+    _timeline!.onNeedPaint = markNeedsPaint;
     markNeedsPaint();
     markNeedsLayout();
   }
@@ -130,10 +130,10 @@ class TimelineRenderObject extends RenderBox {
     }
 
     /// Adjust the current timeline padding and consequently the viewport.
-    if (_focusItem.pad) {
+    if (_focusItem!.pad) {
       timeline.padding = EdgeInsets.only(
-          top: topOverlap + _focusItem.padTop + Timeline.Parallax,
-          bottom: _focusItem.padBottom);
+          top: topOverlap + _focusItem!.padTop + Timeline.Parallax,
+          bottom: _focusItem!.padBottom);
       timeline.setViewport(
           //start: _focusItem.start,
           //end: _focusItem.end,
@@ -144,7 +144,7 @@ class TimelineRenderObject extends RenderBox {
       timeline.setViewport(
           /*start: _focusItem.start, end: _focusItem.end, */animate: true);
     }
-    _processedFocusItem = _focusItem;
+    _processedFocusItem = _focusItem!;
   }
 
   /// Check if the current tap on the screen has hit a bubble.
@@ -169,7 +169,7 @@ class TimelineRenderObject extends RenderBox {
   /// Adjust the viewport when needed.
   @override
   void performLayout() {
-    _timeline.setViewport(height: size.height, animate: true);
+    _timeline!.setViewport(height: size.height, animate: true);
   }
 
   @override
@@ -180,8 +180,8 @@ class TimelineRenderObject extends RenderBox {
     }*/
 
     _tapTargets.clear();
-    double renderStart = _timeline.renderStart;
-    double renderEnd = _timeline.renderEnd;
+    double renderStart = _timeline!.renderStart;
+    double renderEnd = _timeline!.renderEnd;
     double scale = size.height / (renderEnd - renderStart);
 
     /// Paint the [Ticks] on the left side of the screen.
@@ -194,15 +194,15 @@ class TimelineRenderObject extends RenderBox {
 
     /// And then draw the rest of the timeline.
     canvas.save();
-    canvas.clipRect(Rect.fromLTWH(offset.dx + _timeline.gutterWidth,
-        offset.dy, size.width - _timeline.gutterWidth, size.height));
+    canvas.clipRect(Rect.fromLTWH(offset.dx + _timeline!.gutterWidth,
+        offset.dy, size.width - _timeline!.gutterWidth, size.height));
     drawItems(
         context,
         offset,
-        _timeline.entries,
-        _timeline.gutterWidth +
+        _timeline!.entries,
+        _timeline!.gutterWidth +
             Timeline.LineSpacing -
-            Timeline.DepthOffset * _timeline.renderOffsetDepth,
+            Timeline.DepthOffset * _timeline!.renderOffsetDepth,
         scale,
         0);
     canvas.restore();
@@ -430,8 +430,8 @@ class TimelineRenderObject extends RenderBox {
 
       double textWidth =
           labelParagraph.maxIntrinsicWidth * item.opacity * item.labelOpacity;
-      double bubbleX = _timeline.renderLabelX -
-          Timeline.DepthOffset * _timeline.renderOffsetDepth;
+      double bubbleX = _timeline!.renderLabelX -
+          Timeline.DepthOffset * _timeline!.renderOffsetDepth;
       double bubbleY = item.labelY - bubbleHeight / 2.0;
 
       canvas.save();

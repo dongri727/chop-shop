@@ -39,8 +39,8 @@ class Timeline {
 
   double _start = 0.0;
   double _end = 0.0;
-  late double _renderStart;
-  late double _renderEnd;
+  double _renderStart = 0.0;
+  double _renderEnd = 0.0;
   double _lastFrameTime = 0.0;
   double _height = 0.0;
   double _firstOnScreenEntryY = 0.0;
@@ -71,16 +71,16 @@ class Timeline {
 
   /// Depending on the current [Platform], different values are initialized
   /// so that they behave properly on iOS&Android.
-  late ScrollPhysics _scrollPhysics;
+  ScrollPhysics? _scrollPhysics;
 
   /// [_scrollPhysics] needs a [ScrollMetrics] value to function.
-  late ScrollMetrics _scrollMetrics;
-  late Simulation _scrollSimulation;
+  ScrollMetrics? _scrollMetrics;
+  Simulation? _scrollSimulation;
 
   EdgeInsets padding = EdgeInsets.zero;
   EdgeInsets devicePadding = EdgeInsets.zero;
 
-  late Timer _steadyTimer;
+  Timer? _steadyTimer;
 
   /// Through these two references, the Timeline can access the era and update
   /// the top label accordingly.
@@ -102,7 +102,7 @@ class Timeline {
   //List<TimelineBackgroundColor> _backgroundColors;
 
   /// [Ticks] also have custom colors so that they are always visible with the changing background.
-  late List<TickColors> _tickColors;
+  //late List<TickColors> _tickColors;
   //List<HeaderColors> _headerColors;
 
   /// All the [TimelineEntry]s that are loaded from disk at boot (in [loadFromBundle()]).
@@ -138,7 +138,7 @@ class Timeline {
   TimelineEntry get nextEntry => _renderNextEntry;
   TimelineEntry get prevEntry => _renderPrevEntry;
   List<TimelineEntry> get entries => _entries;
-  List<TickColors> get tickColors => _tickColors;
+  //List<TickColors> get tickColors => _tickColors;
 
   /// When a scale operation is detected, this setter is called:
   /// e.g. [_TimelineWidgetState.scaleStart()].
@@ -173,7 +173,7 @@ class Timeline {
     bool isIt = !_isInteracting && !_isScaling;
 
     /// If a timer is currently active, dispose it.
-    _steadyTimer.cancel();
+    _steadyTimer!.cancel();
     _steadyTimer;
 
     if (isIt) {
@@ -217,7 +217,7 @@ class Timeline {
     List jsonEntries = json.decode(data) as List;
 
     List<TimelineEntry> allEntries = [];
-    _tickColors = [];
+    //_tickColors = [];
 
     /// The JSON decode doesn't provide strong typing, so we'll iterate
     /// on the dynamic entries in the [jsonEntries] list.
@@ -249,7 +249,7 @@ class Timeline {
             accent[2] as int);
       }*/
 
-      /// [Ticks] can also have custom colors, so that everything's is visible
+/*      /// [Ticks] can also have custom colors, so that everything's is visible
       /// even with custom colored backgrounds.
       if (map.containsKey("ticks")) {
         dynamic ticks = map["ticks"];
@@ -259,11 +259,11 @@ class Timeline {
           Color shortColor = Colors.black;
           Color textColor = Colors.black;
 
-/*          dynamic bg = ticks["background"];
+*//*          dynamic bg = ticks["background"];
           if (bg is List && bg.length >= 3) {
             bgColor = Color.fromARGB(bg.length > 3 ? bg[3] as int : 255,
                 bg[0] as int, bg[1] as int, bg[2] as int);
-          }*/
+          }*//*
           dynamic long = ticks["long"];
           if (long is List && long.length >= 3) {
             longColor = Color.fromARGB(long.length > 3 ? long[3] as int : 255,
@@ -283,15 +283,15 @@ class Timeline {
                 text[0] as int, text[1] as int, text[2] as int);
           }
 
-          _tickColors.add(TickColors()
+*//*          _tickColors.add(TickColors()
             //..background = bgColor
             ..long = longColor
             ..short = shortColor
             ..text = textColor
             ..start = timelineEntry.start
-            ..screenY = 0.0);
+            ..screenY = 0.0);*//*
         }
-      }
+      }*/
 
 /*      /// Some elements will have an `end` time specified.
       /// If not `end` key is present in this entry, create the value based
@@ -468,17 +468,19 @@ class Timeline {
           devicePixelRatio: 0.0);
 
       _scrollSimulation =
-          _scrollPhysics.createBallisticSimulation(_scrollMetrics, velocity)!;
+          _scrollPhysics!.createBallisticSimulation(_scrollMetrics!, velocity)!;
     }
-    if (!animate) {
-      _renderStart = start;
-      _renderEnd = end;
-      advance(0.0, false);
-      onNeedPaint!();
-    } else if (!_isFrameScheduled) {
-      _isFrameScheduled = true;
-      _lastFrameTime = 0.0;
-      SchedulerBinding.instance.scheduleFrameCallback(beginFrame);
+    if (onNeedPaint != null) {
+      if (!animate) {
+        _renderStart = start;
+        _renderEnd = end;
+        advance(0.0, false);
+        onNeedPaint! ();
+      } else if (!_isFrameScheduled) {
+        _isFrameScheduled = true;
+        _lastFrameTime = 0.0;
+        SchedulerBinding.instance.scheduleFrameCallback(beginFrame);
+      }
     }
   }
 
@@ -503,10 +505,12 @@ class Timeline {
       SchedulerBinding.instance.scheduleFrameCallback(beginFrame);
     }
 
+    if (onNeedPaint != null) {
     onNeedPaint!();
+    }
   }
 
-  TickColors? findTickColors(double screen) {
+/*  TickColors? findTickColors(double screen) {
 
     for (TickColors color in _tickColors.reversed) {
       if (screen >= color.screenY) {
@@ -517,7 +521,7 @@ class Timeline {
     return screen < _tickColors.first.screenY
         ? _tickColors.first
         : _tickColors.last;
-  }
+  }*/
 
   bool advance(double elapsed, bool animate) {
     if (_height <= 0) {
@@ -533,22 +537,28 @@ class Timeline {
 
     /// If the timeline is performing a scroll operation adjust the viewport
     /// based on the elapsed time.
-    doneRendering = false;
-    _simulationTime += elapsed;
-    //double scale = _height / (_end - _start);
-    double velocity = _scrollSimulation.dx(_simulationTime);
+    if (_scrollSimulation != null) {
+      doneRendering = false;
+      _simulationTime += elapsed;
+      //double scale = _height / (_end - _start);
 
-    double displace = velocity * elapsed / scale;
+      double velocity = _scrollSimulation!.dx(_simulationTime);
 
-    _start -= displace;
-    _end -= displace;
+      double displace = velocity * elapsed / scale;
+
+      _start -= displace;
+      _end -= displace;
+    }
 
     /// If scrolling has terminated, clean up the resources.
-    if (_scrollSimulation.isDone(_simulationTime)) {
-      _scrollMetrics;
-      _scrollPhysics;
-      _scrollSimulation;
+    if (_scrollSimulation != null) {
+      if (_scrollSimulation!.isDone(_simulationTime)) {
+        _scrollMetrics;
+        _scrollPhysics;
+        _scrollSimulation;
+      }
     }
+
 
     /// Animate movement.
     double speed =
@@ -558,20 +568,20 @@ class Timeline {
 
     /// If the current view is animating, adjust the [_renderStart]/[_renderEnd] based on the interaction speed.
     if (!animate || ((ds * scale).abs() < 1.0 && (de * scale).abs() < 1.0)) {
-      stillScaling = false;
-      _renderStart = _start;
-      _renderEnd = _end;
-    } else {
-      doneRendering = false;
-      _renderStart += ds * speed;
-      _renderEnd += de * speed;
+        stillScaling = false;
+        _renderStart = _start;
+        _renderEnd = _end;
+      } else {
+        doneRendering = false;
+        _renderStart += ds * speed;
+        _renderEnd += de * speed;
     }
     isScaling = stillScaling;
 
     /// Update scale after changing render range.
     scale = _height / (_renderEnd - _renderStart);
 
-    /// Update color screen positions.
+/*    /// Update color screen positions.
     if (_tickColors.length > 0) {
       double lastStart = _tickColors.first.start;
       for (TickColors color in _tickColors) {
@@ -580,7 +590,7 @@ class Timeline {
                 scale;
         lastStart = color.start;
       }
-    }
+    }*/
 
     /// Check all the visible entries and use the helper function [advanceItems()]
     /// to align their state with the elapsed time.

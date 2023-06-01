@@ -87,12 +87,13 @@ class TimelineEntry {
 
   /// Pretty-printing for the entry date.
   /// 前のobjectまでの距離を表示
-  String formatYearsAgo() {
+  /// 前後Button関連なので削除予定
+/*  String formatYearsAgo() {
     if (start > 0) {
       return start.round().toString();
     }
     return TimelineEntry.formatYears(start) + " Ago";
-  }
+  }*/
 
   /// Debug information.
   @override
@@ -102,7 +103,8 @@ class TimelineEntry {
 
   /// Helper method.
   /// object間の距離を算出
-  static String formatYears(double start) {
+/// 前後ボタン関連なので削除予定
+/*  static String formatYears(double start) {
     String label;
     int valueAbs = start.round().abs();
     if (valueAbs > 1000000000) {
@@ -126,5 +128,5 @@ class TimelineEntry {
       label = valueAbs.toStringAsFixed(0);
     }
     return label + " Years";
-  }
+  }*/
 }

@@ -27,14 +27,14 @@ class _TimelineWidgetState extends State<TimelineWidget> {
 
   /// These variables are used to calculate the correct viewport for the timeline
   /// when performing a scaling operation as in [_scaleStart], [_scaleUpdate], [_scaleEnd].
-  late Offset _lastFocalPoint;
+  Offset? _lastFocalPoint;
   double _scaleStartYearStart = -100.0;
   double _scaleStartYearEnd = 100.0;
 
   /// When touching a bubble on the [Timeline] keep track of which
   /// element has been touched in order to move to the [article_widget].
-  late TapTarget _touchedBubble;
-  late TimelineEntry _touchedEntry; //これを無効化するとScrollもzoomもできない。
+  TapTarget? _touchedBubble;
+  TimelineEntry? _touchedEntry; //これを無効化するとScrollもzoomもできない。
 
   /// Syntactic-sugar-getter.
   Timeline get timeline => widget.timeline;
@@ -60,7 +60,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
 
     double focus = _scaleStartYearStart + details.focalPoint.dy * scale;
     double focalDiff =
-        (_scaleStartYearStart + _lastFocalPoint.dy * scale) - focus;
+        (_scaleStartYearStart + _lastFocalPoint!.dy * scale) - focus;
     timeline.setViewport(
         start: focus + (_scaleStartYearStart - focus) / changeScale + focalDiff,
         end: focus + (_scaleStartYearEnd - focus) / changeScale + focalDiff,
@@ -97,8 +97,8 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   /// the app into the [ArticleWidget].
   void _tapUp(TapUpDetails details) {
     EdgeInsets devicePadding = MediaQuery.of(context).padding;
-    if (_touchedBubble.zoom) {
-      MenuItemData target = MenuItemData.fromEntry(_touchedBubble.entry);
+    if (_touchedBubble!.zoom) {
+      MenuItemData target = MenuItemData.fromEntry(_touchedBubble!.entry);
 
       timeline.padding = EdgeInsets.only(
           top: TopOverlap +
@@ -117,7 +117,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   /// and the viewport will be scaled appropriately.
   void _longPress() {
     EdgeInsets devicePadding = MediaQuery.of(context).padding;
-    MenuItemData target = MenuItemData.fromEntry(_touchedBubble.entry);
+    MenuItemData target = MenuItemData.fromEntry(_touchedBubble!.entry);
 
     timeline.padding = EdgeInsets.only(
         top: TopOverlap +

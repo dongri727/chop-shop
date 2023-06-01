@@ -12,12 +12,12 @@ typedef NavigateTo(MenuItemData item);
 /// Since this widget expands and contracts when tapped, it needs to maintain a [State].
 class MenuSection extends StatefulWidget {
   final String title;
-  final Color backgroundColor;
-  final Color accentColor;
+  //final Color backgroundColor;
+  //final Color accentColor;
   final List<MenuItemData> menuOptions;
   final NavigateTo navigateTo;
 
-  MenuSection(this.title, this.backgroundColor, this.accentColor,
+  MenuSection(this.title, /*this.backgroundColor,*//* this.accentColor,*/
       this.menuOptions, this.navigateTo,
       {Key? key}) : super(key: key);
 
@@ -114,7 +114,8 @@ class _SectionState extends State<MenuSection>
         child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: widget.backgroundColor),
+                //color: widget.backgroundColor
+            ),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(10.0),
                 child: Column(children: <Widget>[
@@ -134,7 +135,7 @@ class _SectionState extends State<MenuSection>
                             widget.title,
                             style: TextStyle(
                                 fontSize: 20.0,
-                                color: widget.accentColor),
+                                /*color: widget.accentColor*/),
                           )
                         ],
                       )),
@@ -162,8 +163,8 @@ class _SectionState extends State<MenuSection>
                                                   child: Text(
                                                     item.label,
                                                     style: TextStyle(
-                                                        color: widget
-                                                            .accentColor,
+                                                       /* color: widget
+                                                            .accentColor,*/
                                                         fontSize: 20.0,
                                                         ),
                                                   ))),
