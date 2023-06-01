@@ -39,7 +39,7 @@ class Timeline {
 
   double _start = 0.0;
   double _end = 0.0;
-  double _renderStart = 0.0;
+  //double _renderStart = 0.0;
   double _renderEnd = 0.0;
   double _lastFrameTime = 0.0;
   double _height = 0.0;
@@ -92,10 +92,10 @@ class Timeline {
   /// of the Timeline, depending on which elements are currently in focus.
   /// When there's enough space on the top/bottom, the Timeline will render a round button
   /// with an arrow to link to the next/previous element.
-  late TimelineEntry _nextEntry;
-  late TimelineEntry _renderNextEntry;
-  late TimelineEntry _prevEntry;
-  late TimelineEntry _renderPrevEntry;
+  TimelineEntry? _nextEntry;
+  TimelineEntry? _renderNextEntry;
+  TimelineEntry? _prevEntry;
+  TimelineEntry? _renderPrevEntry;
 
   /// A gradient is shown on the background, depending on the [_currentEra] we're in.
   /// グラデーション
@@ -126,7 +126,7 @@ class Timeline {
   double get renderLabelX => _renderLabelX;
   double get start => _start;
   double get end => _end;
-  double get renderStart => _renderStart;
+  //double get renderStart => _renderStart;
   double get renderEnd => _renderEnd;
   double get gutterWidth => _gutterWidth;
   double get nextEntryOpacity => _nextEntryOpacity;
@@ -135,8 +135,8 @@ class Timeline {
   bool get isActive => _isActive;
   //Color get headerTextColor => _headerTextColor;
   //Color get headerBackgroundColor => _headerBackgroundColor;
-  TimelineEntry get nextEntry => _renderNextEntry;
-  TimelineEntry get prevEntry => _renderPrevEntry;
+  TimelineEntry get nextEntry => _renderNextEntry!;
+  TimelineEntry get prevEntry => _renderPrevEntry!;
   List<TimelineEntry> get entries => _entries;
   //List<TickColors> get tickColors => _tickColors;
 
@@ -173,8 +173,10 @@ class Timeline {
     bool isIt = !_isInteracting && !_isScaling;
 
     /// If a timer is currently active, dispose it.
-    _steadyTimer!.cancel();
-    _steadyTimer;
+    if (_steadyTimer != null) {
+      _steadyTimer!.cancel();
+      _steadyTimer;
+    }
 
     if (isIt) {
       /// If another timer is still needed, recreate it.
@@ -472,7 +474,7 @@ class Timeline {
     }
     if (onNeedPaint != null) {
       if (!animate) {
-        _renderStart = start;
+        //_renderStart = start;
         _renderEnd = end;
         advance(0.0, false);
         onNeedPaint! ();
@@ -530,7 +532,7 @@ class Timeline {
     }
 
     /// The current scale based on the rendering area.
-    double scale = _height / (_renderEnd - _renderStart);
+    //double scale = _height / (_renderEnd - _renderStart);
 
     bool doneRendering = true;
     bool stillScaling = true;
@@ -544,10 +546,10 @@ class Timeline {
 
       double velocity = _scrollSimulation!.dx(_simulationTime);
 
-      double displace = velocity * elapsed / scale;
+      //double displace = velocity * elapsed / scale;
 
-      _start -= displace;
-      _end -= displace;
+      //_start -= displace;
+      //_end -= displace;
     }
 
     /// If scrolling has terminated, clean up the resources.
@@ -563,11 +565,11 @@ class Timeline {
     /// Animate movement.
     double speed =
     min(1.0, elapsed * (_isInteracting ? MoveSpeedInteracting : MoveSpeed));
-    double ds = _start - _renderStart;
+    //double ds = _start - _renderStart;
     double de = _end - _renderEnd;
 
     /// If the current view is animating, adjust the [_renderStart]/[_renderEnd] based on the interaction speed.
-    if (!animate || ((ds * scale).abs() < 1.0 && (de * scale).abs() < 1.0)) {
+/*    if (!animate || ((ds * scale).abs() < 1.0 && (de * scale).abs() < 1.0)) {
         stillScaling = false;
         _renderStart = _start;
         _renderEnd = _end;
@@ -579,7 +581,7 @@ class Timeline {
     isScaling = stillScaling;
 
     /// Update scale after changing render range.
-    scale = _height / (_renderEnd - _renderStart);
+    scale = _height / (_renderEnd - _renderStart);*/
 
 /*    /// Update color screen positions.
     if (_tickColors.length > 0) {
@@ -603,13 +605,13 @@ class Timeline {
     //_currentEra = null;
     _nextEntry;
     _prevEntry;
-    if (_advanceItems(
+/*    if (_advanceItems(
         _entries, _gutterWidth + LineSpacing, scale, elapsed, animate, 0)) {
       doneRendering = false;
-    }
+    }*/
 
-    if (_nextEntryOpacity == 0.0) {
-      _renderNextEntry = _nextEntry;
+    if (nextEntry != null && _nextEntryOpacity == 0.0) {
+      _renderNextEntry = _nextEntry!;
     }
 
     /// Determine next entry's opacity and interpolate, if needed, towards that value.
@@ -630,7 +632,7 @@ class Timeline {
     }
 
     if (_prevEntryOpacity == 0.0) {
-      _renderPrevEntry = _prevEntry;
+      _renderPrevEntry = _prevEntry!;
     }
 
     /// Determine previous entry's opacity and interpolate, if needed, towards that value.
@@ -685,9 +687,9 @@ class Timeline {
     for (int i = 0; i < items.length; i++) {
       TimelineEntry item = items[i];
 
-      double start = item.start - _renderStart;
-      double end =
-      item.type == TimelineEntryType.Era ? item.end - _renderStart : start;
+      //double start = item.start - _renderStart;
+/*      double end =
+      item.type == TimelineEntryType.Era ? item.end - _renderStart : start;*/
 
       /// Vertical position for this element.
       double y = start * scale;

@@ -180,16 +180,16 @@ class TimelineRenderObject extends RenderBox {
     }*/
 
     _tapTargets.clear();
-    double renderStart = _timeline!.renderStart;
+    //double renderStart = _timeline!.renderStart;
     double renderEnd = _timeline!.renderEnd;
-    double scale = size.height / (renderEnd - renderStart);
+    //double scale = size.height / (renderEnd - renderStart);
 
     /// Paint the [Ticks] on the left side of the screen.
     canvas.save();
     canvas.clipRect(Rect.fromLTWH(
         offset.dx, offset.dy + topOverlap, size.width, size.height));
-    _ticks.paint(
-        context, offset, -renderStart * scale, scale, size.height, timeline);
+/*    _ticks.paint(
+        context, offset, -renderStart * scale, scale, size.height, timeline);*/
     canvas.restore();
 
     /// And then draw the rest of the timeline.
@@ -203,7 +203,7 @@ class TimelineRenderObject extends RenderBox {
         _timeline!.gutterWidth +
             Timeline.LineSpacing -
             Timeline.DepthOffset * _timeline!.renderOffsetDepth,
-        scale,
+        //scale,
         0);
     canvas.restore();
 
@@ -376,7 +376,7 @@ class TimelineRenderObject extends RenderBox {
   /// the time-span encompassing that event, as well as putting the vent into context
   /// relative to the other events.
   void drawItems(PaintingContext context, Offset offset,
-      List<TimelineEntry> entries, double x, double scale, int depth) {
+      List<TimelineEntry> entries, double x, /*double scale, */int depth) {
     final Canvas canvas = context.canvas;
 
     for (TimelineEntry item in entries) {
@@ -459,7 +459,7 @@ class TimelineRenderObject extends RenderBox {
               BubblePadding, bubbleHeight / 2.0 - labelParagraph.height / 2.0));
       canvas.restore();
       drawItems(context, offset, item.children, x + Timeline.DepthOffset,
-          scale, depth + 1);
+         /* scale, */depth + 1);
     }
   }
 
