@@ -66,13 +66,13 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
 /// The core method of this object is [paint()]: this is where all the elements
 /// are actually drawn to screen.
 class TimelineRenderObject extends RenderBox {
-  static const List<Color> LineColors = [
+/*  static const List<Color> LineColors = [
     Color.fromARGB(255, 125, 195, 184),
     Color.fromARGB(255, 190, 224, 146),
     Color.fromARGB(255, 238, 155, 75),
     Color.fromARGB(255, 202, 79, 63),
     Color.fromARGB(255, 128, 28, 15)
-  ];
+  ];*/
 
   double _topOverlap = 0.0;
   Ticks _ticks = Ticks();
@@ -150,14 +150,14 @@ class TimelineRenderObject extends RenderBox {
   /// Check if the current tap on the screen has hit a bubble.
   @override
   bool hitTestSelf(Offset screenOffset) {
-    //touchEntry(null);
+    touchEntry == null;
     for (TapTarget bubble in _tapTargets.reversed) {
       if (bubble.rect.contains(screenOffset)) {
         touchBubble(bubble);
         return true;
       }
     }
-    //touchBubble(null);
+    touchBubble == null;
     return true;
   }
 
@@ -175,21 +175,21 @@ class TimelineRenderObject extends RenderBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     final Canvas canvas = context.canvas;
-/*    if (_timeline == null) {
+    if (_timeline == null) {
       return;
-    }*/
+    }
 
     _tapTargets.clear();
-    //double renderStart = _timeline!.renderStart;
+    double renderStart = _timeline!.renderStart;
     double renderEnd = _timeline!.renderEnd;
-    //double scale = size.height / (renderEnd - renderStart);
+    double scale = size.height / (renderEnd - renderStart);
 
     /// Paint the [Ticks] on the left side of the screen.
     canvas.save();
     canvas.clipRect(Rect.fromLTWH(
         offset.dx, offset.dy + topOverlap, size.width, size.height));
-/*    _ticks.paint(
-        context, offset, -renderStart * scale, scale, size.height, timeline);*/
+    _ticks.paint(
+        context, offset, -renderStart * scale, scale, size.height, timeline);
     canvas.restore();
 
     /// And then draw the rest of the timeline.

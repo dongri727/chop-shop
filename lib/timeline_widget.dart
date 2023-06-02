@@ -1,4 +1,4 @@
-//import 'package:chop_shop/color.dart';
+import 'package:chop_shop/color.dart';
 import 'package:chop_shop/menu_data.dart';
 import 'package:chop_shop/timeline.dart';
 import 'package:chop_shop/timeline_entry.dart';
@@ -6,12 +6,14 @@ import 'package:chop_shop/timeline_utils.dart';
 import 'package:flutter/material.dart';
 import 'timeline_render_widget.dart';
 
+///この二つは何？
 typedef ShowMenuCallback();
 typedef SelectItemCallback(TimelineEntry item);
 
 /// This is the Stateful Widget associated with the Timeline object.
 /// It is built from a [focusItem], that is the event the [Timeline] should
 /// focus on when it's created.
+/// メニューで選んだ項目・領域を表示
 class TimelineWidget extends StatefulWidget {
   final MenuItemData focusItem;
   final Timeline timeline;
@@ -27,12 +29,14 @@ class _TimelineWidgetState extends State<TimelineWidget> {
 
   /// These variables are used to calculate the correct viewport for the timeline
   /// when performing a scaling operation as in [_scaleStart], [_scaleUpdate], [_scaleEnd].
+  /// どの範囲を表示するか計算
   Offset? _lastFocalPoint;
   double _scaleStartYearStart = -100.0;
   double _scaleStartYearEnd = 100.0;
 
   /// When touching a bubble on the [Timeline] keep track of which
   /// element has been touched in order to move to the [article_widget].
+  /// 解説ページに飛ぶ機能はないが消してはいけない
   TapTarget? _touchedBubble;
   TimelineEntry? _touchedEntry; //これを無効化するとScrollもzoomもできない。
 
@@ -45,6 +49,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   /// Then perform the update based on the incoming [ScaleUpdateDetails] data,
   /// and pass the relevant information down to the [Timeline], so that it can display
   /// all the relevant information properly.
+  /// 伸縮の肝？
   void _scaleStart(ScaleStartDetails details) {
     _lastFocalPoint = details.focalPoint;
     _scaleStartYearStart = timeline.start;
@@ -97,7 +102,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   /// the app into the [ArticleWidget].
   void _tapUp(TapUpDetails details) {
     EdgeInsets devicePadding = MediaQuery.of(context).padding;
-    if (_touchedBubble!.zoom) {
+    if (_touchedBubble != null && _touchedBubble!.zoom) {
       MenuItemData target = MenuItemData.fromEntry(_touchedBubble!.entry);
 
       timeline.padding = EdgeInsets.only(
@@ -107,7 +112,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
               Timeline.Parallax,
           bottom: target.padBottom);
       timeline.setViewport(
-          /*start: target.start, end: target.end,*/ animate: true, pad: true);
+          start: target.start, end: target.end, animate: true, pad: true);
     }
   }
 
@@ -126,7 +131,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
             Timeline.Parallax,
         bottom: target.padBottom);
     timeline.setViewport(
-        /*start: target.start, end: target.end,*/ animate: true, pad: true);
+        start: target.start, end: target.end, animate: true, pad: true);
   }
 
   @override

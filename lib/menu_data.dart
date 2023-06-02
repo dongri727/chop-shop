@@ -16,8 +16,8 @@ class MenuSectionData {
 /// Data container for all the sub-elements of the [MenuSection].
 class MenuItemData {
   String label = "";
-  //double start;
-  //double end;
+  double start = 0.0;
+  double end = 0.0;
   bool pad = false;
   double padTop = 0.0;
   double padBottom = 0.0;
@@ -34,10 +34,10 @@ class MenuItemData {
     /// Pad the edges of the screen.
     pad = true;
 
-/*    if (entry.type == TimelineEntryType.Era) {
+    if (entry.type == TimelineEntryType.Era) {
       start = entry.start;
       end = entry.end;
-    } else {*/
+    } else {
       /// No need to pad here as we are centering on a single item.
       double rangeBefore = double.maxFinite;
       for (TimelineEntry prev = entry.previous;
@@ -58,12 +58,12 @@ class MenuItemData {
           break;
         }
       }
-/*      double range = min(rangeBefore, rangeAfter) / 2.0;
+      double range = min(rangeBefore, rangeAfter) / 2.0;
       start = entry.start;
-      end = entry.end + range;*/
+      end = entry.end + range;
+    }
   }
 }
-
 /// This class has the sole purpose of loading the resources from storage and
 /// de-serializing the JSON file appropriately.
 ///
