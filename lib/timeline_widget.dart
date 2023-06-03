@@ -122,16 +122,18 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   /// and the viewport will be scaled appropriately.
   void _longPress() {
     EdgeInsets devicePadding = MediaQuery.of(context).padding;
-    MenuItemData target = MenuItemData.fromEntry(_touchedBubble!.entry);
+    if (_touchedBubble != null) {
+      MenuItemData target = MenuItemData.fromEntry(_touchedBubble!.entry);
 
-    timeline.padding = EdgeInsets.only(
-        top: TopOverlap +
-            devicePadding.top +
-            target.padTop +
-            Timeline.Parallax,
-        bottom: target.padBottom);
-    timeline.setViewport(
-        start: target.start, end: target.end, animate: true, pad: true);
+      timeline.padding = EdgeInsets.only(
+          top: TopOverlap +
+              devicePadding.top +
+              target.padTop +
+              Timeline.Parallax,
+          bottom: target.padBottom);
+      timeline.setViewport(
+          start: target.start, end: target.end, animate: true, pad: true);
+    }
   }
 
   @override

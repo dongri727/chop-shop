@@ -135,14 +135,14 @@ class TimelineRenderObject extends RenderBox {
           top: topOverlap + _focusItem!.padTop + Timeline.Parallax,
           bottom: _focusItem!.padBottom);
       timeline.setViewport(
-          //start: _focusItem.start,
-          //end: _focusItem.end,
+          start: _focusItem!.start,
+          end: _focusItem!.end,
           animate: true,
           pad: true);
     } else {
       timeline.padding = EdgeInsets.zero;
       timeline.setViewport(
-          /*start: _focusItem.start, end: _focusItem.end, */animate: true);
+          /*start: _focusItem.start, end: _focusItem.end, */animate: true); //このコメントアウトを戻すと目盛りが消える
     }
     _processedFocusItem = _focusItem!;
   }
@@ -150,14 +150,14 @@ class TimelineRenderObject extends RenderBox {
   /// Check if the current tap on the screen has hit a bubble.
   @override
   bool hitTestSelf(Offset screenOffset) {
-    touchEntry == null;
+    //touchEntry == null;
     for (TapTarget bubble in _tapTargets.reversed) {
       if (bubble.rect.contains(screenOffset)) {
         touchBubble(bubble);
         return true;
       }
     }
-    touchBubble == null;
+    //touchBubble == null;
     return true;
   }
 
@@ -203,7 +203,7 @@ class TimelineRenderObject extends RenderBox {
         _timeline!.gutterWidth +
             Timeline.LineSpacing -
             Timeline.DepthOffset * _timeline!.renderOffsetDepth,
-        //scale,
+        scale,
         0);
     canvas.restore();
 
@@ -375,8 +375,9 @@ class TimelineRenderObject extends RenderBox {
   /// the starting/ending points for a given event and are meant to give the idea of
   /// the time-span encompassing that event, as well as putting the vent into context
   /// relative to the other events.
+  /// 時代領域表示
   void drawItems(PaintingContext context, Offset offset,
-      List<TimelineEntry> entries, double x, /*double scale, */int depth) {
+      List<TimelineEntry> entries, double x, double scale, int depth) {
     final Canvas canvas = context.canvas;
 
     for (TimelineEntry item in entries) {
@@ -391,6 +392,7 @@ class TimelineRenderObject extends RenderBox {
       Offset entryOffset = Offset(x + Timeline.LineWidth / 2.0, item.y);
 
       /// Draw the small circle on the left side of the timeline.
+      /// ドット描画
       canvas.drawCircle(
           entryOffset,
           Timeline.EdgeRadius,
@@ -403,6 +405,7 @@ class TimelineRenderObject extends RenderBox {
               .withOpacity(legOpacity);
 
         /// Draw the line connecting the start&point of this item on the timeline.
+        /// line描画
         canvas.drawRect(
             Offset(x, item.y) & Size(Timeline.LineWidth, item.length),
             legPaint);
@@ -422,7 +425,7 @@ class TimelineRenderObject extends RenderBox {
       ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
           textAlign: TextAlign.start, fontSize: 12.0))
         ..pushStyle(
-            ui.TextStyle(color: const Color.fromRGBO(255, 255, 255, 1.0)));
+            ui.TextStyle(color: const Color.fromRGBO(100, 100, 100, 1.0)));
 
       builder.addText(item.label);
       ui.Paragraph labelParagraph = builder.build();
@@ -459,14 +462,14 @@ class TimelineRenderObject extends RenderBox {
               BubblePadding, bubbleHeight / 2.0 - labelParagraph.height / 2.0));
       canvas.restore();
       drawItems(context, offset, item.children, x + Timeline.DepthOffset,
-         /* scale, */depth + 1);
+          scale, depth + 1);
     }
   }
 
   /// Given a width and a height, design a path for the bubble that lies behind events' labels
   /// on the timeline, and return it.
   Path makeBubblePath(double width, double height) {
-    //const double ArrowSize = 19.0;
+    const double ArrowSize = 0.0;
     const double CornerRadius = 10.0;
 
     const double circularConstant = 0.55;
@@ -490,9 +493,9 @@ class TimelineRenderObject extends RenderBox {
     path.cubicTo(CornerRadius * icircularConstant, height, 0.0,
         height - CornerRadius * icircularConstant, 0.0, height - CornerRadius);
 
-/*    path.lineTo(0.0, height / 2.0 + ArrowSize / 2.0);
+    path.lineTo(0.0, height / 2.0 + ArrowSize / 2.0);
     path.lineTo(-ArrowSize / 2.0, height / 2.0);
-    path.lineTo(0.0, height / 2.0 - ArrowSize / 2.0);*/
+    path.lineTo(0.0, height / 2.0 - ArrowSize / 2.0);
 
     path.lineTo(0.0, CornerRadius);
 

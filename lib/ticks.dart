@@ -84,8 +84,8 @@ class Ticks {
       /// 重複部分の設定
       //double rangeStart = tickColors.first.start;
       //double range = tickColors.last.start - tickColors.first.start;
-      List<ui.Color> colors = <ui.Color>[];
-      List<double> stops = <double>[];
+      //List<ui.Color> colors = <ui.Color>[];
+      //List<double> stops = <double>[];
 /*      for (TickColors bg in tickColors) {
        //colors.add(bg.background);
         stops.add((bg.start - rangeStart) / range);
@@ -123,8 +123,8 @@ class Ticks {
 
       /// Draw the gutter.
       /// 左端の余白
-      canvas.drawRect(
-          Rect.fromLTWH(offset.dx, y1, gutterWidth, y2 - y1), paint);
+/*      canvas.drawRect(
+          Rect.fromLTWH(offset.dx, y1, gutterWidth, y2 - y1), paint);*/
     //} else {
       canvas.drawRect(Rect.fromLTWH(offset.dx, offset.dy, gutterWidth, height),
           Paint()..color = Color.fromRGBO(246, 246, 246, 0.95));
@@ -137,6 +137,9 @@ class Ticks {
     /// 目盛りを描画
     for (int i = 0; i < numTicks; i++) {
       tickOffset += scaledTickDistance;
+
+      if (startingTickMarkValue.isFinite) {
+
 
       int tt = startingTickMarkValue.round();
       tt = -tt;
@@ -152,7 +155,7 @@ class Ticks {
 
         /// Drawing text to [canvas] is done by using the [ParagraphBuilder] directly.
         ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-            textAlign: TextAlign.end, /*fontFamily: "Roboto",*/ fontSize: 10.0))
+            textAlign: TextAlign.end, fontSize: 10.0))
           ..pushStyle(ui.TextStyle(color: colors.text));
 
         int value = tt.round().abs();
@@ -186,7 +189,7 @@ class Ticks {
             Rect.fromLTWH(offset.dx + gutterWidth - SmallTickSize,
                 offset.dy + height - o, SmallTickSize, 1.0),
             Paint()..color = colors!.short);
-      }
+      }}
       startingTickMarkValue += tickDistance;
     }
   }

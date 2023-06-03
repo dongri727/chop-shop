@@ -8,8 +8,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'timeline_entry.dart';
 
 typedef PaintCallback();
-//typedef ChangeEraCallback(TimelineEntry era);
-//typedef ChangeHeaderColorCallback(Color background, Color text);
+typedef ChangeEraCallback(TimelineEntry era);
+typedef ChangeHeaderColorCallback(Color background, Color text);
 
 class Timeline {
   /// Some aptly named constants for properly aligning the Timeline view.

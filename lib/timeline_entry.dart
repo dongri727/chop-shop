@@ -5,21 +5,21 @@ import 'dart:ui';
 ///
 /// Each [TimelineAsset] encapsulates all the relevant properties for drawing,
 /// as well as maintaining a reference to its original [TimelineEntry].
-/*class TimelineAsset {
-  double width;
-  double height;
+class TimelineAsset {
+  double width = 0.0;
+  double height = 0.0;
   double opacity = 0.0;
   double scale = 0.0;
   double scaleVelocity = 0.0;
   double y = 0.0;
   double velocity = 0.0;
-  TimelineEntry entry;
-}*/
+  TimelineEntry? entry;
+}
 
-/*/// A renderable image.
+/// A renderable image.
 class TimelineImage extends TimelineAsset {
-  ui.Image image;
-}*/
+  ui.Image? image;
+}
 
 /// A label for [TimelineEntry].
 enum TimelineEntryType { Era, Incident }
@@ -88,12 +88,12 @@ class TimelineEntry {
   /// Pretty-printing for the entry date.
   /// 前のobjectまでの距離を表示
   /// 前後Button関連なので削除予定
-/*  String formatYearsAgo() {
+  String formatYearsAgo() {
     if (start > 0) {
       return start.round().toString();
     }
     return TimelineEntry.formatYears(start) + " Ago";
-  }*/
+  }
 
   /// Debug information.
   @override
@@ -104,7 +104,7 @@ class TimelineEntry {
   /// Helper method.
   /// object間の距離を算出
 /// 前後ボタン関連なので削除予定
-/*  static String formatYears(double start) {
+  static String formatYears(double start) {
     String label;
     int valueAbs = start.round().abs();
     if (valueAbs > 1000000000) {
@@ -128,5 +128,5 @@ class TimelineEntry {
       label = valueAbs.toStringAsFixed(0);
     }
     return label + " Years";
-  }*/
+  }
 }
