@@ -18,19 +18,19 @@ typedef TouchEntryCallback(TimelineEntry entry);
 /// This widget's fields are accessible from the [RenderBox] so that it can
 /// be aligned with the current state.
 class TimelineRenderWidget extends LeafRenderObjectWidget {
-  final double topOverlap;
   final Timeline timeline;
+  final double topOverlap;
   final MenuItemData focusItem;
   final TouchBubbleCallback touchBubble;
   final TouchEntryCallback touchEntry;
 
   TimelineRenderWidget(
       {Key? key,
+        required this.timeline,
+        required this.topOverlap,
         required this.focusItem,
         required this.touchBubble,
         required this.touchEntry,
-        required this.topOverlap,
-        required this.timeline,
       })
       : super(key: key);
 
@@ -38,10 +38,10 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
   RenderObject createRenderObject(BuildContext context) {
     return TimelineRenderObject()
       ..timeline = timeline
-      ..touchBubble = touchBubble
-      ..touchEntry = touchEntry
+      ..topOverlap = topOverlap
       ..focusItem = focusItem
-      ..topOverlap = topOverlap;
+      ..touchBubble = touchBubble
+      ..touchEntry = touchEntry;
   }
 
   @override
@@ -66,13 +66,13 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
 /// The core method of this object is [paint()]: this is where all the elements
 /// are actually drawn to screen.
 class TimelineRenderObject extends RenderBox {
-/*  static const List<Color> LineColors = [
+  static const List<Color> LineColors = [
     Color.fromARGB(255, 125, 195, 184),
     Color.fromARGB(255, 190, 224, 146),
     Color.fromARGB(255, 238, 155, 75),
     Color.fromARGB(255, 202, 79, 63),
     Color.fromARGB(255, 128, 28, 15)
-  ];*/
+  ];
 
   double _topOverlap = 0.0;
   Ticks _ticks = Ticks();
@@ -106,7 +106,7 @@ class TimelineRenderObject extends RenderBox {
     }
     _timeline = value;
     updateFocusItem();
-    _timeline!.onNeedPaint = markNeedsPaint;
+    _timeline?.onNeedPaint = markNeedsPaint;
     markNeedsPaint();
     markNeedsLayout();
   }
@@ -142,7 +142,7 @@ class TimelineRenderObject extends RenderBox {
     } else {
       timeline.padding = EdgeInsets.zero;
       timeline.setViewport(
-          /*start: _focusItem.start, end: _focusItem.end, */animate: true); //このコメントアウトを戻すと目盛りが消える
+          start: _focusItem!.start, end: _focusItem!.end, animate: true);
     }
     _processedFocusItem = _focusItem!;
   }
@@ -210,12 +210,12 @@ class TimelineRenderObject extends RenderBox {
     /// After a few moments of inaction on the timeline, if there's enough space,
     /// an arrow pointing to the next event on the timeline will appear on the bottom of the screen.
     /// Draw it, and add it as another [TapTarget].
-    /// 次の事象Button
-   /* if (_timeline.nextEntryOpacity > 0.0) {
-      double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
-      double opacity = _timeline.nextEntryOpacity;
+    /// 次の事象Button　削除予定
+/*    if (_timeline?.nextEntryOpacity != 0.0) {
+      double x = offset.dx + _timeline!.gutterWidth - Timeline.GutterLeft;
+      double opacity = _timeline!.nextEntryOpacity;
       Color color = Color.fromRGBO(69, 211, 197, opacity);
-      double pageReference = _timeline.renderEnd;
+      double pageReference = _timeline!.renderEnd;
 
       /// Use a Paragraph to draw the arrow's label and page scrolls on canvas:
       /// 1. Create a [ParagraphBuilder] that'll be initialized with the correct styling information;
@@ -228,7 +228,7 @@ class TimelineRenderObject extends RenderBox {
           textAlign: TextAlign.start, fontSize: 15.0))
         ..pushStyle(ui.TextStyle(color: color));
 
-      builder.addText(_timeline.nextEntry.label);
+      builder.addText(_timeline!.nextEntry!.label);
       ui.Paragraph labelParagraph = builder.build();
       labelParagraph.layout(ui.ParagraphConstraints(width: MaxLabelWidth));
 
@@ -279,7 +279,7 @@ class TimelineRenderObject extends RenderBox {
           height: 1.3))
         ..pushStyle(ui.TextStyle(color: color));
 
-      double timeUntil = _timeline.nextEntry.start - pageReference;
+      double timeUntil = _timeline!.nextEntry!.start - pageReference;
       String until = "in " + TimelineEntry.formatYears(timeUntil).toLowerCase();
       builder.addText(until);
       labelParagraph = builder.build();
@@ -291,25 +291,25 @@ class TimelineRenderObject extends RenderBox {
 
       /// Add this to the list of *tappable* elements.
       _tapTargets.add(TapTarget()
-        ..entry = _timeline.nextEntry
+        ..entry = _timeline!.nextEntry!
         ..rect = nextEntryRect
         ..zoom = true);
     }*/
 
     /// Repeat the same procedure as above for the arrow pointing to the previous event on the timeline.
     /// ↑ボタン
-/*    if (_timeline.prevEntryOpacity > 0.0) {
-      double x = offset.dx + _timeline.gutterWidth - Timeline.GutterLeft;
-      double opacity = _timeline.prevEntryOpacity;
-      Color color = Color.fromRGBO(69, 211, 197, opacity);
-      double pageReference = _timeline.renderEnd;
+/*    if (_timeline?.prevEntryOpacity != 0.0) {
+      double x = offset.dx + _timeline!.gutterWidth - Timeline.GutterLeft;
+      double? opacity = _timeline?.prevEntryOpacity;
+      Color color = Color.fromRGBO(69, 211, 197, opacity!);
+      double? pageReference = _timeline?.renderEnd;
 
       const double MaxLabelWidth = 1200.0;
       ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
           textAlign: TextAlign.start, fontSize: 15.0))
         ..pushStyle(ui.TextStyle(color: color));
 
-      builder.addText(_timeline.prevEntry.label);
+      builder.addText(_timeline!.prevEntry!.label);
       ui.Paragraph labelParagraph = builder.build();
       labelParagraph.layout(ui.ParagraphConstraints(width: MaxLabelWidth));
 
@@ -355,16 +355,16 @@ class TimelineRenderObject extends RenderBox {
           height: 1.3))
         ..pushStyle(ui.TextStyle(color: color));
 
-      double timeUntil = _timeline.prevEntry.start - pageReference;
-      String until = TimelineEntry.formatYears(timeUntil).toLowerCase();
-      builder.addText(until);
+      //double timeUntil = _timeline?.prevEntry!.start - pageReference;
+      //String until = TimelineEntry.formatYears(timeUntil).toLowerCase();
+      //builder.addText(until);
       labelParagraph = builder.build();
       labelParagraph.layout(ui.ParagraphConstraints(width: size.width));
       canvas.drawParagraph(labelParagraph, Offset(x, y));
       y += labelParagraph.height;
 
       _tapTargets.add(TapTarget()
-        ..entry = _timeline.prevEntry
+        ..entry = _timeline!.prevEntry!
         ..rect = prevEntryRect
         ..zoom = true);
     }*/
@@ -404,7 +404,7 @@ class TimelineRenderObject extends RenderBox {
           ..color = (item.accent)
               .withOpacity(legOpacity);
 
-        /// Draw the line connecting the start&point of this item on the timeline.
+/*        /// Draw the line connecting the start&point of this item on the timeline.
         /// line描画
         canvas.drawRect(
             Offset(x, item.y) & Size(Timeline.LineWidth, item.length),
@@ -412,7 +412,7 @@ class TimelineRenderObject extends RenderBox {
         canvas.drawCircle(
             Offset(x + Timeline.LineWidth / 2.0, item.y + item.length),
             Timeline.EdgeRadius,
-            legPaint);
+            legPaint);*/
       }
 
       const double MaxLabelWidth = 1200.0;
@@ -425,7 +425,7 @@ class TimelineRenderObject extends RenderBox {
       ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
           textAlign: TextAlign.start, fontSize: 12.0))
         ..pushStyle(
-            ui.TextStyle(color: const Color.fromRGBO(100, 100, 100, 1.0)));
+            ui.TextStyle(color: const Color.fromRGBO(240, 240, 240, 1.0)));
 
       builder.addText(item.label);
       ui.Paragraph labelParagraph = builder.build();

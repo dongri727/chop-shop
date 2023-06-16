@@ -5,13 +5,11 @@
   },
   {
     "date": -13000000000,
-    "label": "Birth of the Milky Way",
-    "id":"milky"
+    "label": "Birth of the Milky Way"
   },
   {
     "date": -4600000000,
-    "label": "Sun is Born",
-    "accent": [255, 166, 20, 255]
+    "label": "Sun is Born"
   },
   {
     "date": -4505000000,
@@ -19,26 +17,11 @@
   },
   {
     "date": -4100000000,
-    "label": "Heavy Bombardment",
-    "accent": [255, 63, 0, 255]
+    "label": "Heavy Bombardment"
   },
   {
     "date": -4000000000,
-    "label": "Life on Earth",
-    "article": "life_on_earth.txt",
-    "background": [31, 89, 143],
-    "ticks":
-    {
-      "background": [27, 79, 128, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
-    },
-    "header":
-    {
-      "background": [27, 79, 128, 240],
-      "text": [255, 255, 255, 157]
-    }
+    "label": "Life on Earth"
   },
   {
     "date": -3800000000,
@@ -46,83 +29,44 @@
   },
   {
     "date": -600000000,
-    "label": "Animals",
-    "background": [132, 175, 214],
-    "accent": [55, 134, 222, 255],
-    "ticks":
-    {
-      "background": [113, 152, 188, 240],
-      "long": [255, 255, 255, 75],
-      "short": [255, 255, 255, 51],
-      "text": [255, 255, 255, 157]
-    },
-    "header":
-    {
-      "background": [113, 152, 188, 240],
-      "text": [255, 255, 255, 157]
-    }
+    "label": "Animals"
   },
   {
     "date": -530000000,
-    "label": "Fish",
-    "id":"fish",
-    "accent": [55, 134, 222, 255]
+    "label": "Fish"
   },
   {
     "date": -396000000,
-    "label": "Insects",
-    "accent": [55, 134, 222, 255]
+    "label": "Insects"
   },
   {
     "date": -312000000,
-    "label": "Reptiles",
-    "accent": [55, 134, 222, 255]
+    "label": "Reptiles"
   },
   {
     "start": -230000000,
     "end": -65000000,
-    "label": "Dinosaur Age",
-    "id":"dinosaur"
+    "label": "Dinosaur Age"
   },
   {
     "date": -150000000,
-    "label": "Stegosaurus",
-    "accent": [235, 155, 75, 255]
+    "label": "Stegosaurus"
   },
   {
     "date": -200000000,
-    "label": "Mammals",
-    "id":"mammal"
+    "label": "Mammals"
   },
   {
     "date": -68000000,
-    "label": "Tyrannosaurus",
-    "article":"trex.txt",
-    "accent": [235, 155, 75, 255]
+    "label": "Tyrannosaurus"
   },
   {
-    "date": -65000001,
-    "label": "Dinosaur Extinction",
-    "article":"dino_extinction.txt",
-    "accent": [235, 155, 75, 255]
+    "date": -65000000,
+    "label": "Dinosaur Extinction"
   },
   {
     "date": -6000000,
-    "label": "Humans",
-    "background": [255, 255, 255],
-    "accent": [202, 79, 63, 255],
-    "ticks":
-    {
-      "background": [245, 245, 245, 240],
-      "long": [0, 0, 0, 60],
-      "short": [0, 0, 0, 35],
-      "text": [0, 0, 0, 110]
-    },
-    "header":
-    {
-      "background": [245, 245, 245, 240],
-      "text": [0, 0, 0, 110]
-    }
+    "label": "Humans"
   },
   {
     "date": -4000000,
@@ -167,8 +111,7 @@
   {
     "start": 1095,
     "end": 1291,
-    "label": "Crusades",
-    "accent": [227, 21, 55, 255]
+    "label": "Crusades"
   },
   {
     "date": 1687,
@@ -190,19 +133,16 @@
   {
     "start": 1914,
     "end": 1918,
-    "label": "World War I",
-    "accent": [227, 21, 55, 255]
+    "label": "World War I"
   },
   {
     "start": 1947,
     "end": 1991,
-    "label": "Cold War",
-    "accent": [227, 21, 55, 255]
+    "label": "Cold War"
   },
   {
     "date": 1969,
-    "label": "Moon Landing",
-    "accent": [115, 132, 205, 255]
+    "label": "Moon Landing"
   },
   {
     "date": 1859,
@@ -222,14 +162,12 @@
   },
   {
     "date": 1932,
-    "label": "Amelia Earhart",
-    "id":"amelia"
+    "label": "Amelia Earhart"
   },
   {
     "start": 1939,
     "end": 1945,
-    "label": "World War II",
-    "accent": [227, 21, 55, 255]
+    "label": "World War II"
   },
   {
     "date": 1939,
@@ -237,31 +175,16 @@
   },
   {
     "date": 1963,
-    "label": "Martin Luther King, Jr.",
-    "id":"mlk"
+    "label": "Martin Luther King, Jr."
   },
   {
     "date": 1990,
-    "label": "World Wide Web",
-    "accent": [115, 132, 205, 255]
+    "label": "World Wide Web"
   },
   {
     "date": 2001,
-    "label": "A Space Odyssey",
-    "background": [255, 255, 255],
-    "accent": [246, 76, 130, 255],
-    "ticks":
-    {
-      "background": [245, 245, 245, 240],
-      "long": [0, 0, 0, 60],
-      "short": [0, 0, 0, 35],
-      "text": [0, 0, 0, 110]
-    },
-    "header":
-    {
-      "background": [245, 245, 245, 240],
-      "text": [0, 0, 0, 110]
-    }
+    "label": "A Space Odyssey"
+
   },
   {
     "date": 2010,
@@ -269,8 +192,7 @@
   },
   {
     "date": 2020,
-    "label": "AI",
-    "accent": [255, 166, 20, 255]
+    "label": "AI"
   },
   {
     "date": 2030,
@@ -279,6 +201,12 @@
   {
     "date": 2040,
     "label": "Living on Mars",
-    "accent": [255, 63, 0, 255]
+    "ticks":
+    {
+      "background": [245, 245, 245, 240],
+      "long": [0, 0, 0, 60],
+      "short": [0, 0, 0, 35],
+      "text": [0, 0, 0, 110]
+    }
   }
 ]

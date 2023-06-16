@@ -57,8 +57,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
             margin: const EdgeInsets.only(top: 20.0),
             child: MenuSection(
             section.label,
-            //section.backgroundColor,
-            //section.textColor,
+            section.backgroundColor,
+            section.textColor,
             section.items,
             navigateToTimeline,
           )))

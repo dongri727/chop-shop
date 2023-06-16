@@ -34,6 +34,7 @@ class Ticks {
     /// The width of the left panel can expand and contract if the favorites-view is activated,
     /// by pressing the button on the top-right corner of the timeline.
     /// ただしこのアプリにfavorites機能はない
+    /// でも計算に使う
     double gutterWidth = timeline.gutterWidth;
 
     /// Calculate spacing based on current scale
@@ -130,7 +131,7 @@ class Ticks {
           Paint()..color = Color.fromRGBO(246, 246, 246, 0.95));
     //}
 
-    ///何か不明
+    ///何か不明、でも消すとまずい、目盛りの数字かな
     Set<String> usedValues = Set<String>();
 
     /// Draw all the ticks.

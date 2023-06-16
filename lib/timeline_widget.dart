@@ -1,4 +1,3 @@
-import 'package:chop_shop/color.dart';
 import 'package:chop_shop/menu_data.dart';
 import 'package:chop_shop/timeline.dart';
 import 'package:chop_shop/timeline_entry.dart';
@@ -30,7 +29,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   /// These variables are used to calculate the correct viewport for the timeline
   /// when performing a scaling operation as in [_scaleStart], [_scaleUpdate], [_scaleEnd].
   /// どの範囲を表示するか計算
-  Offset? _lastFocalPoint;
+  late Offset _lastFocalPoint;
   double _scaleStartYearStart = -100.0;
   double _scaleStartYearEnd = 100.0;
 
@@ -65,7 +64,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
 
     double focus = _scaleStartYearStart + details.focalPoint.dy * scale;
     double focalDiff =
-        (_scaleStartYearStart + _lastFocalPoint!.dy * scale) - focus;
+        (_scaleStartYearStart + _lastFocalPoint.dy * scale) - focus;
     timeline.setViewport(
         start: focus + (_scaleStartYearStart - focus) / changeScale + focalDiff,
         end: focus + (_scaleStartYearEnd - focus) / changeScale + focalDiff,
@@ -166,9 +165,11 @@ class _TimelineWidgetState extends State<TimelineWidget> {
   @override
   Widget build(BuildContext context) {
     EdgeInsets devicePadding = MediaQuery.of(context).padding;
-    timeline.devicePadding = devicePadding;
+/*    if (timeline != null) {
+      timeline.devicePadding = devicePadding;
+    }*/
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: GestureDetector(
           onLongPress: _longPress,
           onTapDown: _tapDown,
@@ -187,11 +188,14 @@ class _TimelineWidgetState extends State<TimelineWidget> {
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  //この空っぽのcontainerは下のcontainerの位置を調整している。ほかの方法があるかも。
                   Container(
                       height: devicePadding.top,
+                    color: Color(0x99E9E9E9),
                   ),
                   Container(
                       height: 56.0,
+                      color: Color(0x99E9E9E9),
                       width: double.infinity,
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,

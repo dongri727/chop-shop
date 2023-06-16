@@ -1,73 +1,39 @@
 [
   {
-    "label": "Billion Years",
-    "background": "#083158",
-    "color": "#ffffff",
+    "label": "Initial Display Era\n    You can move, zoom freely\n         after the transition",
+    "background": "#9acd32",
+    "color": "#2f4f4f",
     "items":
     [
       {
-        "start": -15000000000,
+        "start": -17000000000,
         "end": -1000000000,
-        "label": "Big Bang"
-      }
-    ]
-  },
-  {
-    "label": "Million Years",
-    "background": "#fdfdfd",
-    "color": "#000000",
-    "items":
-    [
-      {
-        "start": -990000000,
-        "end": -50000000,
-        "label": "Single Celled Organisms"
+        "label": "Billion Years Ago"
       },
       {
-        "start": -49000000,
+        "start": -1000000000,
         "end": -1000000,
-        "label": "Animals"
-      }
-    ]
-  },
-  {
-    "label": "Thousands Year",
-    "background": "#001d22",
-    "color": "#ffffff",
-    "items":
-    [
-      {
-        "start": -990000,
-        "end": -50000,
-        "label": "Vesvius erupted"
+        "label": "Million Years Ago"
       },
       {
-        "start": -49000,
-        "end": 1000,
-        "label": "Reach the Cape of Good Hope"
+        "start": -1000000,
+        "end": -5000,
+        "label": "Thousand Years Ago"
       },
       {
-        "start": 1852,
-        "end": 1876,
-        "label": "Marie Curie"
-      }
-    ]
-  },
-  {
-    "label": "21century",
-    "background": "#fdfdfd",
-    "color": "#000000",
-    "items":
-    [
-      {
-        "start": 2001,
-        "end": 2020,
-        "label": "iPhone"
+        "start": -5000,
+        "end": 1900,
+        "label": "Historical Years"
       },
       {
-        "start": 2021,
-        "end": 2050,
-        "label": "AI"
+        "start": 1900,
+        "end": 2000,
+        "label": "20th Century"
+      },
+      {
+        "start": 2000,
+        "end": 2100,
+        "label": "21th Century"
       }
     ]
   }

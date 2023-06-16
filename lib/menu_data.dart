@@ -1,15 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:ui';
+//import 'dart:ui';
 import 'package:chop_shop/timeline_entry.dart';
+import 'package:flutter/material.dart';
 import "package:flutter/services.dart" show rootBundle;
 
 /// Data container for the Section loaded in [MenuData.loadFromBundle()].
 class MenuSectionData {
   late String label;
-  late Color textColor;
-  late Color backgroundColor;
+  Color textColor = Colors.white;
+  Color backgroundColor = Colors.green;
   List<MenuItemData> items = [];
 }
 
@@ -40,7 +41,7 @@ class MenuItemData {
     } else {
       /// No need to pad here as we are centering on a single item.
       double rangeBefore = double.maxFinite;
-      for (TimelineEntry prev = entry.previous;
+      for (TimelineEntry? prev = entry.previous;
       prev != null;
       prev = prev.previous) {
         double diff = entry.start - prev.start;
@@ -51,7 +52,7 @@ class MenuItemData {
       }
 
       double rangeAfter = double.maxFinite;
-      for (TimelineEntry next = entry.next; next != null; next = next.next) {
+      for (TimelineEntry? next = entry.next; next != null; next = next.next) {
         double diff = next.start - entry.start;
         if (diff > 0.0) {
           rangeAfter = diff;
@@ -87,37 +88,37 @@ class MenuData {
       if (map.containsKey("label")) {
         menuSection.label = map["label"] as String;
       }
-/*        if (map.containsKey("background")) {
+        if (map.containsKey("background")) {
         menuSection.backgroundColor = Color(int.parse(
             (map["background"] as String).substring(1, 7),
             radix: 16) +
             0x80000000);
-      }*/
-/*        if (map.containsKey("color")) {
+      }
+        if (map.containsKey("color")) {
         menuSection.textColor = Color(
             int.parse((map["color"] as String).substring(1, 7), radix: 16) +
                 0xFF000000);
-      }*/
+      }
 
       if (map.containsKey("items")) {
         List items = map["items"] as List;
         for (dynamic item in items) {
           Map itemMap = item as Map;
-          if (itemMap == null) {
+/*          if (itemMap == null) {
             continue;
-          }
+          }*/
           MenuItemData itemData = MenuItemData();
           if (itemMap.containsKey("label")) {
             itemData.label = itemMap["label"] as String;
           }
-/*            if (itemMap.containsKey("start")) {
+            if (itemMap.containsKey("start")) {
             dynamic start = itemMap["start"];
             itemData.start = start is int ? start.toDouble() : start;
-          }*/
-/*            if (itemMap.containsKey("end")) {
+          }
+            if (itemMap.containsKey("end")) {
             dynamic end = itemMap["end"];
             itemData.end = end is int ? end.toDouble() : end;
-          }*/
+          }
           menuSection.items.add(itemData);
         }
       }

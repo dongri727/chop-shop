@@ -1,11 +1,11 @@
-import 'dart:async';
+/*import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:chop_shop/timeline_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'timeline_entry.dart';
+import '../timeline_entry.dart';
 
 typedef PaintCallback();
 //typedef ChangeEraCallback(TimelineEntry era);
@@ -23,9 +23,9 @@ class Timeline {
   static const double GutterLeft = 45.0;
   static const double EdgeRadius = 4.0;
   static const double MinChildLength = 50.0;
-  static const double BubbleHeight = 30.0;
-  static const double BubblePadding = 5.0;
-  static const double BubbleTextHeight = 15.0;
+  static const double BubbleHeight = 50.0;
+  static const double BubblePadding = 20.0;
+  static const double BubbleTextHeight = 20.0;
   static const double Parallax = 100.0;
   static const double InitialViewportPadding = 100.0;
   static const double TravelViewportPaddingTop = 400.0;
@@ -228,16 +228,16 @@ class Timeline {
         timelineEntry.type = TimelineEntryType.Incident;
         dynamic date = map["date"];
         timelineEntry.start = date is int ? date.toDouble() : date;
-      } /*else if (map.containsKey("start")) {
+      } else if (map.containsKey("start")) {
         timelineEntry.type = TimelineEntryType.Era;
         dynamic start = map["start"];
 
         timelineEntry.start = start is int ? start.toDouble() : start;
-      }*/ else {
+      } else {
         continue;
       }
 
-/*      /// An accent color is also specified at times.
+*//*      /// An accent color is also specified at times.
       dynamic accent = map["accent"];
       if (accent is List && accent.length >= 3) {
         timelineEntry.accent = Color.fromARGB(
@@ -245,23 +245,23 @@ class Timeline {
             accent[0] as int,
             accent[1] as int,
             accent[2] as int);
-      }*/
+      }*//*
 
       /// [Ticks] can also have custom colors, so that everything's is visible
       /// even with custom colored backgrounds.
       if (map.containsKey("ticks")) {
         dynamic ticks = map["ticks"];
         if (ticks is Map) {
-          //Color bgColor = Colors.black;
+          Color bgColor = Colors.black;
           Color longColor = Colors.black;
           Color shortColor = Colors.black;
           Color textColor = Colors.black;
 
-/*          dynamic bg = ticks["background"];
+          dynamic bg = ticks["background"];
           if (bg is List && bg.length >= 3) {
             bgColor = Color.fromARGB(bg.length > 3 ? bg[3] as int : 255,
                 bg[0] as int, bg[1] as int, bg[2] as int);
-          }*/
+          }
           dynamic long = ticks["long"];
           if (long is List && long.length >= 3) {
             longColor = Color.fromARGB(long.length > 3 ? long[3] as int : 255,
@@ -281,8 +281,8 @@ class Timeline {
                 text[0] as int, text[1] as int, text[2] as int);
           }
 
-         _tickColors.add(TickColors()
-            //..background = bgColor
+          _tickColors.add(TickColors()
+          //..background = bgColor
             ..long = longColor
             ..short = shortColor
             ..text = textColor
@@ -291,15 +291,15 @@ class Timeline {
         }
       }
 
-      /// Some elements will have an `end` time specified.
+*//*      /// Some elements will have an `end` time specified.
       /// If not `end` key is present in this entry, create the value based
       /// on the type of the event:
-/*      if (map.containsKey("end")) {
+      if (map.containsKey("end")) {
         dynamic end = map["end"];
         timelineEntry.end = end is int ? end.toDouble() : end;
-      } else {*/
+      } else {
         timelineEntry.end = timelineEntry.start;
-      //}
+      }*//*
 
       /// The label is a brief description for the current entry.
       if (map.containsKey("label")) {
@@ -322,7 +322,7 @@ class Timeline {
     _entries = [];
 
     /// Build up hierarchy (Eras are grouped into "Spanning Eras" and Events are placed into the Eras they belong to).
-    TimelineEntry? previous;
+*//*    TimelineEntry previous;
     for (TimelineEntry entry in allEntries) {
       if (entry.start < _timeMin) {
         _timeMin = entry.start;
@@ -330,11 +330,11 @@ class Timeline {
       if (entry.end > _timeMax) {
         _timeMax = entry.end;
       }
-      previous?.next = entry;
+      previous.next = entry;
       entry.previous = previous;
       previous = entry;
 
-      TimelineEntry? parent;
+      TimelineEntry parent;
       double minDistance = double.maxFinite;
       for (TimelineEntry checkEntry in allEntries) {
         if (checkEntry.type == TimelineEntryType.Era) {
@@ -349,12 +349,12 @@ class Timeline {
       if (parent != null) {
         entry.parent = parent;
         parent.children ??= [];
-        parent.children!.add(entry);
+        parent.children.add(entry);
       } else {
         /// no parent, so this is a root entry.
         _entries.add(entry);
       }
-    }
+    }*//*
     return allEntries;
   }
 
@@ -458,12 +458,12 @@ class Timeline {
         _scrollPhysics = ClampingScrollPhysics();
       }
       _scrollMetrics = FixedScrollMetrics(
-          minScrollExtent: double.negativeInfinity,
-          maxScrollExtent: double.infinity,
-          pixels: 0.0,
-          viewportDimension: _height,
-          axisDirection: AxisDirection.down,
-          devicePixelRatio: 0.0
+        minScrollExtent: double.negativeInfinity,
+        maxScrollExtent: double.infinity,
+        pixels: 0.0,
+        viewportDimension: _height,
+        axisDirection: AxisDirection.down,
+        //devicePixelRatio: 0.0
       );
 
       _scrollSimulation =
@@ -505,7 +505,7 @@ class Timeline {
     }
 
     if (onNeedPaint != null) {
-    onNeedPaint!();
+      onNeedPaint!();
     }
   }
 
@@ -539,7 +539,7 @@ class Timeline {
     if (_scrollSimulation != null) {
       doneRendering = false;
       _simulationTime += elapsed;
-      double scale = _height / (_end - _start);
+      //double scale = _height / (_end - _start);
 
       double velocity = _scrollSimulation!.dx(_simulationTime);
 
@@ -558,6 +558,7 @@ class Timeline {
       }
     }
 
+
     /// Animate movement.
     double speed =
     min(1.0, elapsed * (_isInteracting ? MoveSpeedInteracting : MoveSpeed));
@@ -566,20 +567,20 @@ class Timeline {
 
     /// If the current view is animating, adjust the [_renderStart]/[_renderEnd] based on the interaction speed.
     if (!animate || ((ds * scale).abs() < 1.0 && (de * scale).abs() < 1.0)) {
-        stillScaling = false;
-        _renderStart = _start;
-        _renderEnd = _end;
-      } else {
-        doneRendering = false;
-        _renderStart += ds * speed;
-        _renderEnd += de * speed;
+      stillScaling = false;
+      _renderStart = _start;
+      _renderEnd = _end;
+    } else {
+      doneRendering = false;
+      _renderStart += ds * speed;
+      _renderEnd += de * speed;
     }
     isScaling = stillScaling;
 
     /// Update scale after changing render range.
     scale = _height / (_renderEnd - _renderStart);
 
-    /// Update color screen positions.
+*//*    /// Update color screen positions.
     if (_tickColors.length > 0) {
       double lastStart = _tickColors.first.start;
       for (TickColors color in _tickColors) {
@@ -588,7 +589,7 @@ class Timeline {
                 scale;
         lastStart = color.start;
       }
-    }
+    }*//*
 
     /// Check all the visible entries and use the helper function [advanceItems()]
     /// to align their state with the elapsed time.
@@ -672,7 +673,7 @@ class Timeline {
 
   ///吹き出しサイズ
   double bubbleHeight(TimelineEntry entry) {
-    return BubblePadding * 2.0 + /*entry.lineCount **/ BubbleTextHeight;
+    return BubblePadding * 2.0 + entry.lineCount * BubbleTextHeight;
   }
 
   /// Advance entry [assets] with the current [elapsed] time.
@@ -754,10 +755,10 @@ class Timeline {
       }
 
       double targetItemOpacity = item.parent != null
-          ? item.parent!.length < MinChildLength ||
-          (item.parent!.endY < y)
+          ? item.parent.length < MinChildLength ||
+          (item.parent.endY < y)
           ? 0.0
-          : y > item.parent!.y
+          : y > item.parent.y
           ? 1.0
           : 0.0
           : 1.0;
@@ -834,4 +835,4 @@ class Timeline {
     }
     return stillAnimating;
   }
-}
+}*/

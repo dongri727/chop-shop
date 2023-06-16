@@ -1,13 +1,15 @@
 import 'dart:ui' as ui;
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 /// An object representing the renderable assets loaded from `timeline.json`.
 ///
 /// Each [TimelineAsset] encapsulates all the relevant properties for drawing,
 /// as well as maintaining a reference to its original [TimelineEntry].
 class TimelineAsset {
-  double width = 0.0;
-  double height = 0.0;
+  double? width;
+  double? height;
   double opacity = 0.0;
   double scale = 0.0;
   double scaleVelocity = 0.0;
@@ -17,11 +19,13 @@ class TimelineAsset {
 }
 
 /// A renderable image.
-class TimelineImage extends TimelineAsset {
+/// imageとは？
+/*class TimelineImage extends TimelineAsset {
   ui.Image? image;
-}
+}*/
 
 /// A label for [TimelineEntry].
+/// なんだかわからないが消すとまずい
 enum TimelineEntryType { Era, Incident }
 
 /// Each entry in the timeline is represented by an instance of this object.
@@ -33,21 +37,24 @@ class TimelineEntry {
   late TimelineEntryType type;
 
   /// Used to calculate how many lines to draw for the bubble in the timeline.
+  /// lineはないが配置の計算に使われている
   int lineCount = 1;
 
   late String _label;
-  late Color accent;
+  Color accent = Colors.blueGrey;
 
   /// Each entry constitues an element of a tree:
   /// eras are grouped into spanning eras and events are placed into the eras they belong to.
-  late TimelineEntry parent;
-  late List<TimelineEntry> children;
+  /// 時代関連？
+  TimelineEntry? parent;
+  List<TimelineEntry> children = [];
 
   /// All the timeline entries are also linked together to easily access the next/previous event.
   /// After a couple of seconds of inactivity on the timeline, a previous/next entry button will appear
   /// to allow the user to navigate faster between adjacent events.
-  late TimelineEntry next;
-  late TimelineEntry previous;
+  /// 前後ボタン関連
+  TimelineEntry? next;
+  TimelineEntry? previous;
 
   /// All these parameters are used by the [Timeline] object to properly position the current entry.
   late double start;
@@ -71,6 +78,7 @@ class TimelineEntry {
 
   /// Some labels already have newline characters to adjust their alignment.
   /// Detect the occurrence and add information regarding the line-count.
+  /// 時代名とline
   set label(String value) {
     _label = value;
     int start = 0;
@@ -88,7 +96,7 @@ class TimelineEntry {
   /// Pretty-printing for the entry date.
   /// 前のobjectまでの距離を表示
   /// 前後Button関連なので削除予定
-  String formatYearsAgo() {
+/*  String formatYearsAgo() {
     if (start > 0) {
       return start.round().toString();
     }
@@ -99,12 +107,12 @@ class TimelineEntry {
   @override
   String toString() {
     return "TIMELINE ENTRY: $label -($start,$end)";
-  }
+  }*/
 
   /// Helper method.
   /// object間の距離を算出
 /// 前後ボタン関連なので削除予定
-  static String formatYears(double start) {
+/*  static String formatYears(double start) {
     String label;
     int valueAbs = start.round().abs();
     if (valueAbs > 1000000000) {
@@ -128,5 +136,5 @@ class TimelineEntry {
       label = valueAbs.toStringAsFixed(0);
     }
     return label + " Years";
-  }
+  }*/
 }
