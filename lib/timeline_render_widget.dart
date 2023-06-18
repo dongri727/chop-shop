@@ -6,7 +6,6 @@ import 'package:chop_shop/timeline.dart';
 import 'package:chop_shop/timeline_entry.dart';
 import 'package:chop_shop/timeline_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 /// These two callbacks are used to detect if a bubble or an entry have been tapped.
 /// If that's the case, [ArticlePage] will be pushed onto the [Navigator] stack.
@@ -24,15 +23,14 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
   final TouchBubbleCallback touchBubble;
   final TouchEntryCallback touchEntry;
 
-  TimelineRenderWidget(
-      {Key? key,
-        required this.timeline,
-        required this.topOverlap,
-        required this.focusItem,
-        required this.touchBubble,
-        required this.touchEntry,
-      })
-      : super(key: key);
+  TimelineRenderWidget({
+    Key? key,
+    required this.timeline,
+    required this.topOverlap,
+    required this.focusItem,
+    required this.touchBubble,
+    required this.touchEntry,
+  }) : super(key: key);
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -184,6 +182,16 @@ class TimelineRenderObject extends RenderBox {
     double renderEnd = _timeline!.renderEnd;
     double scale = size.height / (renderEnd - renderStart);
 
+    // Scaleの制限を追加
+    final double minScale = 0;
+    final double maxScale = 4.0;
+    if (scale < minScale) {
+      scale = minScale;
+    }
+    if (scale > maxScale) {
+      scale = maxScale;
+    }
+
     /// Paint the [Ticks] on the left side of the screen.
     canvas.save();
     canvas.clipRect(Rect.fromLTWH(
@@ -194,8 +202,8 @@ class TimelineRenderObject extends RenderBox {
 
     /// And then draw the rest of the timeline.
     canvas.save();
-    canvas.clipRect(Rect.fromLTWH(offset.dx + _timeline!.gutterWidth,
-        offset.dy, size.width - _timeline!.gutterWidth, size.height));
+    canvas.clipRect(Rect.fromLTWH(offset.dx + _timeline!.gutterWidth, offset.dy,
+        size.width - _timeline!.gutterWidth, size.height));
     drawItems(
         context,
         offset,
@@ -393,16 +401,10 @@ class TimelineRenderObject extends RenderBox {
 
       /// Draw the small circle on the left side of the timeline.
       /// ドット描画
-      canvas.drawCircle(
-          entryOffset,
-          Timeline.EdgeRadius,
-          Paint()
-            ..color = (item.accent)
-                .withOpacity(item.opacity));
+      canvas.drawCircle(entryOffset, Timeline.EdgeRadius,
+          Paint()..color = (item.accent).withOpacity(item.opacity));
       if (legOpacity > 0.0) {
-        Paint legPaint = Paint()
-          ..color = (item.accent)
-              .withOpacity(legOpacity);
+        Paint legPaint = Paint()..color = (item.accent).withOpacity(legOpacity);
 
 /*        /// Draw the line connecting the start&point of this item on the timeline.
         /// line描画
@@ -422,8 +424,8 @@ class TimelineRenderObject extends RenderBox {
       double bubbleHeight = timeline.bubbleHeight(item);
 
       /// Use [ui.ParagraphBuilder] to construct the label for canvas.
-      ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.start, fontSize: 12.0))
+      ui.ParagraphBuilder builder = ui.ParagraphBuilder(
+          ui.ParagraphStyle(textAlign: TextAlign.start, fontSize: 12.0))
         ..pushStyle(
             ui.TextStyle(color: const Color.fromRGBO(240, 240, 240, 1.0)));
 
@@ -442,13 +444,13 @@ class TimelineRenderObject extends RenderBox {
 
       /// Get the bubble's path based on its width&height, draw it, and then add the label on top.
       Path bubble =
-      makeBubblePath(textWidth + BubblePadding * 2.0, bubbleHeight);
+          makeBubblePath(textWidth + BubblePadding * 2.0, bubbleHeight);
 
       canvas.drawPath(
           bubble,
           Paint()
-            ..color = (item.accent)
-                .withOpacity(item.opacity * item.labelOpacity));
+            ..color =
+                (item.accent).withOpacity(item.opacity * item.labelOpacity));
       canvas
           .clipRect(Rect.fromLTWH(BubblePadding, 0.0, textWidth, bubbleHeight));
       _tapTargets.add(TapTarget()
@@ -461,8 +463,8 @@ class TimelineRenderObject extends RenderBox {
           Offset(
               BubblePadding, bubbleHeight / 2.0 - labelParagraph.height / 2.0));
       canvas.restore();
-      drawItems(context, offset, item.children, x + Timeline.DepthOffset,
-          scale, depth + 1);
+      drawItems(context, offset, item.children, x + Timeline.DepthOffset, scale,
+          depth + 1);
     }
   }
 
