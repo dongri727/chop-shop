@@ -1,17 +1,15 @@
 import 'dart:ui' as ui;
 
-import 'package:chop_shop/menu_data.dart';
-import 'package:chop_shop/ticks.dart';
-import 'package:chop_shop/timeline.dart';
-import 'package:chop_shop/timeline_entry.dart';
-import 'package:chop_shop/timeline_utils.dart';
+import 'package:chop_shop/menu/menu_data.dart';
+import 'package:chop_shop/timeline/ticks.dart';
+import 'package:chop_shop/timeline/timeline.dart';
+import 'package:chop_shop/timeline/timeline_entry.dart';
+import 'package:chop_shop/timeline/timeline_utils.dart';
 import 'package:flutter/material.dart';
 
 /// These two callbacks are used to detect if a bubble or an entry have been tapped.
-/// If that's the case, [ArticlePage] will be pushed onto the [Navigator] stack.
-/// どちらのページにも遷移する必要はないが、無効化すると前後ボタンが効かなくなる。
-typedef TouchBubbleCallback(TapTarget bubble);
-typedef TouchEntryCallback(TimelineEntry entry);
+typedef TouchBubbleCallback = Function(TapTarget bubble);
+typedef TouchEntryCallback = Function(TimelineEntry entry);
 
 /// This couples with [TimelineRenderObject].
 /// This widget's fields are accessible from the [RenderBox] so that it can
@@ -23,7 +21,7 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
   final TouchBubbleCallback touchBubble;
   final TouchEntryCallback touchEntry;
 
-  TimelineRenderWidget({
+  const TimelineRenderWidget({
     Key? key,
     required this.timeline,
     required this.topOverlap,
@@ -64,20 +62,14 @@ class TimelineRenderWidget extends LeafRenderObjectWidget {
 /// The core method of this object is [paint()]: this is where all the elements
 /// are actually drawn to screen.
 class TimelineRenderObject extends RenderBox {
-  static const List<Color> LineColors = [
-    Color.fromARGB(255, 125, 195, 184),
-    Color.fromARGB(255, 190, 224, 146),
-    Color.fromARGB(255, 238, 155, 75),
-    Color.fromARGB(255, 202, 79, 63),
-    Color.fromARGB(255, 128, 28, 15)
-  ];
+  static const List<Color> LineColors = [];
 
   double _topOverlap = 0.0;
-  Ticks _ticks = Ticks();
+  final Ticks _ticks = Ticks();
   Timeline? _timeline;
   MenuItemData? _focusItem;
   MenuItemData? _processedFocusItem;
-  List<TapTarget> _tapTargets = [];
+  final List<TapTarget> _tapTargets = [];
   late TouchBubbleCallback touchBubble;
   late TouchEntryCallback touchEntry;
 
@@ -183,8 +175,8 @@ class TimelineRenderObject extends RenderBox {
     double scale = size.height / (renderEnd - renderStart);
 
     // Scaleの制限を追加
-    final double minScale = 0;
-    final double maxScale = 4.0;
+    const double minScale = 0;
+    const double maxScale = 4.0;
     if (scale < minScale) {
       scale = minScale;
     }
@@ -214,168 +206,6 @@ class TimelineRenderObject extends RenderBox {
         scale,
         0);
     canvas.restore();
-
-    /// After a few moments of inaction on the timeline, if there's enough space,
-    /// an arrow pointing to the next event on the timeline will appear on the bottom of the screen.
-    /// Draw it, and add it as another [TapTarget].
-    /// 次の事象Button　削除予定
-/*    if (_timeline?.nextEntryOpacity != 0.0) {
-      double x = offset.dx + _timeline!.gutterWidth - Timeline.GutterLeft;
-      double opacity = _timeline!.nextEntryOpacity;
-      Color color = Color.fromRGBO(69, 211, 197, opacity);
-      double pageReference = _timeline!.renderEnd;
-
-      /// Use a Paragraph to draw the arrow's label and page scrolls on canvas:
-      /// 1. Create a [ParagraphBuilder] that'll be initialized with the correct styling information;
-      /// 2. Add some text to the builder;
-      /// 3. Build the [Paragraph];
-      /// 4. Lay out the text with custom [ParagraphConstraints].
-      /// 5. Draw the Paragraph at the right offset.
-      const double MaxLabelWidth = 1200.0;
-      ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.start, fontSize: 15.0))
-        ..pushStyle(ui.TextStyle(color: color));
-
-      builder.addText(_timeline!.nextEntry!.label);
-      ui.Paragraph labelParagraph = builder.build();
-      labelParagraph.layout(ui.ParagraphConstraints(width: MaxLabelWidth));
-
-      double y = offset.dy + size.height - 200.0;
-      double labelX =
-          x + size.width / 2.0 - labelParagraph.maxIntrinsicWidth / 2.0;
-      canvas.drawParagraph(labelParagraph, Offset(labelX, y));
-      y += labelParagraph.height;
-
-      /// Calculate the boundaries of the arrow icon.
-      Rect nextEntryRect = Rect.fromLTWH(labelX, y,
-          labelParagraph.maxIntrinsicWidth, offset.dy + size.height - y);
-
-      const double radius = 25.0;
-      labelX = x + size.width / 2.0;
-      y += 15 + radius;
-
-      /// Draw the background circle.
-      canvas.drawCircle(
-          Offset(labelX, y),
-          radius,
-          Paint()
-            ..color = color
-            ..style = PaintingStyle.fill);
-      nextEntryRect.expandToInclude(Rect.fromLTWH(
-          labelX - radius, y - radius, radius * 2.0, radius * 2.0));
-      Path path = Path();
-      double arrowSize = 6.0;
-      double arrowOffset = 1.0;
-
-      /// Draw the stylized arrow on top of the circle.
-      path.moveTo(x + size.width / 2.0 - arrowSize,
-          y - arrowSize + arrowSize / 2.0 + arrowOffset);
-      path.lineTo(x + size.width / 2.0, y + arrowSize / 2.0 + arrowOffset);
-      path.lineTo(x + size.width / 2.0 + arrowSize,
-          y - arrowSize + arrowSize / 2.0 + arrowOffset);
-      canvas.drawPath(
-          path,
-          Paint()
-            ..color = Colors.white.withOpacity(opacity)
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2.0);
-      y += 15 + radius;
-
-      builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.center,
-          fontSize: 14.0,
-          height: 1.3))
-        ..pushStyle(ui.TextStyle(color: color));
-
-      double timeUntil = _timeline!.nextEntry!.start - pageReference;
-      String until = "in " + TimelineEntry.formatYears(timeUntil).toLowerCase();
-      builder.addText(until);
-      labelParagraph = builder.build();
-      labelParagraph.layout(ui.ParagraphConstraints(width: size.width));
-
-      /// Draw the Paragraph beneath the circle.
-      canvas.drawParagraph(labelParagraph, Offset(x, y));
-      y += labelParagraph.height;
-
-      /// Add this to the list of *tappable* elements.
-      _tapTargets.add(TapTarget()
-        ..entry = _timeline!.nextEntry!
-        ..rect = nextEntryRect
-        ..zoom = true);
-    }*/
-
-    /// Repeat the same procedure as above for the arrow pointing to the previous event on the timeline.
-    /// ↑ボタン
-/*    if (_timeline?.prevEntryOpacity != 0.0) {
-      double x = offset.dx + _timeline!.gutterWidth - Timeline.GutterLeft;
-      double? opacity = _timeline?.prevEntryOpacity;
-      Color color = Color.fromRGBO(69, 211, 197, opacity!);
-      double? pageReference = _timeline?.renderEnd;
-
-      const double MaxLabelWidth = 1200.0;
-      ui.ParagraphBuilder builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.start, fontSize: 15.0))
-        ..pushStyle(ui.TextStyle(color: color));
-
-      builder.addText(_timeline!.prevEntry!.label);
-      ui.Paragraph labelParagraph = builder.build();
-      labelParagraph.layout(ui.ParagraphConstraints(width: MaxLabelWidth));
-
-      double y = offset.dy + topOverlap + 20.0;
-      double labelX =
-          x + size.width / 2.0 - labelParagraph.maxIntrinsicWidth / 2.0;
-      canvas.drawParagraph(labelParagraph, Offset(labelX, y));
-      y += labelParagraph.height;
-
-      Rect prevEntryRect = Rect.fromLTWH(labelX, y,
-          labelParagraph.maxIntrinsicWidth, offset.dy + size.height - y);
-
-      const double radius = 25.0;
-      labelX = x + size.width / 2.0;
-      y += 15 + radius;
-      canvas.drawCircle(
-          Offset(labelX, y),
-          radius,
-          Paint()
-            ..color = color
-            ..style = PaintingStyle.fill);
-      prevEntryRect.expandToInclude(Rect.fromLTWH(
-          labelX - radius, y - radius, radius * 2.0, radius * 2.0));
-      Path path = Path();
-      double arrowSize = 6.0;
-      double arrowOffset = 1.0;
-      path.moveTo(
-          x + size.width / 2.0 - arrowSize, y + arrowSize / 2.0 + arrowOffset);
-      path.lineTo(x + size.width / 2.0, y - arrowSize / 2.0 + arrowOffset);
-      path.lineTo(
-          x + size.width / 2.0 + arrowSize, y + arrowSize / 2.0 + arrowOffset);
-      canvas.drawPath(
-          path,
-          Paint()
-            ..color = Colors.white.withOpacity(opacity)
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 2.0);
-      y += 15 + radius;
-
-      builder = ui.ParagraphBuilder(ui.ParagraphStyle(
-          textAlign: TextAlign.center,
-          fontSize: 14.0,
-          height: 1.3))
-        ..pushStyle(ui.TextStyle(color: color));
-
-      //double timeUntil = _timeline?.prevEntry!.start - pageReference;
-      //String until = TimelineEntry.formatYears(timeUntil).toLowerCase();
-      //builder.addText(until);
-      labelParagraph = builder.build();
-      labelParagraph.layout(ui.ParagraphConstraints(width: size.width));
-      canvas.drawParagraph(labelParagraph, Offset(x, y));
-      y += labelParagraph.height;
-
-      _tapTargets.add(TapTarget()
-        ..entry = _timeline!.prevEntry!
-        ..rect = prevEntryRect
-        ..zoom = true);
-    }*/
   }
 
   /// Given a list of [entries], draw the label with its bubble beneath.
@@ -383,7 +213,6 @@ class TimelineRenderObject extends RenderBox {
   /// the starting/ending points for a given event and are meant to give the idea of
   /// the time-span encompassing that event, as well as putting the vent into context
   /// relative to the other events.
-  /// 時代領域表示
   void drawItems(PaintingContext context, Offset offset,
       List<TimelineEntry> entries, double x, double scale, int depth) {
     final Canvas canvas = context.canvas;
@@ -396,26 +225,16 @@ class TimelineRenderObject extends RenderBox {
         continue;
       }
 
-      double legOpacity = item.legOpacity * item.opacity;
+      //double legOpacity = item.legOpacity * item.opacity;
       Offset entryOffset = Offset(x + Timeline.LineWidth / 2.0, item.y);
 
       /// Draw the small circle on the left side of the timeline.
       /// ドット描画
       canvas.drawCircle(entryOffset, Timeline.EdgeRadius,
           Paint()..color = (item.accent).withOpacity(item.opacity));
-      if (legOpacity > 0.0) {
+/*      if (legOpacity > 0.0) {
         Paint legPaint = Paint()..color = (item.accent).withOpacity(legOpacity);
-
-/*        /// Draw the line connecting the start&point of this item on the timeline.
-        /// line描画
-        canvas.drawRect(
-            Offset(x, item.y) & Size(Timeline.LineWidth, item.length),
-            legPaint);
-        canvas.drawCircle(
-            Offset(x + Timeline.LineWidth / 2.0, item.y + item.length),
-            Timeline.EdgeRadius,
-            legPaint);*/
-      }
+      }*/
 
       const double MaxLabelWidth = 1200.0;
       const double BubblePadding = 20.0;

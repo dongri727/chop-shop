@@ -1,8 +1,10 @@
-import 'package:chop_shop/timeline.dart';
+import 'package:chop_shop/timeline/timeline.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'bloc_provider.dart';
-import 'main_menu.dart';
+import 'menu/main_menu.dart';
+
 
 /// The app is wrapped by a [BlocProvider]. This allows the child widgets
 /// to access other components throughout the hierarchy without the need
@@ -17,6 +19,7 @@ class MyApp extends StatelessWidget {
       platform: Theme.of(context).platform,
       t: Timeline(Theme.of(context).platform),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'CHOP SHOP',
         theme: ThemeData(
            useMaterial3: true),
@@ -35,7 +38,16 @@ class MenuPage extends StatelessWidget {
   }
 }
 
-void main() => runApp(MyApp());
+//TODO Set up your firebase environment
+void main() /*async*/{
+  WidgetsFlutterBinding.ensureInitialized();
+/*  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );*/
+
+  runApp(const MyApp());
+}
+
 
 
 

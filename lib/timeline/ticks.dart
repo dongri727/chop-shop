@@ -1,6 +1,6 @@
 import 'dart:ui' as ui;
-import 'package:chop_shop/timeline.dart';
-import 'package:chop_shop/timeline_utils.dart';
+import 'package:chop_shop/timeline/timeline.dart';
+import 'package:chop_shop/timeline/timeline_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';

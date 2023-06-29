@@ -1,5 +1,5 @@
-import 'package:chop_shop/timeline.dart';
-import 'package:chop_shop/timeline_entry.dart';
+import 'package:chop_shop/timeline/timeline.dart';
+import 'package:chop_shop/timeline/timeline_entry.dart';
 import "package:flutter/widgets.dart";
 
 /// This [InheritedWidget] wraps the whole app, and provides access
@@ -15,7 +15,10 @@ class BlocProvider extends InheritedWidget {
       : timeline = t,
         super(key: key, child: child) {
     timeline
+    ///when you use json
         .loadFromBundle("assets/timeline.json")
+    ///when you use firestore
+        //.loadFromFirestore("YOUR COLLECTION PATH")
         .then((List<TimelineEntry> entries) {
       timeline.setViewport(
           start: entries.first.start * 2.0,

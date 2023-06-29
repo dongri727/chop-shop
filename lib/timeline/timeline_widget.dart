@@ -1,7 +1,7 @@
-import 'package:chop_shop/menu_data.dart';
-import 'package:chop_shop/timeline.dart';
-import 'package:chop_shop/timeline_entry.dart';
-import 'package:chop_shop/timeline_utils.dart';
+import 'package:chop_shop/menu/menu_data.dart';
+import 'package:chop_shop/timeline/timeline.dart';
+import 'package:chop_shop/timeline/timeline_entry.dart';
+import 'package:chop_shop/timeline/timeline_utils.dart';
 import 'package:flutter/material.dart';
 import 'timeline_render_widget.dart';
 
@@ -209,7 +209,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                                 Navigator.of(context).pop();
                               },
                             ),
-                            Text(
+                            const Text(
                               "TIMELINE",
                               textAlign: TextAlign.left,
                               style: TextStyle(
